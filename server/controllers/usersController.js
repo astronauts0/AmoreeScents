@@ -5,6 +5,7 @@ const cloudinary = require("cloudinary").v2;
 const sendToken = require("../utils/functions/jwtToken");
 const passwordRecoveryMail = require("../utils/mails/passwordRecoveryMail");
 const crypto = require("crypto");
+const welcomeMessageMail = require("../utils/mails/welcomeMessageMail");
 
 //* register user
 exports.registerUser = catchAsyncError(async (req, res, next) => {
@@ -13,7 +14,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
   if (!name || !email || !phone || !password) {
     return next(new ErrorHandler("Please Enter all fields", 400));
   }
-    
+
   let result = null;
 
   if (avatar) {
@@ -39,7 +40,10 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 
   if (!user) return next(new ErrorHandler("User Not Create", 404));
 
+  await welcomeMessageMail({ email: user.email });
+  
   sendToken(user, res);
+
 });
 
 //* login user
@@ -58,7 +62,10 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   if (!isPasswordMatched)
     return next(new ErrorHandler("Invalid Email or Password", 404));
 
+  await welcomeMessageMail({ email: user.email });
+
   sendToken(user, res);
+
 });
 
 //* logout user
@@ -79,7 +86,9 @@ exports.forgetPassword = catchAsyncError(async (req, res, next) => {
   const resetToken = await user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
 
-  const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`;
+  const resetPasswordUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/password/reset/${resetToken}`;
   // const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
   const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;

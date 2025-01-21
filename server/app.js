@@ -29,7 +29,8 @@ var app = express();
 
 //* add cors
 const corsOptions = {
-  origin: process.env.FRONTEND_URL,
+  origin: '*',
+  // origin: process.env.FRONTEND_URL,
   optionsSuccessStatus: 200,
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
@@ -53,8 +54,6 @@ app.use("/api/v1", productRouter);
 app.use("/api/v1", ordersRouter);
 app.use("/api/v1", generativeAiRouter);
 app.use("/api/v1", otpRouter);
-
-app.get("*", function (req, res, next) {});
 
 //* catch 404 and forward to error handler
 app.use(function (req, res, next) {

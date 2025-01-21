@@ -1,19 +1,27 @@
-const nodeMailer = require('nodemailer');
+const nodeMailer = require("nodemailer");
 
-const sendDeliveryConfirmationEmail = async ({ email, name, orderId, orderItems, totalAmount }) => {
-    try {
-        const transporter = nodeMailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: process.env.SMTP_PORT,
-            service: process.env.SMTP_SERVICE,
-            secure: true,
-            auth: {
-                user: process.env.SMTP_EMAIL,
-                pass: process.env.SMTP_PASSWORD
-            }
-        });
+const sendDeliveryConfirmationEmail = async ({
+  email,
+  name,
+  orderId,
+  orderItems,
+  totalAmount,
+}) => {
+  try {
+    const transporter = nodeMailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      service: process.env.SMTP_SERVICE,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
 
-        const orderItemsHtml = orderItems.map(item => `
+    const orderItemsHtml = orderItems
+      .map(
+        (item) => `
             <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;">
                     <a href="${item.productUrl}" style="color: #4CAF50; text-decoration: none;">${item.name}</a>
@@ -21,14 +29,16 @@ const sendDeliveryConfirmationEmail = async ({ email, name, orderId, orderItems,
                 <td style="padding: 10px; border: 1px solid #ddd;">${item.qty}</td>
                 <td style="padding: 10px; border: 1px solid #ddd;">Rs ${item.price}</td>
             </tr>
-        `).join('');
+        `
+      )
+      .join("");
 
-        const mailOptions = {
-          from: process.env.SMTP_EMAIL,
-          to: email,
-          subject: `Order Delivered - ${orderId} || Amorée Scents`,
-          html: `
-                <div style="text-align: center; font-family: Arial, sans-serif; padding: 20px;">
+    const mailOptions = {
+      from: process.env.SMTP_EMAIL,
+      to: email,
+      subject: `Order Delivered - ${orderId} || Amorée Scents`,
+      html: `
+                <div style="text-align: center;  padding: 20px;">
                     <h1 style="color: #4CAF50;">Thank you for choosing us, ${name}!</h1>
                     <h2>We hope you enjoy your purchase. </h2>
 
@@ -51,14 +61,13 @@ const sendDeliveryConfirmationEmail = async ({ email, name, orderId, orderItems,
                     <p>Best Regards from <strong><i>Amorée Scents</i></strong></p>
                 </div>
             `,
-        };
+    };
 
-        await transporter.sendMail(mailOptions);
-
-    } catch (error) {
-        console.error(`Error sending delivery confirmation email:`, error);
-        throw new Error(error.message);
-    }
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error(`Error sending delivery confirmation email:`, error);
+    throw new Error(error.message);
+  }
 };
 
 module.exports = sendDeliveryConfirmationEmail;

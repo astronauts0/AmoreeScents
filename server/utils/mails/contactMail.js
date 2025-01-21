@@ -1,4 +1,4 @@
-const nodeMailer = require('nodemailer');
+const nodeMailer = require("nodemailer");
 
 const contactMail = async ({ name, email, query, message }) => {
   try {
@@ -9,16 +9,16 @@ const contactMail = async ({ name, email, query, message }) => {
       secure: true,
       auth: {
         user: process.env.SMTP_EMAIL,
-        pass: process.env.SMTP_PASSWORD
-      }
+        pass: process.env.SMTP_PASSWORD,
+      },
     });
 
     const mailOptionsForAdmin = {
       from: `${name} <${email}>`, // User ka name aur email as sender
       to: process.env.SMTP_EMAIL, // Admin ka email
-      subject: 'New Contact Form Submission',
+      subject: "New Contact Form Submission",
       html: `
-              <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; color: #333;">
+              <div style=" padding: 20px; background-color: #f4f4f4; color: #333;">
                 <h2 style="color: #4CAF50;">New Contact Form Submission</h2>
                 <p>You have received a new message:</p>
                 <table style="width: 100%; border-collapse: collapse;">
@@ -71,7 +71,6 @@ const contactMail = async ({ name, email, query, message }) => {
 
     await transporter.sendMail(mailOptionsForAdmin);
     await transporter.sendMail(mailOptionsForUser);
-
   } catch (error) {
     console.error(`Error sending email to ${email}:`, error);
     throw new Error(error.message);
