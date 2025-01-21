@@ -1,0 +1,91 @@
+import { StoreProvider } from "@/store/storeProvider";
+import Footer from "@/components/global/Footer/Footer";
+import LoadUserProvider from "@/store/LoadUserProvider";
+import dynamic from "next/dynamic";
+import "./globals.css";
+
+const LayoutClientComponents = dynamic(
+  () => import("@/modules/LayoutClientComponents"),
+  {
+    ssr: false,
+  }
+);
+
+const Header = dynamic(() => import("@/components/global/Header/Header"), {
+  ssr: false,
+});
+
+const Lenis = dynamic(() => import("@/libs/Lenis"), {
+  ssr: false,
+});
+
+export const metadata = {
+  title: "Amorée Scents - Premium Fragrances at Affordable Prices",
+  description:
+    "Discover Amorée Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.",
+  keywords:
+    "Amorée Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents",
+  openGraph: {
+    title: "Amorée Scents - Premium Fragrances at Affordable Prices",
+    description:
+      "Discover Amorée Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.",
+    url: process.env.NEXT_PUBLIC_FRONTEND_URL,
+    image: "/images/gifs/socials_preview.gif",
+    type: "website",
+    locale: "en_US",
+  },
+  canonical: process.env.NEXT_PUBLIC_FRONTEND_URL,
+  robots: "index, follow",
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="canonical" href={metadata.canonical} />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Darker+Grotesque:wght@300..900&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://cdn.jsdelivr.net/npm/remixicon@4.4.0/fonts/remixicon.css"
+          rel="stylesheet"
+        />
+        <link
+          rel="shortcut icon"
+          href="/images/svgs/mono_black.svg"
+          type="image/svg"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Amorée Scents",
+              url: process.env.NEXT_PUBLIC_FRONTEND_URL,
+              logo: "/images/amoreescents_logo.jpg",
+              sameAs: [
+                "https://www.facebook.com/amoreescent",
+                "https://www.instagram.com/amoree_scents/",
+                "https://www.tiktok.com/@amoree_scents",
+              ],
+            }),
+          }}
+        />
+      </head>
+      <body theme="black">
+        <LayoutClientComponents />
+        <Lenis>
+          <StoreProvider>
+            <LoadUserProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </LoadUserProvider>
+          </StoreProvider>
+        </Lenis>
+      </body>
+    </html>
+  );
+}
