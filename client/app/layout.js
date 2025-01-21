@@ -1,21 +1,24 @@
-import { StoreProvider } from "@/store/storeProvider";
-import Footer from "@/components/global/Footer/Footer";
-import LoadUserProvider from "@/store/LoadUserProvider";
+import React from "react";
 import dynamic from "next/dynamic";
+
+import Footer from "../components/global/Footer/Footer";
+import LoadUserProvider from "../store/LoadUserProvider";
+import { StoreProvider } from "../store/StoreProvider";
+
 import "./globals.css";
 
 const LayoutClientComponents = dynamic(
-  () => import("@/modules/LayoutClientComponents"),
+  () => import("../modules/LayoutClientComponents"),
   {
     ssr: false,
   }
 );
 
-const Header = dynamic(() => import("@/components/global/Header/Header"), {
+const Header = dynamic(() => import("../components/global/Header/Header"), {
   ssr: false,
 });
 
-const Lenis = dynamic(() => import("@/libs/Lenis"), {
+const Lenis = dynamic(() => import("../libs/Lenis"), {
   ssr: false,
 });
 

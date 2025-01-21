@@ -29,8 +29,7 @@ var app = express();
 
 //* add cors
 const corsOptions = {
-  origin: '*',
-  // origin: process.env.FRONTEND_URL,
+  origin: process.env.FRONTEND_URL,
   optionsSuccessStatus: 200,
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
