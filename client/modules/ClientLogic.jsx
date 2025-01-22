@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const ClientLogic = () => {
   const pathname = usePathname();
-  const [showPreloader, setShowPreloader] = useState(false);
+  const [showInitialRender, setShowInitialRender] = useState(false);
 
   useEffect(() => {
     if (pathname === "/") {
@@ -19,14 +19,14 @@ const ClientLogic = () => {
       pathname.startsWith("/admin") || pathname.startsWith("/password/reset")
     );
 
-    setShowPreloader(shouldShow);
+    setShowInitialRender(shouldShow);
 
     if (shouldShow === false) {
       document.body.setAttribute("data-lenis-prevent", "");
     }
   }, [pathname]);
 
-  return showPreloader ? (
+  return showInitialRender ? (
     <>
       <Preloader />
       <AvailOffer />

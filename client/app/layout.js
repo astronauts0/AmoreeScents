@@ -33,7 +33,8 @@ export const metadata = {
     description:
       "Discover Amorée Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.",
     url: process.env.NEXT_PUBLIC_FRONTEND_URL,
-    image: "/images/gifs/socials_preview.gif",
+    image:
+      "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif",
     type: "website",
     locale: "en_US",
   },
@@ -67,7 +68,7 @@ export default function RootLayout({ children }) {
               "@type": "Organization",
               name: "Amorée Scents",
               url: process.env.NEXT_PUBLIC_FRONTEND_URL,
-              logo: "/images/amoreescents_logo.jpg",
+              logo: "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif",
               sameAs: [
                 "https://www.facebook.com/amoreescent",
                 "https://www.instagram.com/amoree_scents/",

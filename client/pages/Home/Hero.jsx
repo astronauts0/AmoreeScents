@@ -241,7 +241,7 @@ const Hero = () => {
         <video
           ref={videoRef}
           className="space_video w-full min-h-screen aspect-video object-cover object-center"
-          src="/videos/space_particles_4k.mp4"
+          src="https://res.cloudinary.com/ddrd0vxzq/video/upload/v1737568216/Space_Particles_4K_i11c90.mp4"
         ></video>
       </div>
       {/* <div ref={volumeRef} className="absolute z-50 space_video_volume opacity-0 scale-0 rotate-0 flex justify-center items-center size-9 top-0 left-0 bg-[#00401A]">

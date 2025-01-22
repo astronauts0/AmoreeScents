@@ -20,7 +20,9 @@ export async function generateMetadata({ params }) {
   const description =
     `Discover Amorée Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses. ${response?.shortDescription}` ??
     "Discover Amorée Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.";
-  const image = response?.images[0]?.url ?? "/images/gifs/socials_preview.gif";
+  const image =
+    response?.images[0]?.url ??
+    "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif";
 
   const keywords =
     response?.productTags +

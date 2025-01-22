@@ -36,23 +36,22 @@ const AvailOffer = () => {
 
     preTl
       .to(
-        availOfferRef?.current,
+        ".sale_banner",
         {
-          opacity: 0,
-          duration: 0.5,
           display: "none",
           ease: "power4.inOut",
+          duration: 1,
         },
         "sm"
       )
       .to(
-        ".main",
+        availOfferRef?.current,
         {
-          stagger: 0.1,
-          opacity: 0,
-          duration: 0.5,
-          display: "none",
-          ease: "power4.inOut",
+          duration: 2,
+          top:'-100%',
+          onComplete: () => {
+            gsap.set(availOfferRef?.current, { display: "none" });
+          },
         },
         "sm"
       );
@@ -60,7 +59,6 @@ const AvailOffer = () => {
     lenis?.start();
 
     if (pathname == "/") {
-
       preTl
         .from(
           ".amoree__hero h1 span",
@@ -117,7 +115,9 @@ const AvailOffer = () => {
       onClick={handleClick}
       className="h-screen w-full text-black bg-white flex justify-center items-center fixed top-0 left-0 z-50"
     >
-      <SalesBanner />
+      <div className="sale_banner">
+        <SalesBanner />
+      </div>
       <h1 className="text-center text-[22vw] leading-[22vw] sm:text-[12vw] sm:leading-[12vw]">
         <span>Click</span> <span className="Havelock_Medium">to</span> <br />{" "}
         <span className="neue_machina_light">Avail</span>{" "}

@@ -24,7 +24,9 @@ const UpdateProfile = () => {
 
   const [updUser, setUpdUser] = useState({ name: "", email: "" });
   const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState("/images/user.png");
+  const [avatarPreview, setAvatarPreview] = useState(
+    "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568766/user_c9frnv.png"
+  );
 
   const handleUpdUser = (e) => {
     if (e.target.name === "avatar") {
