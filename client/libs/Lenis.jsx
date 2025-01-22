@@ -6,9 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TextPlugin from "gsap/TextPlugin";
 import MotionPathPlugin from "gsap/MotionPathPlugin";
 import ScrollToPlugin from "gsap/ScrollToPlugin";
-import { Flip } from "gsap/Flip";
-import CustomEase from "gsap/CustomEase";
-import { Flip as ToastFlip, ToastContainer } from "react-toastify";
+import { Flip, ToastContainer } from "react-toastify";
 
 import "./lenis.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,8 +16,6 @@ gsap.registerPlugin(
   TextPlugin,
   MotionPathPlugin,
   ScrollToPlugin,
-  Flip,
-  CustomEase
 );
 
 const Lenis = ({ children }) => {
@@ -53,7 +49,7 @@ const Lenis = ({ children }) => {
         draggable
         pauseOnHover
         theme="dark"
-        transition={ToastFlip}
+        transition={Flip}
       />
     </ReactLenis>
   );
