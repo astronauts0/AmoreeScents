@@ -29,14 +29,12 @@ var app = express();
 
 //* add cors
 const corsOptions = {
-  origin: "*",
+  origin: ["http://www.amoreescents.shop/", "http://www.amoreescents.shop"],
   optionsSuccessStatus: 200,
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
 };
 app.use(cors(corsOptions));
-
-// app.options("*", cors(corsOptions));
 
 //* view engine setup
 app.set("views", path.join(__dirname, "views"));
