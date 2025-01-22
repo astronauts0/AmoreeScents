@@ -54,6 +54,13 @@ app.use("/api/v1", ordersRouter);
 app.use("/api/v1", generativeAiRouter);
 app.use("/api/v1", otpRouter);
 
+app.use("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Amoree Scents",
+  });
+});
+
 //* catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
