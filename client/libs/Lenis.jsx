@@ -15,7 +15,7 @@ gsap.registerPlugin(
   ScrollTrigger,
   TextPlugin,
   MotionPathPlugin,
-  ScrollToPlugin,
+  ScrollToPlugin
 );
 
 const Lenis = ({ children }) => {
@@ -38,7 +38,7 @@ const Lenis = ({ children }) => {
         lerp: 0.0275,
         smoothWheel: true,
         syncTouch: true,
-        touchMultiplier: 1,
+        syncTouchLerp: 0.04,
       }}
     >
       {children}
