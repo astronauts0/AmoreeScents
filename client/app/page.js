@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 
-import HomeProducts from "@/pages/Home/HomeProducts";
+import HomeProducts from "@/components/Products/HomeProducts";
 import Cta from "@/pages/Home/Cta";
 import FeaturedProducts from "@/pages/Home/FeaturedProducts";
 
