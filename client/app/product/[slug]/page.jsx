@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
 
   const keywords =
     response?.productTags +
-      ", Amorée Scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume" ??
+      ", amoree scents, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume" ??
     "Amorée Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents";
 
   return {
@@ -58,7 +58,8 @@ export default async function Product({ params }) {
               "@context": "https://schema.org",
               "@type": "Product",
               name: response?.name,
-              image: response?.images?.map((img) => img.url),
+              image: response?.images[0]?.url ??
+    "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif",
               description: response?.shortDescription,
               brand: {
                 "@type": "Brand",

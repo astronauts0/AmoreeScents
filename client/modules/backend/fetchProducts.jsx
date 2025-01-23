@@ -1,16 +1,12 @@
 const fetchProducts = async (url = "") => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${url}`,
-      {
-        next: {
-          revalidate: 60 * 60,
-        },
-      }
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${url}`
     );
 
     if (!res.ok) {
       console.error(`Failed to fetch data: ${res.status} ${res.statusText}`);
+      return [];
     }
 
     const response = await res.json();

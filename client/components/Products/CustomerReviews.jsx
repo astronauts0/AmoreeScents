@@ -100,8 +100,8 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
     if (success) {
       toast.success("Review Submitted Successfully.");
       dispatch({ type: NEW_REVIEW_RESET });
+      dispatch(getProductsDetails(productId));
     }
-    dispatch(getProductsDetails(productId));
   }, [productId, dispatch, reviewError, success]);
 
   return (

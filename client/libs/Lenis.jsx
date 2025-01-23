@@ -31,11 +31,15 @@ const Lenis = ({ children }) => {
       lenis?.off("scroll", ScrollTrigger.update);
     };
   }, [lenis]);
-  // lerp: 0.018,
   return (
     <ReactLenis
       root
-      options={{ lerp: 0.03, wheel: true, smooth: true, smoothTouch: true }}
+      options={{
+        lerp: 0.0275,
+        smoothWheel: true,
+        syncTouch: true,
+        touchMultiplier: 1,
+      }}
     >
       {children}
       <ToastContainer

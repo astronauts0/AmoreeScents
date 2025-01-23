@@ -1,8 +1,8 @@
 "use client";
-import React, {  useRef } from "react";
-import Dedicate from "@/pages/Home/Dedicate";
-import Purchased from "@/pages/Home/Purchased";
-import Marquee from "@/pages/Home/Marquee";
+import React, { useRef } from "react";
+import Dedicate from "@/modules/Home/Dedicate";
+import Purchased from "@/modules/Home/Purchased";
+import Marquee from "@/modules/Home/Marquee";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
