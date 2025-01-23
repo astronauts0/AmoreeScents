@@ -2,11 +2,12 @@ import React from "react";
 import ProductCard from "@/components/Products/ProductCard";
 import fetchProducts from "@/modules/backend/fetchProducts";
 
-const HomeProducts = ({ products }) => {
+const HomeProducts = async () => {
+  let products = await fetchProducts();
   const categories = [
     { title: "Our Perfume Collections", subCategory: "perfume" },
     { title: "Our Attr Collections", subCategory: "attr" },
-    { title: "Our Tester Collections", subCategory: "tester" },
+    // { title: "Our Tester Collections", subCategory: "tester" },
   ];
 
   return (
@@ -28,14 +29,5 @@ const HomeProducts = ({ products }) => {
     </section>
   );
 };
-
-export async function getServerSideProps() {
-  let products = await fetchProducts();
-  return {
-    props: {
-      products,
-    },
-  };
-}
 
 export default HomeProducts;

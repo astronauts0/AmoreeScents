@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const http = require("http");
 const compression = require("compression");
 
 var cors = require("cors");
@@ -26,10 +27,11 @@ var generativeAiRouter = require("./routes/generative_aiRouter");
 
 //* express
 var app = express();
+const server = http.createServer(app);
 
 //* add cors
 const corsOptions = {
-  origin: ["http://www.amoreescents.shop/", "http://www.amoreescents.shop"],
+  origin:  process.env.FRONTEND_URL,
   optionsSuccessStatus: 200,
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
@@ -61,14 +63,6 @@ app.use("/", (req, res) => {
   });
 });
 
-//* catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
-//* error handler
-app.use(errorMiddleware);
-
 //* connectDB
 connectDB();
 
@@ -78,4 +72,30 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-module.exports = app;
+//! catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+
+//! error handler
+app.use(errorMiddleware);
+
+// ! Handling Uncaught Exception
+process.on("uncaughtException", (err) => {
+  console.log("🚀 ~ err_message:", err.message);
+  console.log("Shutting down the server due to Uncaught Exception");
+  process.exit(1);
+});
+
+// !  Unhandled Promise Rejection
+process.on("unhandledRejection", (err) => {
+  console.log("🚀 ~ err_message: ", err.message);
+  console.log("Shutting down the server due to unhandled promise Rejection");
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+server.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
+});

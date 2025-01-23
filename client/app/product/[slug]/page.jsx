@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
 
   const keywords =
     response?.productTags +
-      ", Amorée Scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume" ??
+      ", amoree scents, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume" ??
     "Amorée Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents";
 
   return {
