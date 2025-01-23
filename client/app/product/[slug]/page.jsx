@@ -58,7 +58,8 @@ export default async function Product({ params }) {
               "@context": "https://schema.org",
               "@type": "Product",
               name: response?.name,
-              image: response?.images?.map((img) => img.url),
+              image: response?.images[0]?.url ??
+    "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif",
               description: response?.shortDescription,
               brand: {
                 "@type": "Brand",

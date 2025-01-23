@@ -2,6 +2,8 @@ import React from "react";
 import ProductCard from "@/components/Products/ProductCard";
 import fetchProducts from "@/modules/backend/fetchProducts";
 
+export const revalidate = 3600;
+
 const HomeProducts = async () => {
   let products = await fetchProducts();
   const categories = [
