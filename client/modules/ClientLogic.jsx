@@ -1,6 +1,6 @@
 "use client";
 import Preloader from "@/components/Preloader/Preloader";
-import AvailOffer from "@/modules/Home/AvailOffer";
+import AvailOffer from "@/pages/Home/AvailOffer";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
