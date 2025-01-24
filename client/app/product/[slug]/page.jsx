@@ -24,18 +24,18 @@ export async function generateMetadata({ params }) {
   const slug = params?.slug;
   const response = await fetchProductDetails(slug);
   const title =
-    response?.name ?? "Amorée Scents - Premium Fragrances at Affordable Prices";
+    response?.name ?? "Amoree Scents - Premium Fragrances at Affordable Prices";
   const description =
-    `Discover Amorée Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses. ${response?.shortDescription}` ??
-    "Discover Amorée Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.";
+    `Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses. ${response?.shortDescription}` ??
+    "Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.";
   const image =
     response?.images[0]?.url ??
     "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif";
 
   const keywords =
     response?.productTags +
-      ", amoree scents, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume" ??
-    "Amorée Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents";
+      ", amoree scents, amour scents, amoree scent, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume" ??
+    "Amoree Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents";
 
   return {
     title,

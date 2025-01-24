@@ -45,7 +45,7 @@ export default function Cart() {
     };
 
     const subtotal = cartItems.reduce((acc, currVal) => acc + currVal.qty * currVal.price, 0);
-    const shippingCharges = subtotal >= 3000 ? 0 : 160;
+    const shippingCharges = subtotal >= 3000 ? 0 : 200;
 
     useEffect(() => {
         setShowConfetti(true);

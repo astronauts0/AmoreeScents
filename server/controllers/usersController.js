@@ -41,9 +41,8 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
   if (!user) return next(new ErrorHandler("User Not Create", 404));
 
   await welcomeMessageMail({ email: user.email });
-  
-  sendToken(user, res);
 
+  sendToken(user, res);
 });
 
 //* login user
@@ -65,7 +64,6 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   await welcomeMessageMail({ email: user.email });
 
   sendToken(user, res);
-
 });
 
 //* logout user
@@ -133,7 +131,7 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
   if (!user)
     return next(
       new ErrorHandler(
-        "Reset Password Token is invalid or has been expired",
+        `Reset Password Token is invalid or has been expired. "Forget Password Again" `,
         404
       )
     );

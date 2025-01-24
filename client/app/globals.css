@@ -473,11 +473,11 @@ body[theme="black"] .spinner::before {
 
 body[theme="white"] .spinner {
   border: 4.5px solid var(--black);
-  border-color: var(--black) #ffff;
+  border-color: var(--black) transparent;
 }
 
 body[theme="white"] .spinner::before {
-  border-color: var(--black) #ffff;
+  border-color: var(--black) transparent;
 }
 
 .MuiPaper-root.MuiPaper-elevation {

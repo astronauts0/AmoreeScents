@@ -91,9 +91,9 @@ const MyOrders = () => {
   return (
     <>
       <MetaData title={`${user.name} - Orders`} />
-      {/* {loading ? (
+      {loading ? (
         <Loader />
-      ) : ( */}
+      ) : (
         <section className="w-[90%] mx-auto min-h-screen scroll_thin flex flex-col py-20 md:items-center md:justify-center">
           <h1 className="text-3xl mt-10 mb-4 capitalize text-center scroll_thin">
             {user.name}'s Orders
@@ -121,7 +121,7 @@ const MyOrders = () => {
             )}
           </div>
         </section>
-      {/* )} */}
+      )}
     </>
   );
 };

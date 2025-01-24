@@ -23,13 +23,13 @@ const Cursor = () => {
       const mouseY = clientY;
 
       positionRef.current.mouseX =
-        mouseX - secondaryCursor.current.clientWidth / 2;
+        mouseX - secondaryCursor.current?.clientWidth / 2;
       positionRef.current.mouseY =
-        mouseY - secondaryCursor.current.clientHeight / 2;
+        mouseY - secondaryCursor.current?.clientHeight / 2;
 
       ball.current.style.transform = `translate3d(${
-        mouseX - ball.current.clientWidth / 2.5
-      }px, ${mouseY - ball.current.clientHeight / 2.5}px, 0)`;
+        mouseX - ball.current?.clientWidth / 2.5
+      }px, ${mouseY - ball.current?.clientHeight / 2.5}px, 0)`;
     });
 
     return () => {};

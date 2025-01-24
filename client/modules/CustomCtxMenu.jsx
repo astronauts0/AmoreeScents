@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 const CustomCtxMenu = () => {
   useEffect(() => {
     if (isBrowser) {
-      console.clear();
+      // console.clear();
       console.log(
         "%cWARNING! Don't Paste Anything In Console!😊😘",
         "color: red; font-size: 2.3rem; font-weight: bold"

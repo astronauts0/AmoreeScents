@@ -51,7 +51,7 @@ const ForgetPassword = () => {
           />
           <div className="mt-10">
             {loading ? (
-              <Loader />
+              <Loader height="auto" />
             ) : (
               <ButtonTextIcon
                 btnType="submit"

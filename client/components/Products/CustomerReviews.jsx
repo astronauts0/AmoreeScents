@@ -165,7 +165,9 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
           ))}
         </div>
       ) : (
-        <p className="text-center mt-5 w-full">No Reviews Yet</p>
+        <p className="text-center mt-5 w-full">
+          No reviews yet. Be the first to leave a review!
+        </p>
       )}
 
       {isReviewFormOpen && (

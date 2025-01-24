@@ -12,6 +12,9 @@ import dynamic from "next/dynamic";
 const ConfettiRain  = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
   ssr: false,
 });
+const Balloons  = dynamic(() => import("@/utils/confetti/Balloons"), {
+  ssr: false,
+});
 
 const OrderSuccess = () => {
  

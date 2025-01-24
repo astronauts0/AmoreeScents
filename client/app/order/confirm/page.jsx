@@ -30,7 +30,7 @@ const ConfirmOrder = () => {
     (acc, item) => acc + item.qty * item.price,
     0
   );
-  const shippingCharges = subtotal > 3000 ? 0 : 180;
+  const shippingCharges = subtotal >= 3000 ? 0 : 200;
   const totalPrice = subtotal + shippingCharges;
 
   const address = `${shippingInfo?.address}, ${shippingInfo?.country}, ${shippingInfo?.state}, ${shippingInfo?.city}, ${shippingInfo?.pinCode}`;

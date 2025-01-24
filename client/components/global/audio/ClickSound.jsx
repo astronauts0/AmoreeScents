@@ -11,7 +11,7 @@ const ClickSound = () => {
       if (
         clickSoundRef.current &&
         clickSoundRef.current.paused &&
-        now - lastPlayed > 1000
+        now - lastPlayed > 2000
       ) {
         clickSoundRef.current.muted = false;
         clickSoundRef.current.play();
