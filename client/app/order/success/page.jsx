@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 const ConfettiRain  = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
   ssr: false,
 });
-const Balloons  = dynamic(() => import("@/utils/confetti/Balloons"), {
+const Balloons = dynamic(() => import("@/components/balloons/Balloons"), {
   ssr: false,
 });
 
