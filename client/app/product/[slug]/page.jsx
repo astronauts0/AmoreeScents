@@ -11,6 +11,14 @@ import Link from "next/link";
 import fetchProductDetails from "@/modules/backend/fetchProductDetails";
 import RelatedProducts from "@/components/Products/RelatedProducts";
 import SalesBanner from "@/components/global/sales/SalesBanner";
+import fetchProducts from "@/modules/backend/fetchProducts";
+
+export const revalidate = 3600;
+
+export const generateStaticParams = async () => {
+  const products = await fetchProducts();
+  return products.map((product) => ({ slug: product.slug }));
+};
 
 export async function generateMetadata({ params }) {
   const slug = params?.slug;

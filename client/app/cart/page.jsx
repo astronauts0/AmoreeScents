@@ -88,7 +88,7 @@ export default function Cart() {
 
                     <div className='flex justify-between border-t border_color pt-8 items-center flex-col lg:flex-row'>
                         <div>
-                            <Link href='/products'>
+                            <Link href='/'>
                                 <ButtonTextIcon Text='Continue Shopping' Icon={<i className="ri-arrow-left-line"></i>} customize="px-4 py-2 transition-all duration-1000 hover:rounded-full" />
                             </Link>
                         </div>

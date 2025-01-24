@@ -37,6 +37,8 @@ const Lenis = ({ children }) => {
       options={{
         lerp: 0.0275,
         smoothWheel: true,
+        smooth: true,
+        smoothTouch: false,
         syncTouch: true,
         syncTouchLerp: 0.04,
       }}

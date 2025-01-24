@@ -4,7 +4,6 @@ const fetchProductDetails = async (slug) => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/product/${slug}`,
       {
         next: {
-          revalidate: 60 * 60,
           tags: [`product/${slug}`],
         },
       }
