@@ -66,7 +66,6 @@
   --fill-y: 50%;
 
   --clip: 100%;
-  --space_clip: 100%;
 
   --paddingX: 20px;
 
@@ -354,14 +353,6 @@ body {
   -moz-clip-path: circle(var(--clip) at 50% 50%);
   -ms-clip-path: circle(var(--clip) at 50% 50%);
   -o-clip-path: circle(var(--clip) at 50% 50%);
-}
-
-.space_video_wrapper {
-  clip-path: inset(var(--space_clip) 0 0 0);
-  -webkit-clip-path: inset(var(--space_clip) 0 0 0);
-  -moz-clip-path: inset(var(--space_clip) 0 0 0);
-  -ms-clip-path: inset(var(--space_clip) 0 0 0);
-  -o-clip-path: inset(var(--space_clip) 0 0 0);
 }
 
 .amoree_O_icon_animation {
@@ -770,11 +761,6 @@ form {
 
 .white_text_stroke {
   -webkit-text-stroke: 1px var(--white);
-  color: transparent;
-}
-
-.space_text_stroke {
-  -webkit-text-stroke: 1px var(--black);
   color: transparent;
 }
 
