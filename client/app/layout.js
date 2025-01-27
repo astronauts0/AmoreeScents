@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 import Footer from "../components/global/Footer/Footer";
 import LoadUserProvider from "../store/LoadUserProvider";
@@ -27,7 +28,7 @@ export const metadata = {
   description:
     "Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.",
   keywords:
-    "amoree scents, amoree, amour, amour scents, amoree scent amoure, amoreescents, amore, amore scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents",
+    "amoree scents, amoree, amour, amour scents, amoree scent, amoure, amoreescents, amore, amore scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents",
   openGraph: {
     title: "Amoree Scents - Premium Fragrances at Affordable Prices",
     description:
@@ -78,6 +79,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
+      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
       <body theme="black">
         <LayoutClientComponents />
         <Lenis>

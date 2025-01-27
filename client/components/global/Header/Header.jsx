@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ButtonTextIcon from "../Buttons/ButtonTextIcon";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/hooks/useTheme";
+import IconButton from "../Buttons/IconButton";
 
 const monoBlack = "/images/svgs/mono_black.svg";
 const logoTextWhite = "/images/svgs/logo_text_white.svg";
@@ -184,12 +185,13 @@ const Header = () => {
           },
           "logo"
         )
-        .from(
+        .to(
           ".header__icons",
           {
-            opacity: 0,
-            scale: 0,
+            opacity: 1,
+            scale: 1,
             ease: "power2",
+            stagger: 0.5,
           },
           "logo"
         )
@@ -511,7 +513,7 @@ const Header = () => {
                 height={200}
               />
             </div>
-            <div className="header__icons md:hidden flex justify-center flex-wrap gap-x-2.5 items-center">
+            <div className="header__icons opacity-0 scale-0 md:hidden flex justify-center flex-wrap gap-x-2.5 items-center">
               {isAuthenticated ? (
                 <>
                   <div onClick={handleLogout}>
@@ -522,27 +524,31 @@ const Header = () => {
                     />
                   </div>
                   <Link href="/profile" onClick={closeSidebar}>
-                    <HeaderButton
+                    <IconButton
+                      customize="py-2 px-3 rounded-full"
                       Icon={<i className="ri-user-line text-xl"></i>}
                     />
                   </Link>
                 </>
               ) : (
                 <Link href="/login" onClick={closeSidebar}>
-                  <HeaderButton
+                  <IconButton
+                    customize="py-2 px-3 rounded-full"
                     Icon={<i className="ri-user-add-line text-xl"></i>}
                   />
                 </Link>
               )}
               <Link href="/orders" onClick={closeSidebar}>
-                <HeaderButton
+                <IconButton
+                  customize="py-2 px-3 rounded-full"
                   Icon={<i className="ri-shopping-bag-4-line text-xl"></i>}
                 />
               </Link>
-              {/* <HeaderButton Icon={<FavoriteBorderOutlined style={{ stroke: '#000', strokeWidth: '0.5' }} />} /> */}
+              {/* <IconButton Icon={<FavoriteBorderOutlined style={{ stroke: '#000', strokeWidth: '0.5' }} />} /> */}
               {user && user?.role === "admin" && (
                 <Link href="/admin/dashboard">
-                  <HeaderButton
+                  <IconButton
+                    customize="py-2 px-3 rounded-full"
                     Icon={
                       <SpaceDashboardOutlined
                         style={{ stroke: "#000", strokeWidth: "0.5" }}

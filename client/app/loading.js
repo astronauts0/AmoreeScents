@@ -11,13 +11,6 @@ const loading = () => {
         src="/images/svgs/mono_black.svg"
         alt="Logo"
       />
-      <Image
-        width={300}
-        height={300}
-        className="animate-bounce"
-        src="/images/svgs/logo_text_black.svg"
-        alt="Logo"
-      />
     </div>
   );
 };

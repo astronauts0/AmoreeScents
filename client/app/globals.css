@@ -169,6 +169,30 @@ body[theme="cyan"] .animated__button::before {
   background: var(--dark_cyan);
 }
 
+.anime_icons .svg_mode {
+  fill: var(--white) !important;
+}
+
+body[theme="white"] .header__icons .ButtonTextIcon,
+body[theme="cyan"] .header__icons .ButtonTextIcon {
+  border: 1px solid var(--white) !important;
+  color: var(--white) !important;
+}
+
+.header__icons .ButtonTextIcon .border_color{
+  border-color: var(--white) !important;
+}
+
+.header__icons .ButtonTextIcon:hover {
+  color: var(--white) !important;
+  border: 1px solid var(--white) !important;
+}
+
+.header__icons .ButtonTextIcon::before {
+  background: var(--white) !important;
+  border: 1px solid var(--white) !important;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -422,7 +446,6 @@ body {
   background-color: #fff;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
-
 
 /* @ loader */
 
