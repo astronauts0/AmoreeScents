@@ -1,15 +1,11 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import MetaData from "@/utils/Meta/MetaData";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
-import Loader from "@/utils/Loader/Loader";
-import { toast } from "react-toastify";
 import isAuth from "@/Auth/isAuth";
-import { removeAllItemsToCart } from "@/store/actions/cartAction";
-import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
-const ConfettiRain  = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
+const ConfettiRain = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
   ssr: false,
 });
 const Balloons = dynamic(() => import("@/components/balloons/Balloons"), {
@@ -17,19 +13,7 @@ const Balloons = dynamic(() => import("@/components/balloons/Balloons"), {
 });
 
 const OrderSuccess = () => {
- 
-  const dispatch = useDispatch();
-  const { order, loading } = useSelector((state) => state.newOrder);
-  const message = order?.message;
-  const success = order?.success;
-
-  useEffect(() => {
-    if (success) {
-      toast.success(message);
-      dispatch(removeAllItemsToCart());
-    }
-  }, [success, message]);
-
+  
   return (
     <section className="overflow-hidden">
       <MetaData title="Order Success" />
@@ -50,17 +34,13 @@ const OrderSuccess = () => {
           <p className="text-xl dancing_script">
             Or you can play a game to pop the balloons
           </p>
-          {loading ? (
-            <Loader />
-          ) : (
-            <Link href="/orders">
-              <ButtonTextIcon
-                Text="Go to Orders"
-                customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
-                Icon={<i className="ri-shopping-bag-4-line text-xl"></i>}
-              />
-            </Link>
-          )}
+          <Link href="/orders">
+            <ButtonTextIcon
+              Text="Go to Orders"
+              customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
+              Icon={<i className="ri-shopping-bag-4-line text-xl"></i>}
+            />
+          </Link>
         </div>
       </section>
     </section>

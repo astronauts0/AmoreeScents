@@ -34,7 +34,7 @@ const ProductCard = ({ product }) => {
             </h1>
             <p className="leading-4 tracking-wider">
               {product?.shortDescription.length >= 100
-                ? product?.shortDescription?.slice(0, 100) + '...'
+                ? product?.shortDescription?.slice(0, 100) + "..."
                 : product?.shortDescription}
             </p>
             <div className="flex items-center justify-center color__red obviously">
@@ -59,6 +59,7 @@ const ProductCard = ({ product }) => {
             <div className="flex items-center justify-center gap-x-3 w-full">
               <AddToCartBtn
                 customize="text-sm rounded-2xl px-2 pb-0.5"
+                slug={product?.slug}
                 stock={product?.stock}
                 id={product?._id}
                 count={1}

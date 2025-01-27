@@ -1,10 +1,14 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import isAuth from "@/Auth/isAuth";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 import CheckoutStep from "@/components/order/CheckoutStep";
-import { createOrder } from "@/store/actions/orderAction";
+import {
+  clearErrors as ordersClearErrors,
+  createOrder,
+} from "@/store/actions/orderAction";
 import { clearErrors, sendOtp, verifyOtp } from "@/store/actions/otpActions";
+import { removeAllItemsToCart } from "@/store/actions/cartAction";
 import FormatPrice from "@/utils/functions/FormatPrice";
 import Loader from "@/utils/Loader/Loader";
 import MetaData from "@/utils/Meta/MetaData";
@@ -23,6 +27,15 @@ const ConfirmOrder = () => {
     (state) => state.otp
   );
   let { user } = useSelector((state) => state.user);
+
+  const {
+    error: orderError,
+    order,
+    loading: loadingOrder,
+  } = useSelector((state) => state.newOrder);
+  const orderMessage = order?.message;
+  const orderCreate = order?.success;
+
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
 
@@ -64,23 +77,21 @@ const ConfirmOrder = () => {
         totalPrice,
       };
       dispatch(createOrder(order));
-      router.push("/order/success");
-      toast.success(message + " Your are redirecting to success page.");
     }
-  }, [
-    toast,
-    success,
-    message,
-    isVerified,
-    error,
-    router,
-    dispatch,
-    cartItems,
-    shippingInfo,
-    subtotal,
-    shippingCharges,
-    totalPrice,
-  ]);
+  }, [success, message, isVerified, error, dispatch]);
+
+  useEffect(() => {
+    if (orderCreate) {
+      router.push("/order/success");
+      toast.success(orderMessage);
+      dispatch(removeAllItemsToCart());
+    }
+
+    if (orderError) {
+      toast.error(orderError);
+      dispatch(ordersClearErrors());
+    }
+  }, [orderCreate, orderError, orderMessage, router, dispatch]);
 
   return (
     <section className="min-h-screen w-full py-20 px-6">
@@ -162,18 +173,22 @@ const ConfirmOrder = () => {
                   onChange={(e) => setOtp(e.target.value)}
                   className="text-center outline-none bg-transparent border rounded-full border_color size-28 px-3 py-2 mt-4"
                 />
-                <div onClick={verifyOtpAndCreateOrder}>
-                  <ButtonTextIcon
-                    Text="Verify OTP & Proceed"
-                    customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
-                    disabled={loading}
-                    Icon={<i className="ri-arrow-right-line"></i>}
-                  />
-                </div>
+                {loadingOrder ? (
+                  <Loader height="h-auto" />
+                ) : (
+                  <div onClick={verifyOtpAndCreateOrder}>
+                    <ButtonTextIcon
+                      Text="Verify OTP & Proceed"
+                      customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
+                      disabled={loading}
+                      Icon={<i className="ri-arrow-right-line"></i>}
+                    />
+                  </div>
+                )}
               </div>
             )
           ) : loading ? (
-            <Loader />
+            <Loader height="h-auto" />
           ) : (
             <div onClick={sendOtpHandler}>
               <ButtonTextIcon

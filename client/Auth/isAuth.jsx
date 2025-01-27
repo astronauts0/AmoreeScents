@@ -11,7 +11,7 @@ const isAuth = (WrappedComponent, isAdmin = false) => {
         if (loading) return <Loader />;
 
         if (!isAuthenticated || (isAdmin && user.role !== 'admin')) {
-            router.push('/login');
+            // router.push('/login');
             return null;
         }
 

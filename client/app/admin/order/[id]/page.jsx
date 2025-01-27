@@ -27,6 +27,7 @@ const ProcessOrder = ({ params: { id } }) => {
 
   const { order, error, loading } = useSelector((state) => state.orderDetails);
   const {
+    loading: updateLoading,
     error: updateError,
     isUpdated,
     message,
@@ -240,16 +241,19 @@ const ProcessOrder = ({ params: { id } }) => {
                     <option value="Delivered">Delivered</option>
                   </select>
                 )}
-
-                <ButtonTextIcon
-                  btnType="submit"
-                  customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
-                  Icon={<i className="ri-refresh-line text-lg"></i>}
-                  disabled={
-                    loading || (!formData.status && formData.payment === "")
-                  }
-                  Text="Update Order"
-                />
+                {updateLoading ? (
+                  <Loader />
+                ) : (
+                  <ButtonTextIcon
+                    btnType="submit"
+                    customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
+                    Icon={<i className="ri-refresh-line text-lg"></i>}
+                    disabled={
+                      loading || (!formData.status && formData.payment === "")
+                    }
+                    Text="Update Order"
+                  />
+                )}
               </form>
             </div>
           </section>

@@ -13,11 +13,12 @@ import { useDispatch } from "react-redux";
 import PerProductTotalSales from "@/utils/functions/sales/PerProductTotalSales";
 import dynamic from "next/dynamic";
 
-const ConfettiRain  = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
+const ConfettiRain = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
   ssr: false,
 });
 
-const AddToCart = ({ stock, id }) => {
+const AddToCart = ({ stock, id, slug }) => {
+  console.log("🚀 ~ file: AddToCart.jsx:21 ~ AddToCart ~ stock:", stock);
   const router = useRouter();
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
@@ -50,30 +51,33 @@ const AddToCart = ({ stock, id }) => {
           </div>
           <span className="text-inherit">bottles sold</span>
         </div>
-        <div className={`flex items-center obviously`}>
-          <div onClick={handleDecrement} className="relative">
-            <ButtonTextIcon
-              Icon={<i className="ri-subtract-fill text-xl"></i>}
-              customize="pr-0.5 pl-1 py-0.5"
+        {stock > 0 && (
+          <div className={`flex items-center obviously`}>
+            <div onClick={handleDecrement} className="relative">
+              <ButtonTextIcon
+                Icon={<i className="ri-subtract-fill text-xl"></i>}
+                customize="pr-0.5 pl-1 py-0.5"
+              />
+            </div>
+            <input
+              className="py-1 w-8 text-center border-t border_color border-b bg-transparent outline-none"
+              type="number"
+              value={count}
+              readOnly
             />
+            <div onClick={handleIncrement} className="relative">
+              <ButtonTextIcon
+                Icon={<i className="ri-add-line text-xl"></i>}
+                customize="pr-0.5 pl-1 py-0.5"
+              />
+            </div>
           </div>
-          <input
-            className="py-1 w-8 text-center border-t border_color border-b bg-transparent outline-none"
-            type="number"
-            value={count}
-            readOnly
-          />
-          <div onClick={handleIncrement} className="relative">
-            <ButtonTextIcon
-              Icon={<i className="ri-add-line text-xl"></i>}
-              customize="pr-0.5 pl-1 py-0.5"
-            />
-          </div>
-        </div>
+        )}
       </div>
 
       <div className="py-5 darker_grotesque font-bold text-lg">
         <AddToCartBtn
+          slug={slug}
           stock={stock}
           id={id}
           count={count}

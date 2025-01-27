@@ -6,6 +6,7 @@ const sendDeliveryConfirmationEmail = async ({
   orderId,
   orderItems,
   totalAmount,
+  shippingPrice,
 }) => {
   try {
     const transporter = nodeMailer.createTransport({
@@ -24,10 +25,10 @@ const sendDeliveryConfirmationEmail = async ({
         (item) => `
             <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;">
-                    <a href="${item.productUrl}" style="color: #4CAF50; text-decoration: none;">${item.name}</a>
+                    <a href="${process.env.FRONTEND_URL}/product/${item.slug}" style="color: #4CAF50; text-decoration: none;">${item.name}</a>
                 </td>
                 <td style="padding: 10px; border: 1px solid #ddd;">${item.qty}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Rs ${item.price}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${item.qty} X Rs ${item.price}</td>
             </tr>
         `
       )
@@ -50,6 +51,10 @@ const sendDeliveryConfirmationEmail = async ({
                             <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Price</td>
                         </tr>
                         ${orderItemsHtml}
+                        <tr style="background-color: #f9f9f9;">
+                            <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Shipping Fee</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Rs ${shippingPrice}</td>
+                        </tr>
                         <tr style="background-color: #f9f9f9;">
                             <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Total Amount</td>
                             <td style="padding: 10px; border: 1px solid #ddd;">Rs ${totalAmount}</td>

@@ -1,33 +1,44 @@
-const nodeMailer = require('nodemailer');
+const nodeMailer = require("nodemailer");
 
-const sendOrderConfirmationEmail = async ({ email, name, orderId, orderItems, totalAmount }) => {
-    try {
-        const transporter = nodeMailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: process.env.SMTP_PORT,
-            service: process.env.SMTP_SERVICE,
-            secure: true,
-            auth: {
-                user: process.env.SMTP_EMAIL,
-                pass: process.env.SMTP_PASSWORD
-            }
-        });
-        const orderItemsHtml = orderItems.map(item => `
+const sendOrderConfirmationEmail = async ({
+  email,
+  name,
+  orderId,
+  orderItems,
+  totalAmount,
+  shippingPrice,
+}) => {
+  try {
+    const transporter = nodeMailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      service: process.env.SMTP_SERVICE,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+    const orderItemsHtml = orderItems
+      .map(
+        (item) => `
             <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;">
-                    <a href="${item.productUrl}" style="color: #4CAF50;">${item.name}</a>
+                    <a href="${process.env.FRONTEND_URL}/product/${item.slug}" style="color: #4CAF50; text-decoration: none;">${item.name}</a>
                 </td>
                 <td style="padding: 10px; border: 1px solid #ddd;">${item.qty}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Rs ${item.price}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${item.qty} X Rs ${item.price}</td>
             </tr>
-        `).join('');
+        `
+      )
+      .join("");
 
-        // Mail for the admin
-        const mailOptionsForAdmin = {
-            from: `${name} <${email}>`,
-            to: process.env.SMTP_EMAIL,
-            subject: `New Order Received - Order #${orderId} || Amorée Scents`,
-            html: `
+    // Mail for the admin
+    const mailOptionsForAdmin = {
+      from: `${name} <${email}>`,
+      to: process.env.SMTP_EMAIL,
+      subject: `New Order Received - Order #${orderId} || Amorée Scents`,
+      html: `
                 <div style="padding: 20px; background-color: #f4f4f4; color: #333;">
                     <h1 style="color: #4CAF50;">New Order Received</h1>
                     <p>A new order has been placed:</p>
@@ -50,7 +61,7 @@ const sendOrderConfirmationEmail = async ({ email, name, orderId, orderItems, to
                         ${orderItemsHtml}
                         <tr style="background-color: #f9f9f9;">
                             <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Shipping Fee</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">Rs 200</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Rs ${shippingPrice}</td>
                         </tr>
                         <tr style="background-color: #f9f9f9;">
                             <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Total Amount:</td>
@@ -61,14 +72,14 @@ const sendOrderConfirmationEmail = async ({ email, name, orderId, orderItems, to
                     <p>Best Regards, <strong><i>Amorée Scents</i></strong></p>
                 </div>
             `,
-        };
+    };
 
-        // Mail for the user
-        const mailOptionsForUser = {
-            from: process.env.SMTP_EMAIL,
-            to: email,
-            subject: `Order Confirmation - Order #${orderId} || Amorée Scents`,
-            html: `
+    // Mail for the user
+    const mailOptionsForUser = {
+      from: process.env.SMTP_EMAIL,
+      to: email,
+      subject: `Order Confirmation - Order #${orderId} || Amorée Scents`,
+      html: `
                 <div style="text-align: center; padding: 20px;">
                     <h1 style="color: #4CAF50;">Thank You for Your Order, ${name}!</h1>
                     <h2>Your order has been placed successfully & is now being processed. The Order will be delivered within 2-5 working days. We appreciate your patience!</h2>
@@ -82,7 +93,7 @@ const sendOrderConfirmationEmail = async ({ email, name, orderId, orderItems, to
                         ${orderItemsHtml}
                         <tr style="background-color: #f9f9f9;">
                             <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Shipping Fee</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">Rs 200</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Rs ${shippingPrice}</td>
                         </tr>
                         <tr style="background-color: #f9f9f9;">
                             <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Total Amount</td>
@@ -95,16 +106,15 @@ const sendOrderConfirmationEmail = async ({ email, name, orderId, orderItems, to
                     <p>Best Regards from <strong><i>Amorée Scents</i></strong></p>
                 </div>
             `,
-        };
+    };
 
-        // Send emails
-        await transporter.sendMail(mailOptionsForAdmin);
-        await transporter.sendMail(mailOptionsForUser);
-    } catch (error) {
-        console.error(`Error sending order confirmation email:`, error);
-        throw new Error(error.message);
-    }
+    // Send emails
+    await transporter.sendMail(mailOptionsForAdmin);
+    await transporter.sendMail(mailOptionsForUser);
+  } catch (error) {
+    console.error(`Error sending order confirmation email:`, error);
+    throw new Error(error.message);
+  }
 };
 
 module.exports = sendOrderConfirmationEmail;
-

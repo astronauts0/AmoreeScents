@@ -5,8 +5,8 @@ const orderModel = require("../models/ordersModel");
 const updateStock = require("../utils/functions/updateStock");
 
 const sendOrderConfirmationEmail = require("../utils/mails/sendOrderConfirmationEmail");
-const sendDeliveryConfirmationEmail = require("../utils/mails/sendDeliveryConfirmationEmail");
 const sendShippingConfirmationEmail = require("../utils/mails/sendShippingConfirmationEmail");
+const sendDeliveryConfirmationEmail = require("../utils/mails/sendDeliveryConfirmationEmail");
 
 // * Create New Order
 exports.newOrder = catchAsyncError(async (req, res, next) => {
@@ -16,7 +16,7 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
 
   // Check stock for each item before creating the order
   try {
-    for (const item of orderItems) {
+    for (const item of orderItems && orderItems) {
       await updateStock(item.product, item.qty);
     }
   } catch (error) {
@@ -51,6 +51,7 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
       orderId,
       orderItems,
       totalAmount,
+      shippingPrice,
     });
 
     res.status(200).json({
@@ -108,7 +109,8 @@ exports.productOrders = catchAsyncError(async (req, res, next) => {
   const totalProductOrders = await orderModel
     .find()
     .select("orderItems.product");
-  if (!totalProductOrders) return next(new ErrorHandler("Orders Not Found", 404));
+  if (!totalProductOrders)
+    return next(new ErrorHandler("Orders Not Found", 404));
   res.status(200).json({ success: true, totalProductOrders });
 });
 
@@ -165,6 +167,7 @@ exports.updateOrder = catchAsyncError(async (req, res, next) => {
         orderId: order._id,
         orderItems: order.orderItems,
         totalAmount: order.totalPrice,
+        shippingPrice: order.shippingPrice,
       });
 
       res.status(200).json({
@@ -182,6 +185,7 @@ exports.updateOrder = catchAsyncError(async (req, res, next) => {
         orderId: order._id,
         orderItems: order.orderItems,
         totalAmount: order.totalPrice,
+        shippingPrice: order.shippingPrice,
       });
 
       res.status(200).json({

@@ -27,7 +27,6 @@ const productSchema = new Schema(
       type: Number,
       required: [true, "Please Enter Product Stock"],
       maxLength: [10, "Stock cannot exceed 10 characters"],
-      default: 1,
     },
     categories: [
       {

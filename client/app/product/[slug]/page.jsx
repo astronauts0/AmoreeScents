@@ -13,7 +13,7 @@ import RelatedProducts from "@/components/Products/RelatedProducts";
 import SalesBanner from "@/components/global/sales/SalesBanner";
 import fetchProducts from "@/modules/backend/fetchProducts";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export const generateStaticParams = async () => {
   const products = await fetchProducts();
@@ -166,7 +166,7 @@ export default async function Product({ params }) {
               </li>
             </ul>
 
-            <AddToCart stock={response?.stock} id={response?._id} />
+            <AddToCart slug={response?.slug} stock={response?.stock} id={response?._id} />
           </div>
         </div>
 

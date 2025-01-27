@@ -1,7 +1,12 @@
 const fetchProducts = async (url = "") => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${url}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${url}`,
+      {
+        next: {
+          revalidate: 60,
+        },
+      }
     );
 
     if (!res.ok) {

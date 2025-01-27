@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addItemsToCart, removeItemToCart } from "@/store/actions/cartAction";
 import FormatPrice from "@/utils/functions/FormatPrice";
@@ -30,6 +30,10 @@ const CartItem = ({ product, name, image, slug, qty, price, stock }) => {
   const removeItem = (id) => {
     dispatch(removeItemToCart(id));
   };
+
+  useEffect(() => {
+    if (stock < 1) dispatch(removeItemToCart(id));
+  }, [stock]);
 
   return (
     <div className="my-10 grid text-center justify-center items-center place-items-center md:grid-cols-5 grid-cols-3 md:backdrop-blur-lg">
