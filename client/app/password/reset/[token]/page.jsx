@@ -4,16 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loader from "@/utils/Loader/Loader";
 import { clearErrors, resetPassword } from "@/store/actions/userAction";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import MetaData from "@/utils/Meta/MetaData";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
-const ResetPassword = () => {
+export const dynamic = "force-dynamic";
+
+const ResetPassword = ({ params: { token } }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const params = useParams();
   const { error, loading, success } = useSelector(
     (state) => state.forgetPassword
   );
@@ -30,7 +31,7 @@ const ResetPassword = () => {
 
   const updPasswordSubmit = (e) => {
     e.preventDefault();
-    dispatch(resetPassword(params.token, passwords));
+    dispatch(resetPassword(token, passwords));
   };
 
   useEffect(() => {
@@ -110,5 +111,6 @@ const ResetPassword = () => {
     </section>
   );
 };
+
 
 export default ResetPassword;

@@ -45,6 +45,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    router.push("/login");
     toast.success("Logout Successfully");
     if (isSidebarOpen) {
       setIsSidebarOpen(false);
@@ -52,7 +53,6 @@ const Header = () => {
         timelineRef.current.reverse();
       }
     }
-    router.push("/login");
   };
 
   const handleMouseMove = (e) => {

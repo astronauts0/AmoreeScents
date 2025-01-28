@@ -2,7 +2,7 @@ const fetchProductDetails = async (slug) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/product/${slug}`,
-      {
+      { 
         next: {
           tags: [`product/${slug}`],
         },
