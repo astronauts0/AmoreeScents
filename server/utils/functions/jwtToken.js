@@ -1,7 +1,7 @@
 const sendToken = async (user, res) => {
   const token = await user.generateToken();
 
-  const isProduction = process.env.NODE_ENV === "PRODUCTION";
+  const isProduction = process.env.NODE_ENV === "production";
   
   
   const cookieExpireDays = Number(process.env.COOKIE_EXPIRE); 

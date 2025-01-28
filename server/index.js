@@ -12,7 +12,7 @@ const cloudinary = require("cloudinary");
 const { connectDB } = require("./config/db/db");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 
-if (process.env.NODE_ENV !== "PRODUCTION") {
+if (process.env.NODE_ENV !== "production") {
   require("dotenv").config({ path: "./config/env/.env" });
 }
 
