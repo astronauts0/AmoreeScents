@@ -8,7 +8,7 @@ const sendToken = async (user, res) => {
   const options = {
     expires: new Date(Date.now() + cookieExpireDays * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    sameSite: "None", // Required for cross-domain cookies
+    // sameSite: "None", // Required for cross-domain cookies
     secure: isProduction ? true : false, // Ensure cookie is sent over HTTPS in production
     domain: ".amoreescents.shop", // Allow cookie for the entire domain (including subdomains)
   };
