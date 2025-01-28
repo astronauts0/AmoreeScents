@@ -11,7 +11,7 @@ const LayoutClientComponents = () => {
     <section>
       <ClientLogic />
       <Cursor />
-      <CustomCtxMenu />
+      {/* <CustomCtxMenu /> */}
       <SoftMusic />
       <ClickSound />
     </section>
