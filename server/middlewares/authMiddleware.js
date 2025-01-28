@@ -10,7 +10,7 @@ exports.isAuthenticatedUser = catchAsyncError(
 
         const { token } = req.cookies;
 
-        if (!token) return next(new ErrorHandler("Please Login", 401));
+        if (!token) return next(new ErrorHandler("Please Login!", 401));
 
         try {
 
