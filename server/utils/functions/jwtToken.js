@@ -1,13 +1,17 @@
 const sendToken = async (user, res) => {
   const token = await user.generateToken();
 
+  const isProduction = process.env.NODE_ENV === "PRODUCTION";
+  
+  const cookieExpireDays = Number(process.env.COOKIE_EXPIRE); 
+
   const options = {
     expires: new Date(
-      Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+      Date.now() + cookieExpireDays * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === "PRODUCTION" ? "Strict" : "Lax", // Strict in PRODUCTION
-    secure: process.env.NODE_ENV === "PRODUCTION", // Secure only for production
+    sameSite: isProduction ? "Strict" : "Lax",
+    secure: isProduction ? true : false,
   };
 
   res

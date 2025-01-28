@@ -1,20 +1,18 @@
-"use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 import { HomeOutlined } from "@mui/icons-material";
-import MetaData from "@/utils/Meta/MetaData";
+import Balloons from "@/components/balloons/Balloons";
 
-import dynamic from "next/dynamic";
-
-const Balloons = dynamic(() => import("@/components/balloons/Balloons"), {
-  ssr: false,
-});
+export const metadata = {
+  title: "Page Not Found | Amoree Scents",
+  description:
+    "Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.",
+};
 
 const NotFound = () => {
   return (
     <section className="w-full h-screen relative overflow-hidden">
-      <MetaData title="Page Not Found" />
       <Balloons />
       <div className="flex flex-col items-center justify-center min-h-screen text-center">
         <h1 className="text-8xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-green-500 to-blue-500">
