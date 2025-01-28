@@ -1,6 +1,6 @@
 const nodeMailer = require("nodemailer");
 
-const welcomeMessageMail = async ({ email }) => {
+const welcomeMessageMail = async ({ name, email }) => {
   const transporter = nodeMailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
@@ -15,7 +15,7 @@ const welcomeMessageMail = async ({ email }) => {
   const mailOptions = {
     from: process.env.SMTP_EMAIL,
     to: email,
-    subject: "Welcome to Amorée Scents – A World of Elegance Awaits",
+    subject: `Welcome ${name} to Amorée Scents – A World of Elegance Awaits`,
     html: `
       <div style=" color: #333; background-color: #f9f9f9; padding: 20px;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); overflow: hidden;">
@@ -24,7 +24,7 @@ const welcomeMessageMail = async ({ email }) => {
           </div>
           <div style="padding: 20px;">
             <p style="font-size: 16px; line-height: 1.5;">
-              Hello,
+              Hello, ${name}!
             </p>
             <p style="font-size: 16px; line-height: 1.5;">
               Congratulations and welcome to the exclusive Amorée Scents family!

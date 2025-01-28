@@ -40,7 +40,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 
   if (!user) return next(new ErrorHandler("User Not Create", 404));
 
-  await welcomeMessageMail({ email: user.email });
+  await welcomeMessageMail({ name: user.name, email: user.email });
 
   sendToken(user, res);
 });
@@ -61,7 +61,7 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   if (!isPasswordMatched)
     return next(new ErrorHandler("Invalid Email or Password", 404));
 
-  await welcomeMessageMail({ email: user.email });
+  await welcomeMessageMail({ name: user.name, email: user.email });
 
   sendToken(user, res);
 });
