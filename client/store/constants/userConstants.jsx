@@ -19,6 +19,7 @@ export const LOAD_USER_FAIL = 'LOAD_USER_FAIL';
 
 //% Constants for logout
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_RESET = 'LOGOUT_RESET';
 export const LOGOUT_FAIL = 'LOGOUT_FAIL';
 
 

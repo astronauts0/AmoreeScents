@@ -38,6 +38,10 @@ const productSchema = new Schema(
       type: String,
       required: [true, "Please Enter Product Sub Category"],
     },
+    notes: {
+      type: String,
+      required: [true, "Please Enter Product Notes"],
+    },
     description: {
       type: String,
       required: [true, "Please Enter product Description"],

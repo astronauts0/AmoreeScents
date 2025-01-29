@@ -68,11 +68,18 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
 
 //* logout user
 exports.logoutUser = catchAsyncError(async (req, res, next) => {
-  res.cookie("token", null, { expires: new Date(Date.now()), httpOnly: true });
-  return res
-    .status(200)
-    .json({ success: true });
+  const isProduction = process.env.NODE_ENV === "production";
+
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
+  });
+
+  return res.status(200).json({ success: true });
 });
+
 
 //* forget password
 exports.forgetPassword = catchAsyncError(async (req, res, next) => {

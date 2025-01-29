@@ -18,7 +18,6 @@ const ConfettiRain = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
 });
 
 const AddToCart = ({ stock, id, slug }) => {
-  console.log("🚀 ~ file: AddToCart.jsx:21 ~ AddToCart ~ stock:", stock);
   const router = useRouter();
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);

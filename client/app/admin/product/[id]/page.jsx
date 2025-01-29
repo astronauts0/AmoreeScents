@@ -28,16 +28,17 @@ const UpdateProduct = ({ params: { id: productId } }) => {
   } = useSelector((state) => state.product);
 
   const [productData, setProductData] = useState({
-    name: product.name,
-    slug: product.slug,
-    price: product.price,
-    originalPrice: product.originalPrice,
-    stock: product.stock,
-    categories: product.categories,
-    productTags: product.productTags,
-    subCategory: product.subCategory,
-    description: product.description,
-    shortDescription: product.shortDescription,
+    name: product?.name,
+    slug: product?.slug,
+    price: product?.price,
+    originalPrice: product?.originalPrice,
+    stock: product?.stock,
+    categories: product?.categories,
+    productTags: product?.productTags,
+    subCategory: product?.subCategory,
+    description: product?.description,
+    notes: product?.notes,
+    shortDescription: product?.shortDescription,
   });
 
   const [images, setImages] = useState([]);
@@ -86,16 +87,17 @@ const UpdateProduct = ({ params: { id: productId } }) => {
       dispatch(getProductsDetails(productId));
     } else {
       setProductData({
-        name: product.name,
-        slug: product.slug,
-        price: product.price,
-        originalPrice: product.originalPrice,
-        stock: product.stock,
-        categories: product.categories,
-        productTags: product.productTags,
-        subCategory: product.subCategory,
-        description: product.description,
-        shortDescription: product.shortDescription,
+        name: product?.name,
+        slug: product?.slug,
+        price: product?.price,
+        originalPrice: product?.originalPrice,
+        stock: product?.stock,
+        categories: product?.categories,
+        productTags: product?.productTags,
+        subCategory: product?.subCategory,
+        description: product?.description,
+        notes: product?.notes,
+        shortDescription: product?.shortDescription,
       });
       setImagesPreview(product?.images || []);
       setImages(product?.images || []);
@@ -113,7 +115,6 @@ const UpdateProduct = ({ params: { id: productId } }) => {
 
     if (isUpdated) {
       toast.success("Product Updated Successfully");
-      // Refetch updated product details to ensure the state is updated
       dispatch(getProductsDetails(productId));
       router.push("/admin/products");
       dispatch({ type: UPDATE_PRODUCT_RESET });
@@ -205,7 +206,15 @@ const UpdateProduct = ({ params: { id: productId } }) => {
             value={productData.subCategory}
             onChange={handleProductChange}
           />
-
+          <input
+            type="text"
+            name="notes"
+            placeholder="Notes"
+            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            required
+            value={productData.notes}
+            onChange={handleProductChange}
+          />
           <textarea
             cols="3"
             rows="3"

@@ -1,10 +1,9 @@
-"use client";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { logout } from "@/store/actions/userAction";
 import ButtonTextIcon from "../Buttons/ButtonTextIcon";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const Logout = (props) => {
   const dispatch = useDispatch();
@@ -12,12 +11,13 @@ const Logout = (props) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    toast.success("Logout Successfully");
     router.push("/login");
-
+    toast.success("Logout Successfully");
     if (props?.isSidebarOpen) {
       props?.setIsSidebarOpen(false);
-      props?.timelineRef?.current?.reverse();
+      if (props?.timelineRef.current) {
+        props?.timelineRef.current.reverse();
+      }
     }
   };
 

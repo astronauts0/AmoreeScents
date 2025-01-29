@@ -36,6 +36,7 @@ const CreateNewProduct = () => {
     categories: [],
     productTags: "",
     subCategory: "",
+    notes: "",
     description: "",
     shortDescription: "",
   });
@@ -169,6 +170,15 @@ const CreateNewProduct = () => {
             className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
             required
             value={productData.subCategory}
+            onChange={handleProductChange}
+          />
+          <input
+            type="text"
+            name="notes"
+            placeholder="Notes"
+            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            required
+            value={productData.notes}
             onChange={handleProductChange}
           />
           <textarea

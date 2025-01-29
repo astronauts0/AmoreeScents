@@ -245,6 +245,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     categories,
     productTags,
     subCategory,
+    notes,
     description,
     shortDescription,
     images = [],
@@ -256,19 +257,20 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
       .status(404)
       .json({ success: false, message: "Product not found" });
 
-  if (product?.images && product?.images.length > 0) {
-    for (const image of product?.images) {
-      if (image?.public_id) {
-        await cloudinary.uploader.destroy(image?.public_id, {
-          folder: "Amoree/products/all",
-        });
-      }
-    }
-  }
-
   const updatedImages = await Promise.all(
     images.map(async (img) => {
       if (!img.url) {
+        
+        if (product?.images && product?.images.length > 0) {
+          for (const image of product?.images) {
+            if (image?.public_id) {
+              await cloudinary.uploader.destroy(image?.public_id, {
+                folder: "Amoree/products/all",
+              });
+            }
+          }
+        }
+
         try {
           const { public_id, secure_url } = await cloudinary.uploader.upload(
             img,
@@ -296,6 +298,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
       subCategory,
       productTags,
       description,
+      notes,
       shortDescription,
       images: updatedImages,
     },
