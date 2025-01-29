@@ -71,7 +71,7 @@ exports.logoutUser = catchAsyncError(async (req, res, next) => {
   res.cookie("token", null, { expires: new Date(Date.now()), httpOnly: true });
   return res
     .status(200)
-    .json({ success: true, message: "Logout Successfully" });
+    .json({ success: true });
 });
 
 //* forget password

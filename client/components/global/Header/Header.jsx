@@ -16,13 +16,10 @@ import {
   SpaceDashboardOutlined,
 } from "@mui/icons-material";
 import { useGSAP } from "@gsap/react";
-import { toast } from "react-toastify";
-import { logout } from "@/store/actions/userAction";
-import { useDispatch, useSelector } from "react-redux";
-import ButtonTextIcon from "../Buttons/ButtonTextIcon";
-import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import { useTheme } from "@/hooks/useTheme";
 import IconButton from "../Buttons/IconButton";
+import Logout from "./Logout";
 
 const monoBlack = "/images/svgs/mono_black.svg";
 const logoTextWhite = "/images/svgs/logo_text_white.svg";
@@ -32,8 +29,6 @@ const monoWhite = "/images/svgs/mono_white.svg";
 const Header = () => {
   const sidebarRef = useRef(null);
   const timelineRef = useRef(null);
-  const dispatch = useDispatch();
-  const router = useRouter();
   const theme = useTheme();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -42,18 +37,6 @@ const Header = () => {
 
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const { cartItems } = useSelector((state) => state.cart);
-
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push("/login");
-    toast.success("Logout Successfully");
-    if (isSidebarOpen) {
-      setIsSidebarOpen(false);
-      if (timelineRef.current) {
-        timelineRef.current.reverse();
-      }
-    }
-  };
 
   const handleMouseMove = (e) => {
     const link = e.currentTarget;
@@ -269,13 +252,11 @@ const Header = () => {
             <div className="pc_social_icons flex justify-center gap-x-2.5 items-center">
               {isAuthenticated ? (
                 <>
-                  <div onClick={handleLogout}>
-                    <ButtonTextIcon
-                      Icon={<i className="ri-logout-box-line"></i>}
-                      Text="Logout"
-                      customize="px-3 py-1 text-sm transition-all duration-1000 hover:rounded-none rounded-full"
-                    />
-                  </div>
+                  <Logout
+                    timelineRef={timelineRef}
+                    isSidebarOpen={isSidebarOpen}
+                    setIsSidebarOpen={setIsSidebarOpen}
+                  />
                   <Link href="/profile">
                     <HeaderButton
                       Icon={<i className="ri-user-line text-xl"></i>}
@@ -516,13 +497,11 @@ const Header = () => {
             <div className="header__icons opacity-0 scale-0 md:hidden flex justify-center flex-wrap gap-x-2.5 items-center">
               {isAuthenticated ? (
                 <>
-                  <div onClick={handleLogout}>
-                    <ButtonTextIcon
-                      Icon={<i className="ri-logout-box-line"></i>}
-                      Text="Logout"
-                      customize="px-3 py-1 text-sm transition-all duration-1000 hover:rounded-none rounded-full"
-                    />
-                  </div>
+                   <Logout
+                    timelineRef={timelineRef}
+                    isSidebarOpen={isSidebarOpen}
+                    setIsSidebarOpen={setIsSidebarOpen}
+                  />
                   <Link href="/profile" onClick={closeSidebar}>
                     <IconButton
                       customize="py-2 px-3 rounded-full"
