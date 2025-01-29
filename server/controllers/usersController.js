@@ -40,7 +40,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 
   if (!user) return next(new ErrorHandler("User Not Create", 404));
 
-  await welcomeMessageMail({ name: user.name ,email: user.email });
+  await welcomeMessageMail({ name: user.name, email: user.email });
 
   sendToken(user, res);
 });
@@ -61,7 +61,7 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   if (!isPasswordMatched)
     return next(new ErrorHandler("Invalid Email or Password", 404));
 
-  await welcomeMessageMail({ name: user.name ,email: user.email });
+  await welcomeMessageMail({ name: user.name, email: user.email });
 
   sendToken(user, res);
 });
@@ -70,14 +70,19 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
 exports.logoutUser = catchAsyncError(async (req, res, next) => {
   const isProduction = process.env.NODE_ENV === "production";
 
-  res.cookie("token", null, {
-    expires: new Date(Date.now()),
+  const options = {
+    expires: new Date(0), 
+    maxAge: 0, 
     httpOnly: true,
     sameSite: isProduction ? "none" : "lax",
     secure: isProduction,
-  });
+    path: "/",
+  };
 
-  return res.status(200).json({ success: true });
+  return res
+    .status(200)
+    .cookie("token", "", options)
+    .json({ success: true });
 });
 
 
