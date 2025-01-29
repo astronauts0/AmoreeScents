@@ -41,7 +41,12 @@ app.use(cors(corsOptions));
 //* view engine setup
 app.set("views", path.join(__dirname, "views"));
 
-app.use(logger("dev"));
+if (process.env.NODE_ENV !== "production") {
+  app.use(logger("dev"));
+} else {
+  app.use(logger("combined"));
+}
+
 app.use(express.json({ limit: "500mb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
