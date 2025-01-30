@@ -10,7 +10,7 @@ const Logout = (props) => {
   const router = useRouter();
 
   const handleLogout = () => {
-    dispatch(logout());
+    // dispatch(logout());
     window.location.href = "/login";
     toast.success("Logout Successfully");
     if (props?.isSidebarOpen) {
