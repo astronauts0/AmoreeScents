@@ -10,7 +10,7 @@ const { isAuthenticatedUser, authorizedRole } = require('../middlewares/authMidd
 
 router.route('/register').post( registerUser);
 router.route('/login').post(loginUser);
-router.route('/logout').get(logoutUser);
+router.route('/logout').delete(logoutUser);
 
 router.route('/password/forget').post(forgetPassword)
 router.route('/password/reset/:token').put(resetPassword);

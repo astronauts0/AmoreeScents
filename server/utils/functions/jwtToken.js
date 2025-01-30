@@ -6,10 +6,11 @@ const sendToken = async (user, res) => {
   const cookieExpireDays = Number(process.env.COOKIE_EXPIRE);
 
   const options = {
-    expires: new Date(Date.now() + cookieExpireDays * 24 * 60 * 60 * 1000),
+    maxAge: cookieExpireDays * 24 * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: isProduction ? "none" : "lax",
     secure: isProduction,
+    path: "/",
   };
 
   res

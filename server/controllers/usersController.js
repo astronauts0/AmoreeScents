@@ -67,19 +67,23 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
 });
 
 //* logout user
-exports.logoutUser = catchAsyncError(async (req, res) => {
+exports.logoutUser = catchAsyncError(async (req, res, next) => {
   const isProduction = process.env.NODE_ENV === "production";
+
+  const options = {
+    maxAge: 0, 
+    httpOnly: true, 
+    sameSite: isProduction ? "none" : "lax", 
+    secure: isProduction,
+    path: "/", 
+  };
 
   return res
     .status(200)
-    .clearCookie("token", {
-      httpOnly: true,
-      sameSite: isProduction ? "none" : "lax",
-      secure: isProduction,
-      path: "/",
-    })
+    .clearCookie("token", options)
     .json({ success: true });
 });
+
 
 //* forget password
 exports.forgetPassword = catchAsyncError(async (req, res, next) => {

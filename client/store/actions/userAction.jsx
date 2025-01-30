@@ -74,7 +74,7 @@ export const register = (userReg) => async (dispatch) => {
 //*  logout
 export const logout = () => async (dispatch) => {
   try {
-    await request("/logout");
+    await request.delete("/logout");
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
     dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });
