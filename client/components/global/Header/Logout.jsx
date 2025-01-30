@@ -11,7 +11,7 @@ const Logout = (props) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    router.push("/login");
+    window.location.href = "/login";
     toast.success("Logout Successfully");
     if (props?.isSidebarOpen) {
       props?.setIsSidebarOpen(false);
@@ -19,6 +19,7 @@ const Logout = (props) => {
         props?.timelineRef.current.reverse();
       }
     }
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   };
 
   return (
