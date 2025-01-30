@@ -11,6 +11,7 @@ const Logout = (props) => {
 
   const handleLogout = () => {
     dispatch(logout());
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     router.push("/login");
     toast.success("Logout Successfully");
     if (props?.isSidebarOpen) {

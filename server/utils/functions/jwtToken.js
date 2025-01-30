@@ -10,6 +10,7 @@ const sendToken = async (user, res) => {
     httpOnly: true,
     sameSite: isProduction ? "none" : "lax",
     secure: isProduction,
+    domain: isProduction ? ".amoreescents.shop" : undefined,
   };
 
   res
