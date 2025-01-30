@@ -7,7 +7,7 @@ const sendToken = async (user, res) => {
 
   const options = {
     expires: new Date(Date.now() + cookieExpireDays * 24 * 60 * 60 * 1000),
-    httpOnly: true,
+    // httpOnly: true,
     sameSite: isProduction ? "none" : "lax",
     secure: isProduction,
   };

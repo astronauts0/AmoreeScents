@@ -72,11 +72,9 @@ exports.logoutUser = catchAsyncError(async (req, res, next) => {
 
   const options = {
     expires: new Date(0), 
-    maxAge: 0, 
-    httpOnly: true,
+    // httpOnly: true,
     sameSite: isProduction ? "none" : "lax",
     secure: isProduction,
-    path: "/",
   };
 
   return res
