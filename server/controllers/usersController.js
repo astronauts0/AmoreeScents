@@ -71,13 +71,12 @@ exports.logoutUser = catchAsyncError(async (req, res, next) => {
   const isProduction = process.env.NODE_ENV === "production";
 
   const options = {
-    expires: new Date(0),
-    maxAge: 0,
+    expires: new Date(0), 
+    maxAge: 0, 
     httpOnly: true,
     sameSite: isProduction ? "none" : "lax",
     secure: isProduction,
     path: "/",
-    domain: isProduction ? ".amoreescents.shop" : undefined,
   };
 
   return res
