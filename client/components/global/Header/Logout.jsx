@@ -11,7 +11,6 @@ const Logout = (props) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    router.push("/login");
     toast.success("Logout Successfully");
     if (props?.isSidebarOpen) {
       props?.setIsSidebarOpen(false);
@@ -19,6 +18,7 @@ const Logout = (props) => {
         props?.timelineRef.current.reverse();
       }
     }
+    router.replace("/login");
   };
 
   return (

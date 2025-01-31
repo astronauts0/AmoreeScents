@@ -42,7 +42,7 @@ const Sidebar = () => {
       <div className="satoshi_medium">
         {/* Products Tree View */}
         <div>
-          <SimpleTreeView>
+          <SimpleTreeView defaultExpandedItems={["Products"]}>
             <TreeItem
               itemId="Products"
               label="Products"
