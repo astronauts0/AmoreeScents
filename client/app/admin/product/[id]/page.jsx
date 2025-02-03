@@ -71,7 +71,9 @@ const UpdateProduct = ({ params: { id: productId } }) => {
     } else if (e.target.name === "categories") {
       const parsedValues = parseCommaSeparatedValues(e.target.value);
       setProductData({ ...productData, categories: parsedValues });
-      //   setProductData({ ...productData, [e.target.name]: parsedValues });
+    } else if (e.target.name === "notes") {
+      const parsedValues = parseCommaSeparatedValues(e.target.value);
+      setProductData({ ...productData, notes: parsedValues });
     } else {
       setProductData({ ...productData, [e.target.name]: e.target.value });
     }
@@ -209,7 +211,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
           <input
             type="text"
             name="notes"
-            placeholder="Notes"
+            placeholder="Notes or Note"
             className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
             required
             value={productData.notes}
@@ -239,7 +241,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
             {imagesPreview?.map((image, index) => (
               <div key={index} className="relative">
                 <Image
-                  src={image?.url || (image && image)}
+                  src={image ? image?.url : "" || (image ? image : "")}
                   alt="Product Preview"
                   width={50}
                   height={50}
@@ -279,4 +281,4 @@ const UpdateProduct = ({ params: { id: productId } }) => {
   );
 };
 
-export default isAuth(UpdateProduct,true);
+export default isAuth(UpdateProduct, true);

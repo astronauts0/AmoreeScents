@@ -13,6 +13,7 @@ import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
 import { EffectFade, Navigation, Autoplay } from "swiper/modules";
+import UserReviewsFeedback from "./UserReviewsFeedback";
 
 const ReviewCard = ({ review }) => {
   return (
@@ -92,23 +93,7 @@ const ReviewCard = ({ review }) => {
         <p className="text-gray-600 text-sm mt-2 neue_machina_regular">
           {review?.comment}
         </p>
-        <div className="bg-gray-100 px-3 py-2 rounded mt-3">
-          <h1 className="font-bold mb-2 satoshi_medium">Amorée Scents</h1>
-          <div className="text-sm neue_machina_regular">
-            <p>
-              <span className="font-semibold capitalize">{review?.name}</span>{" "}
-              😊 your valuable feedback inspires us to do better. We can't wait
-              to serve you again!
-            </p>
-            <p className="mt-2">For queries, email us!</p>
-            <a
-              href="mailto:amoréescents@gmail.com"
-              className="lowercase text-blue-500 hover:underline inline"
-            >
-              amoréescents@gmail.com
-            </a>
-          </div>
-        </div>
+        <UserReviewsFeedback rating={review?.rating} user={review?.name} />
       </div>
     </div>
   );

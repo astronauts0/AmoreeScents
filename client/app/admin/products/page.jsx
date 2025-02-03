@@ -66,13 +66,9 @@ const ProductsList = () => {
         return (
           <Fragment>
             <div className="flex items-center justify-end w-full h-full gap-x-6">
-              {loading ? (
-                <Loader />
-              ) : (
-                <div onClick={() => deleteProductHandler(params.row.id)}>
-                  <i className="ri-delete-bin-7-line text-red-600 text-xl"></i>
-                </div>
-              )}
+              <div onClick={() => deleteProductHandler(params.row.id)}>
+                <i className="ri-delete-bin-7-line text-red-600 text-xl"></i>
+              </div>
               <Link href={`/admin/product/${params.row.id}`}>
                 <ButtonTextIcon
                   Text="View"
@@ -119,22 +115,28 @@ const ProductsList = () => {
   }, [dispatch, toast, error, deleteError, isDeleted]);
 
   return (
-      <section className="flex">
+    <>
       <MetaData title={`ALL PRODUCTS - Admin`} />
-        <Sidebar />
-        <div className="px-10 pt-20 pb-10">
-          <h1 className="text-3xl text-center mb-7">
-            ALL PRODUCTS ({products?.length}){" "}
-          </h1>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            className="satoshi_medium h-screen"
-            data-lenis-prevent
-          />
-        </div>
-      </section>
+      {loading ? (
+        <Loader />
+      ) : (
+        <section className="flex">
+          <Sidebar />
+          <div className="px-10 pt-20 pb-10">
+            <h1 className="text-3xl text-center mb-7">
+              ALL PRODUCTS ({products?.length}){" "}
+            </h1>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={7}
+              className="satoshi_medium h-screen"
+              data-lenis-prevent
+            />
+          </div>
+        </section>
+      )}
+    </>
   );
 };
 

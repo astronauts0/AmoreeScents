@@ -11,14 +11,8 @@ import Link from "next/link";
 import fetchProductDetails from "@/modules/backend/fetchProductDetails";
 import RelatedProducts from "@/components/Products/RelatedProducts";
 import SalesBanner from "@/components/global/sales/SalesBanner";
-import fetchProducts from "@/modules/backend/fetchProducts";
 
-export const revalidate = 60;
-
-export const generateStaticParams = async () => {
-  const products = await fetchProducts();
-  return products.map((product) => ({ slug: product.slug }));
-};
+export const revalidate = 150;
 
 export async function generateMetadata({ params }) {
   const slug = params?.slug;
@@ -34,8 +28,8 @@ export async function generateMetadata({ params }) {
 
   const keywords =
     response?.productTags +
-      ", amoree scents, amour scents, amoree scent, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume" ??
-    "Amoree Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents";
+      ", amoree scents, amour scents, amoree scent, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume, attars, office, premium attars" ??
+    "Amoree Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars";
 
   return {
     title,
@@ -90,7 +84,7 @@ export default async function Product({ params }) {
           }}
         />
       </head>
-      <section className="w-full pt-32 pb-20 space-y-20 overflow-hidden px-5 md:px-12 min-h-screen relative">
+      <section className="w-full pt-32 pb-20 space-y-20 overflow-hidden px-5 min-h-screen relative">
         <SalesBanner customize={{ top: "6.5rem" }} />
 
         <div className="flex flex-col md:flex-row overflow-hidden items-center justify-center gap-y-10 md:gap-x-10">

@@ -232,8 +232,6 @@ exports.getAdminProducts = catchAsyncError(async (req, res, next) => {
 });
 
 //# Update The Product by ~~Admin
-
-// Update product controller
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
   const { id: productId } = req.params;
   const {

@@ -48,7 +48,7 @@ const AvailOffer = () => {
         availOfferRef?.current,
         {
           duration: 2,
-          top:'-100%',
+          top: "-100%",
           onComplete: () => {
             gsap.set(availOfferRef?.current, { display: "none" });
           },
@@ -81,26 +81,13 @@ const AvailOffer = () => {
           },
           "txt1"
         )
-        .to(
-          ".scroll_banner",
-          {
-            duration: 10,
-            xPercent: -300,
-            delay: 1,
-          },
-          "2nd"
-        )
-        .from(
-          new SplitType(".hero_main_title", { type: "words" })?.chars,
-          {
-            opacity: 0,
-            x: -10,
-            stagger: 0.03,
-            duration: 0.1,
-            ease: "power2",
-          },
-          "2nd"
-        );
+        .from(new SplitType(".hero_main_title", { type: "words" })?.chars, {
+          opacity: 0,
+          x: -10,
+          stagger: 0.03,
+          duration: 0.1,
+          ease: "power2",
+        });
     }
   };
 

@@ -2,7 +2,7 @@
 import React from 'react'
 import ClientLogic from './ClientLogic';
 import Cursor from '@/cursor/Cursor';
-// import CustomCtxMenu from './CustomCtxMenu';
+import CustomCtxMenu from './CustomCtxMenu';
 import SoftMusic from '@/components/global/audio/SoftMusic';
 import ClickSound from '@/components/global/audio/ClickSound';
 
@@ -11,7 +11,7 @@ const LayoutClientComponents = () => {
     <section>
       <ClientLogic />
       <Cursor />
-      {/* <CustomCtxMenu /> */}
+      <CustomCtxMenu />
       <SoftMusic />
       <ClickSound />
     </section>

@@ -130,12 +130,6 @@ const Hero = () => {
       ref={headerRef}
       className="w-full h-screen relative overflow-hidden"
     >
-      <div className="scroll_banner flex items-center w-fit absolute top-1/2 capitalize left-full transform -translate-y-1/2 z-40">
-        <Image src="/images/train.png" width={180} height={180} alt="train" />
-        <h1 className="bg-black rounded px-3 text-7xl font-bold whitespace-nowrap text-center">
-          Scroll to View & get discount
-        </h1>
-      </div>
       <HeroVideo />
       <div className="absolute sm:bottom-10 bottom-7 satoshi_medium z-30 left-10 hero_main_title">
         We create timeless fragrances. <br /> Perfumes. Scents. Memories. <br />{" "}
