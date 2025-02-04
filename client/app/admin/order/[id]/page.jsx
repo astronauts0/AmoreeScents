@@ -96,7 +96,10 @@ const ProcessOrder = ({ params: { id } }) => {
           <section className="min-h-screen py-20 px-6 flex mx-auto h-full w-full justify-center md:flex-nowrap flex-wrap">
             <div className="md:w-[65%] w-full h-full md:pr-10">
               <div>
-                <h1 className="text-2xl font-bold mb-4">Shipping Info</h1>
+                <h1 className="text-3xl font-bold mb-4">Shipping Info</h1>
+                <h1 className="font-bold mb-4 break-all">
+                  Order Id: #{order && order._id}
+                </h1>
                 <div className="space-y-2 satoshi_medium capitalize">
                   <p>Name: {user?.name}</p>
                   <p>Phone: {shippingInfo?.phoneNo}</p>
@@ -109,7 +112,7 @@ const ProcessOrder = ({ params: { id } }) => {
               </div>
 
               <div className="mt-12">
-                <h1 className="text-3xl font-bold mb-4">Order Items</h1>
+                <h1 className="text-xl font-bold mb-4">Order Items</h1>
                 <div className="space-y-5 py-4">
                   {orderItems &&
                     orderItems.map((item) => (

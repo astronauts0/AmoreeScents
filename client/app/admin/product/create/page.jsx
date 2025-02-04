@@ -204,7 +204,7 @@ const CreateNewProduct = () => {
             {imagesPreview?.map((image, index) => (
               <div key={index} className="relative">
                 <Image
-                  src={image?.url || image}
+                  src={image}
                   alt="Product Preview"
                   width={50}
                   height={50}

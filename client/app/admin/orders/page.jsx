@@ -47,56 +47,61 @@ const OrderList = () => {
     }, [dispatch, toast, error, deleteError, router, isDeleted]);
 
     const columns = [
-        { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
+      { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
 
-        {
-            field: "status",
-            headerName: "Status",
-            minWidth: 120,
-            flex: 0.5,
-            cellClassName: (params) => {
-                return params.row.status && params.row.status === "Delivered"
-                    ? "text_success" : params.row.status === "Shipped"
-                        ? "text_warning"
-                        : "text_error";
-            },
+      {
+        field: "status",
+        headerName: "Status",
+        minWidth: 120,
+        flex: 0.5,
+        cellClassName: (params) => {
+          return params.row.status && params.row.status === "Delivered"
+            ? "text_success"
+            : params.row.status === "Shipped"
+            ? "text_warning"
+            : "text_error";
         },
-        {
-            field: "itemsQty",
-            headerName: "Items Qty",
-            type: "number",
-            minWidth: 100,
-            flex: 0.4,
-        },
+      },
+      {
+        field: "orderItems",
+        headerName: "Order Items",
+        type: "number",
+        minWidth: 100,
+        flex: 0.4,
+      },
 
-        {
-            field: "amount",
-            headerName: "Amount",
-            type: "number",
-            minWidth: 150,
-            flex: 0.5,
-        },
+      {
+        field: "amount",
+        headerName: "Amount",
+        type: "number",
+        minWidth: 150,
+        flex: 0.5,
+      },
 
-        {
-            field: "actions",
-            flex: 0.5,
-            headerName: "Actions",
-            minWidth: 210,
-            type: "number",
-            sortable: false,
-            renderCell: (params) => {
-                return (
-                    <div className="flex items-center justify-end w-full h-full gap-x-6">
-                        <div onClick={() => deleteOrderHandler(params.row.id)}>
-                            <i className="ri-delete-bin-7-line text-red-600 text-xl"></i>
-                        </div>
-                        <Link href={`/admin/order/${params.row.id}`} >
-                            <ButtonTextIcon Text="View" Icon={<i className="ri-eye-line text-sm" />} customize="px-2 py-1  transition-all duration-1000 text-sm hover:rounded-full" />
-                        </Link>
-                    </div>
-                );
-            },
+      {
+        field: "actions",
+        flex: 0.5,
+        headerName: "Actions",
+        minWidth: 210,
+        type: "number",
+        sortable: false,
+        renderCell: (params) => {
+          return (
+            <div className="flex items-center justify-end w-full h-full gap-x-6">
+              <div onClick={() => deleteOrderHandler(params.row.id)}>
+                <i className="ri-delete-bin-7-line text-red-600 text-xl"></i>
+              </div>
+              <Link href={`/admin/order/${params.row.id}`}>
+                <ButtonTextIcon
+                  Text="View"
+                  Icon={<i className="ri-eye-line text-sm" />}
+                  customize="px-2 py-1  transition-all duration-1000 text-sm hover:rounded-full"
+                />
+              </Link>
+            </div>
+          );
         },
+      },
     ];
 
     const rows = [];
@@ -104,7 +109,7 @@ const OrderList = () => {
     orders?.forEach((item) => {
         rows.push({
             id: item._id,
-            itemsQty: item.orderItems.length,
+            orderItems: item.orderItems.length,
             amount: item.totalPrice,
             status: item.orderStatus,
         });

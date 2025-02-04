@@ -241,7 +241,9 @@ const UpdateProduct = ({ params: { id: productId } }) => {
             {imagesPreview?.map((image, index) => (
               <div key={index} className="relative">
                 <Image
-                  src={image != null && image?.url ? image.url : image}
+                  src={
+                    (image && image?.url) || (image ? image : "")
+                  }
                   alt="Product Preview"
                   width={50}
                   height={50}

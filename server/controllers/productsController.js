@@ -6,7 +6,7 @@ const cloudinary = require("cloudinary").v2;
 
 //* Get All Products
 exports.getAllProducts = catchAsyncError(async (req, res, next) => {
-  const resultPerPage = 6;
+  const resultPerPage = 20;
   const productsCount = await productsModel.countDocuments();
 
   const apiFeatures = new ApiFeatures(productsModel.find(), req.query)
@@ -258,7 +258,6 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
   const updatedImages = await Promise.all(
     images.map(async (img) => {
       if (!img.url) {
-        
         if (product?.images && product?.images.length > 0) {
           for (const image of product?.images) {
             if (image?.public_id) {

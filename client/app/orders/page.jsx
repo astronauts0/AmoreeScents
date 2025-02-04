@@ -30,9 +30,10 @@ const MyOrders = () => {
         <span
           className={
             params.row.status && params.row.status === "Delivered"
-              ? "text_success" : params.row.status === "Shipped"
-                ? "text_warning"
-                : "text_error"
+              ? "text_success"
+              : params.row.status === "Shipped"
+              ? "text_warning"
+              : "text_error"
           }
         >
           {params.row.status}
@@ -40,8 +41,8 @@ const MyOrders = () => {
       ),
     },
     {
-      field: "itemsQty",
-      headerName: "Items Qty",
+      field: "orderItems",
+      headerName: "Order Items",
       type: "number",
       flex: 0.3,
       minWidth: isMobile ? 150 : 80,
@@ -61,8 +62,15 @@ const MyOrders = () => {
       minWidth: isMobile ? 150 : 80,
       sortable: false,
       renderCell: (params) => (
-        <Link href={`/order/${params.row.id}`} className="flex items-center justify-end w-full h-full">
-          <ButtonTextIcon Text="View" Icon={<i className="ri-eye-line text-sm" />} customize="px-2 py-1  transition-all duration-1000 text-sm hover:rounded-full" />
+        <Link
+          href={`/order/${params.row.id}`}
+          className="flex items-center justify-end w-full h-full"
+        >
+          <ButtonTextIcon
+            Text="View"
+            Icon={<i className="ri-eye-line text-sm" />}
+            customize="px-2 py-1  transition-all duration-1000 text-sm hover:rounded-full"
+          />
         </Link>
       ),
     },
@@ -72,7 +80,7 @@ const MyOrders = () => {
   orders &&
     orders.forEach((item) => {
       rows.push({
-        itemsQty: item.orderItems.length,
+        orderItems: item.orderItems.length,
         id: item._id,
         status: item.orderStatus,
         amount: item.totalPrice,

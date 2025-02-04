@@ -3,6 +3,7 @@ import ProductRating from "@/components/Products/ProductRating";
 import FormatPrice from "@/utils/functions/FormatPrice";
 import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import ColorizeIcon from "@mui/icons-material/Colorize";
 import AddToCart from "@/components/Products/AddToCart";
 import Accordions from "@/components/Accordions";
 import CustomerReviews from "@/components/Products/CustomerReviews";
@@ -28,8 +29,8 @@ export async function generateMetadata({ params }) {
 
   const keywords =
     response?.productTags +
-      ", amoree scents, amour scents, amoree scent, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume, attars, office, premium attars" ??
-    "Amoree Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars";
+      ", amoree scents, amour scents, amoree scent, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume, attars, office, premium attars, unisex, unisex perfumes, everyday perfume" ??
+    "Amoree Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars, unisex, unisex perfumes, everyday perfume";
 
   return {
     title,
@@ -50,6 +51,10 @@ export default async function Product({ params }) {
   const slug = params?.slug;
   const response = await fetchProductDetails(slug);
 
+  const noTester = ["simple", "bottle"].every((word) =>
+    response?.name.split(" ").includes(word)
+  );
+
   return (
     <section className="overflow-hidden">
       <head>
@@ -60,8 +65,9 @@ export default async function Product({ params }) {
               "@context": "https://schema.org",
               "@type": "Product",
               name: response?.name,
-              image: response?.images[0]?.url ??
-    "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif",
+              image:
+                response?.images[0]?.url ??
+                "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif",
               description: response?.shortDescription,
               brand: {
                 "@type": "Brand",
@@ -142,6 +148,13 @@ export default async function Product({ params }) {
                 <CardGiftcardOutlinedIcon />{" "}
                 <span>FREE gift packing with every order</span>
               </li>
+              {noTester ? (
+                ""
+              ) : (
+                <li className="space-x-3">
+                  <ColorizeIcon /> <span>1ml Tester free</span>
+                </li>
+              )}
               <li className="space-x-3">
                 <LanguageOutlinedIcon /> <span>14 Days easy return</span>
               </li>
@@ -160,7 +173,11 @@ export default async function Product({ params }) {
               </li>
             </ul>
 
-            <AddToCart slug={response?.slug} stock={response?.stock} id={response?._id} />
+            <AddToCart
+              slug={response?.slug}
+              stock={response?.stock}
+              id={response?._id}
+            />
           </div>
         </div>
 

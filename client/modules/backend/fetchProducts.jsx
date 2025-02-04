@@ -4,7 +4,7 @@ const fetchProducts = async (url = "") => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${url}`,
       {
         next: {
-          revalidate: 60,
+          revalidate: 150,
         },
       }
     );

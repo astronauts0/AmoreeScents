@@ -28,7 +28,7 @@ export const metadata = {
   description:
     "Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.",
   keywords:
-    "amoree scents, amoree, amour, amour scents, amoree scent, amoure,  , amore, amore scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars",
+    "amoree scents, amoree, amour, amour scents, amoree scent, amoure,  , amore, amore scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars,",
   openGraph: {
     title: "Amoree Scents - Premium Fragrances at Affordable Prices",
     description:
