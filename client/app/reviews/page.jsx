@@ -46,8 +46,11 @@ const TotalReviews = () => {
       toast.error(error);
       dispatch(clearErrors());
     }
-    dispatch(getTotalReviews());
   }, [dispatch, error]);
+
+  useEffect(() => {
+    dispatch(getTotalReviews());
+  }, [dispatch]);
 
   return (
     <section className="w-full md:px-8 pt-28 pb-10">

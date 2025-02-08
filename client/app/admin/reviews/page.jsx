@@ -12,7 +12,6 @@ import Loader from "@/utils/Loader/Loader";
 import { toast } from "react-toastify";
 import Sidebar from "@/components/dashboard/Sidebar";
 import MetaData from "@/utils/Meta/MetaData";
-import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 import isAuth from "@/Auth/isAuth";
 
 const ProductReviews = () => {
@@ -96,9 +95,11 @@ const ProductReviews = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <button onClick={() => deleteReviewHandler(params.row.id)}>
-            <i className="ri-delete-bin-7-line text-red-600 cursor-pointer text-xl"></i>
-          </button>
+          deleteLoading && (
+            <button onClick={() => deleteReviewHandler(params.row.id)}>
+              <i className="ri-delete-bin-7-line text-red-600 cursor-pointer text-xl"></i>
+            </button>
+          )
         );
       },
     },
@@ -115,8 +116,6 @@ const ProductReviews = () => {
         user: item.name,
       });
     });
-
-  if (deleteLoading) return <Loader />;
 
   return (
     <section className="flex">
