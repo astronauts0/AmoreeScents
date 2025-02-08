@@ -11,6 +11,9 @@ import {
   DELETE_REVIEW_REQUEST,
   DELETE_REVIEW_SUCCESS,
   DELETE_REVIEW_FAIL,
+  TOTAL_REVIEWS_REQUEST,
+TOTAL_REVIEWS_SUCCESS,
+TOTAL_REVIEWS_FAIL,
 } from "../constants/productConstants";
 
 export const newReview = (reviewData) => async (dispatch) => {
@@ -19,7 +22,24 @@ export const newReview = (reviewData) => async (dispatch) => {
     const { data } = await request.put("/review", reviewData);
     dispatch({ type: NEW_REVIEW_SUCCESS, payload: data.success });
   } catch (error) {
-    dispatch({ type: NEW_REVIEW_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: NEW_REVIEW_FAIL,
+      payload: error?.response?.data?.message,
+    });
+  }
+};
+
+export const getTotalReviews = () => async (dispatch) => {
+  try {
+    dispatch({ type: TOTAL_REVIEWS_REQUEST });
+
+    const { data } = await request("total_reviews");
+    dispatch({ type: TOTAL_REVIEWS_SUCCESS, payload: data?.allReviews });
+  } catch (error) {
+    dispatch({
+      type: TOTAL_REVIEWS_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
 };
 
@@ -28,9 +48,12 @@ export const getAllReviews = (id) => async (dispatch) => {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
     const { data } = await request(`/reviews?id=${id}`);
-    dispatch({ type: ALL_REVIEW_SUCCESS, payload: data.reviews });
+    dispatch({ type: ALL_REVIEW_SUCCESS, payload: data?.reviews });
   } catch (error) {
-    dispatch({ type: ALL_REVIEW_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: ALL_REVIEW_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
 };
 
@@ -45,7 +68,7 @@ export const deleteReviews = (reviewId, productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DELETE_REVIEW_FAIL,
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };

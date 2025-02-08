@@ -3,6 +3,7 @@ const nodeMailer = require("nodemailer");
 const sendOrderConfirmationEmail = async ({
   email,
   name,
+  phoneNo,
   orderId,
   orderItems,
   totalAmount,
@@ -50,6 +51,10 @@ const sendOrderConfirmationEmail = async ({
                         <tr>
                             <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer Name:</td>
                             <td style="padding: 10px; border: 1px solid #ddd;">${name}</td>
+                        </tr>
+                        <tr style="background-color: #f9f9f9;">
+                            <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer phoneNo:</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">${phoneNo}</td>
                         </tr>
                         <tr style="background-color: #f9f9f9;">
                             <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer Email:</td>

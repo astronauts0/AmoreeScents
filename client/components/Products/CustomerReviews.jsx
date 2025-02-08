@@ -1,22 +1,20 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Rating } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { newReview } from "@/store/actions/newReviewAction";
 import ButtonTextIcon from "../global/Buttons/ButtonTextIcon";
 import { NEW_REVIEW_RESET } from "@/store/constants/productConstants";
-import {
-  clearErrors,
-  getProductsDetails,
-} from "@/store/actions/productDetailsAction";
+import { clearErrors } from "@/store/actions/productDetailsAction";
 import { toast } from "react-toastify";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ReviewCard from "./ReviewCard";
 import { useRouter } from "next/navigation";
 import Loader from "@/utils/Loader/Loader";
-import React from "react";
+import ProductRating from "@/components/Products/ProductRating";
+import Compressor from "compressorjs";
 
 const CustomerReviews = ({ reviews, productId, ratings }) => {
   const dispatch = useDispatch();
@@ -40,6 +38,7 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
   });
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [compressProgress, setCompressProgress] = useState(0);
 
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
 
@@ -49,7 +48,7 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
     return { stars, count, percentage };
   });
 
-  const reviewChangeHandler = (e) => {
+  const reviewChangeHandler = async (e) => {
     if (e.target.name === "reviewImages") {
       let files = Array.from(e.target.files);
 
@@ -58,18 +57,41 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
         files = files.slice(0, 3);
       }
 
-      files.forEach((file) => {
-        const reader = new FileReader();
+      setImagesPreview([]);
+      setImages([]);
+      setCompressProgress(5);
 
-        reader.onload = () => {
-          if (reader.readyState === 2) {
-            setImagesPreview((old) => [...old, reader.result]);
-            setImages((old) => [...old, reader.result]);
-          }
-        };
-
-        reader.readAsDataURL(file);
-      });
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        try {
+          await new Promise((resolve, reject) => {
+            new Compressor(file, {
+              quality: 0.5,
+              mimeType: "image/webp",
+              success(result) {
+                setCompressProgress(20);
+                const reader = new FileReader();
+                reader.readAsDataURL(result);
+                reader.onloadend = () => {
+                  setCompressProgress(40);
+                  setImagesPreview((old) => [...old, reader.result]);
+                  setImages((old) => [...old, reader.result]);
+                  resolve();
+                  setCompressProgress(70);
+                };
+              },
+              error(err) {
+                console.error("Error compressing image:", err);
+                toast.error("Upload Failed. Try Again!");
+                reject(err);
+              },
+            });
+          });
+        } catch (error) {
+          console.error("Compression error:", error);
+        }
+      }
+      setCompressProgress(100);
     } else {
       setReviewData({ ...reviewData, [e.target.name]: e.target.value });
     }
@@ -78,16 +100,23 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
   const reviewSubmitHandler = (e) => {
     e.preventDefault();
 
+    if (!isAuthenticated) {
+      toast.error(authError);
+      dispatch(clearErrors());
+      router.push("/login");
+      return;
+    }
+
     if (reviewData.rating === 0) {
       toast.error("Please give us hearts.");
       return;
     }
 
-    if (!isAuthenticated) {
-      toast.error(authError);
-      dispatch(clearErrors());
-      router.push("/login");
+    if (compressProgress>=5 && compressProgress < 100) {
+      toast.error("🚀 Image upload in progress. Please wait...");
+      return;
     }
+
     dispatch(newReview({ ...reviewData, images, productId }));
     setIsReviewFormOpen(false);
   };
@@ -98,11 +127,12 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
       dispatch(clearErrors());
     }
     if (success) {
-      toast.success("Review Submitted Successfully.");
+      toast.success(
+        "Review Submitted Successfully. You can see it after few minutes."
+      );
       dispatch({ type: NEW_REVIEW_RESET });
-      dispatch(getProductsDetails(productId));
     }
-  }, [productId, dispatch, reviewError, success]);
+  }, [dispatch, reviewError, success]);
 
   return (
     <div className="w-full md:px-5">
@@ -113,18 +143,11 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
       <div className="flex items-center justify-center flex-col md:flex-row md:justify-between mb-8 pt-4 pb-8 satoshi_medium border-b border_color gap-y-6 md:gap-y-0">
         <div className="flex items-center gap-y-6 md:gap-y-0 justify-center flex-wrap">
           <div className="md:pr-10 text-center">
-            <div className="text-2xl font-bold my-2">{formattedRating}</div>
-            <div className="flex justify-center mb-2">
-              <Rating
-                value={ratings}
-                readOnly
-                size="medium"
-                precision={1}
-                icon={<FavoriteIcon fontSize="medium" />}
-                emptyIcon={<FavoriteBorderIcon fontSize="medium" />}
-              />
+            <div className="text-2xl font-bold">{formattedRating}</div>
+            <div className="flex justify-center my-2 animate-pulse">
+              <ProductRating ratings={ratings} />
             </div>
-            <div className="font-bold my-2">{reviews.length} reviews</div>
+            <div className="font-bold">{reviews.length} reviews</div>
           </div>
           <div className="md:border-l border_color md:pl-10">
             {ratingStats.map((stat) => (
@@ -142,7 +165,7 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-x-5">
+        <div>
           {loading ? (
             <Loader height="h-auto" />
           ) : (
@@ -150,11 +173,10 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
               <ButtonTextIcon
                 Text="Write a review"
                 customize="w-full px-4 py-2 hover:rounded-full"
-                Icon={<i className="ri-pencil-line text-xl"></i>}
+                Icon={<i className="ri-pencil-line text-xl animate-ping"></i>}
               />
             </div>
           )}
-          {/* <HeaderButton Icon={<i className="ri-equalizer-line text-xl"></i>} customize="w-full px-4 py-2 rounded-none hover:rounded-full" /> */}
         </div>
       </div>
 
@@ -228,12 +250,11 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
                   value={reviewData.comment}
                   onChange={reviewChangeHandler}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
-                  required
                 ></textarea>
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="comment"
+                  htmlFor="reviewImages"
                   className="block text-gray-700 text-sm font-bold mb-2"
                 >
                   Add Images
@@ -244,7 +265,7 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
                   accept="image/*"
                   onChange={reviewChangeHandler}
                   multiple
-                  className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+                  className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
                 />
 
                 {imagesPreview && (
@@ -258,6 +279,17 @@ const CustomerReviews = ({ reviews, productId, ratings }) => {
                         height={50}
                       />
                     ))}
+                  </div>
+                )}
+
+                {compressProgress > 0 && compressProgress <= 100 && (
+                  <div className="w-full bg-green-200 rounded-full">
+                    <div
+                      className="bg-green-400 text-xs font-medium text-green-100 text-center p-0.5 leading-none rounded-full"
+                      style={{ width: `${compressProgress}%` }}
+                    >
+                      {compressProgress.toFixed(0)}%
+                    </div>
                   </div>
                 )}
               </div>

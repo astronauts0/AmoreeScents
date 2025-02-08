@@ -99,7 +99,6 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     isReviewed.userImg = req.user.avatar?.url;
     isReviewed.images = imagesLinks;
   } else {
-    // Upload images for a new review
     const imagesLinks = [];
     for (let i = 0; i < images.length; i++) {
       const result = await cloudinary.uploader.upload(images[i], {
@@ -140,7 +139,7 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
 exports.getProductReviews = catchAsyncError(async (req, res, next) => {
   const product = await productsModel
     .findById(req.query.id)
-    .populate("reviews.user");
+    .populate("reviews.user", "orders");
   if (!product) return next(new ErrorHandler("Product Not Found", 404));
   return res.status(200).json({ success: true, reviews: product.reviews });
 });
@@ -187,6 +186,31 @@ exports.deleteReview = catchAsyncError(async (req, res, next) => {
 
   return res.status(200).json({ success: true, reviews });
 });
+
+//# Get All Reviews of all products
+exports.getAllProductsReviews = catchAsyncError(async (req, res, next) => {
+  const products = await productsModel
+    .find({}, "reviews name slug images")
+    .populate("reviews.user", "orders");
+
+  if (!products || products.length === 0)
+    return next(new ErrorHandler("No products found", 404));
+
+  const allReviews = products
+    .filter((product) => product.reviews.length > 0)
+    .map((product) => ({
+      productImage: product.images[0],
+      productName: product.name,
+      productSlug: product.slug,
+      reviews: product.reviews,
+    }));
+
+  if (allReviews.length === 0)
+    return next(new ErrorHandler("No reviews found", 404));
+
+  return res.status(200).json({ success: true, allReviews });
+});
+
 
 //# Create The Product by ~~Admin
 exports.createProduct = catchAsyncError(async (req, res, next) => {

@@ -20,8 +20,6 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
   if (avatar) {
     result = await cloudinary.uploader.upload(avatar, {
       folder: "Amoree/Avatars",
-      width: 150,
-      crop: "scale",
     });
   }
 
@@ -71,19 +69,15 @@ exports.logoutUser = catchAsyncError(async (req, res, next) => {
   const isProduction = process.env.NODE_ENV === "production";
 
   const options = {
-    maxAge: 0, 
-    httpOnly: true, 
-    sameSite: isProduction ? "none" : "lax", 
+    maxAge: 0,
+    httpOnly: true,
+    sameSite: isProduction ? "none" : "lax",
     secure: isProduction,
-    path: "/", 
+    path: "/",
   };
 
-  return res
-    .status(200)
-    .clearCookie("token", options)
-    .json({ success: true });
+  return res.status(200).clearCookie("token", options).json({ success: true });
 });
-
 
 //* forget password
 exports.forgetPassword = catchAsyncError(async (req, res, next) => {
@@ -207,14 +201,18 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
     req.body.avatar !== "undefined"
   ) {
     const user = await usersModel.findById(req.user.id);
-
     const imageId = user?.avatar?.public_id;
-    await cloudinary.uploader.destroy(imageId);
 
-    const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
-      folder: "Amoree/avatars",
-      width: 150,
-      crop: "scale",
+    if (imageId) {
+      try {
+        await cloudinary.uploader.destroy(imageId);
+      } catch (error) {
+        console.warn("Error deleting previous avatar:", error.message);
+      }
+    }
+
+    const myCloud = await cloudinary.uploader.upload(req.body?.avatar, {
+      folder: "Amoree/Avatars",
     });
 
     newUserData.avatar = {
@@ -222,6 +220,7 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
       url: myCloud.secure_url,
     };
   }
+
 
   const user = await usersModel.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,

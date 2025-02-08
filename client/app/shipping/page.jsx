@@ -62,7 +62,7 @@ const Shipping = () => {
               className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
               type="number"
               name="phoneNo"
-              placeholder="phone No. *"
+              placeholder="Phone No. *"
             />
             <input
               required

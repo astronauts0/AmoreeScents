@@ -56,6 +56,14 @@ export const DELETE_REVIEW_FAIL = 'DELETE_REVIEW_FAIL';
 
 
 
+// # total reviews constants
+
+export const TOTAL_REVIEWS_REQUEST = "TOTAL_REVIEWS_REQUEST";
+export const TOTAL_REVIEWS_SUCCESS = "TOTAL_REVIEWS_SUCCESS";
+export const TOTAL_REVIEWS_FAIL = "TOTAL_REVIEWS_FAIL";
+
+
+
 
 //% Constants for error
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';

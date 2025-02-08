@@ -15,6 +15,7 @@ const {
   getProductReviews,
   deleteReview,
   getProductsDetailsByID,
+  getAllProductsReviews,
 } = require("../controllers/productsController");
 
 var router = express.Router();
@@ -31,6 +32,9 @@ router
   .route("/reviews")
   .get(getProductReviews)
   .delete(isAuthenticatedUser, deleteReview);
+
+router.route("/total_reviews").get(getAllProductsReviews);
+  
 
 router
   .route("/admin/product/new")

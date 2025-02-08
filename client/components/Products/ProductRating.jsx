@@ -9,7 +9,7 @@ const ProductRating = ({ ratings, size = "medium" }) => {
     size: size,
     value: ratings,
     readOnly: true,
-    precision: 0.5,
+    precision: 1,
     icon: <FavoriteIcon fontSize={size} />,
     emptyIcon: <FavoriteBorderIcon fontSize={size} />,
   };

@@ -44,8 +44,11 @@ const AddToCart = ({ stock, id, slug }) => {
       {showConfetti && <ConfettiRain recycle={false} numberOfPieces={300} />}
       <div className="flex justify-between items-center border_color border-t pt-10">
         <div className="flex items-center gap-x-2">
-          <div className="text-orange-300">
-            <FlashOnOutlinedIcon className="animate-pulse" />{" "}
+          <div className="text-orange-300 flex items-center gap-x-1">
+            <span class="relative flex">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
+              <FlashOnOutlinedIcon />
+            </span>
             {<PerProductTotalSales productId={id} />}
           </div>
           <span className="text-inherit">bottles sold</span>

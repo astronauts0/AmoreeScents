@@ -14,6 +14,7 @@ import MetaData from "@/utils/Meta/MetaData";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 import Image from "next/image";
 import isAuth from "@/Auth/isAuth";
+import Compressor from "compressorjs";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -22,26 +23,41 @@ const UpdateProfile = () => {
   const { user } = useSelector((state) => state.user);
   const { error, loading, isUpdated } = useSelector((state) => state.profile);
 
-  const [updUser, setUpdUser] = useState({ name: "", email: "" });
+  const initialPreview =
+    "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568766/user_c9frnv.png";
   const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState(
-    "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568766/user_c9frnv.png"
-  );
+  const [avatarPreview, setAvatarPreview] = useState(initialPreview);
+
+  const [updUser, setUpdUser] = useState({ name: "", email: "" });
 
   const handleUpdUser = (e) => {
     if (e.target.name === "avatar") {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setAvatarPreview(reader.result);
-          setAvatar(reader.result);
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
-    } else setUpdUser({ ...updUser, [e.target.name]: e.target.value });
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      new Compressor(file, {
+        quality: 0.5,
+        mimeType: "image/webp",
+        maxWidth: 800,
+  maxHeight: 800,
+        success(result) {
+          const reader = new FileReader();
+          reader.readAsDataURL(result);
+          reader.onloadend = () => {
+            setAvatarPreview(reader.result);
+            setAvatar(reader.result);
+          };
+        },
+        error(err) {
+          console.error("Image compression error:", err);
+          toast.error("Upload Failed. Try Again!");
+        },
+      });
+    } else {
+      setUpdUser({ ...updUser, [e.target.name]: e.target.value });
+    }
   };
+
   const updUserSubmit = (e) => {
     e.preventDefault();
     dispatch(updateProfile({ ...updUser, avatar }));
@@ -50,7 +66,7 @@ const UpdateProfile = () => {
   useEffect(() => {
     if (user) {
       setUpdUser({ name: user.name || "", email: user.email || "" });
-      setAvatarPreview(user.avatar?.url);
+      setAvatarPreview(user.avatar?.url || initialPreview);
     }
 
     if (error) {
@@ -64,7 +80,7 @@ const UpdateProfile = () => {
       dispatch(loadUser());
       dispatch({ type: UPDATE_PROFILE_RESET });
     }
-  }, [dispatch, toast, error, router, isUpdated, user]);
+  }, [dispatch, error, router, isUpdated, user]);
 
   return (
     <>
@@ -74,18 +90,11 @@ const UpdateProfile = () => {
         <>
           <MetaData title="Update Profile" />
           <section className="flex justify-center items-center min-h-screen w-full mt-32 mb-8">
-            <div
-              className={`bg-gray-200 shadow_black_1 w-full max-w-2xl rounded-lg py-6 flex justify-center items-center flex-col`}
-            >
+            <div className="bg-gray-200 shadow_black_1 w-full max-w-2xl rounded-lg py-6 flex justify-center items-center flex-col">
               <h1 className="text-3xl font-bold leading-none text-center mb-6 mt-3">
                 Update Profile
               </h1>
-              <form
-                className=" "
-                action="/updateProfile"
-                method="post"
-                onSubmit={updUserSubmit}
-              >
+              <form onSubmit={updUserSubmit}>
                 <div className="flex items-center flex-wrap justify-center gap-x-5">
                   <input
                     onChange={handleUpdUser}
@@ -104,8 +113,8 @@ const UpdateProfile = () => {
                     placeholder="email"
                   />
                 </div>
-                <div className="flex justify-between items-center mt-4 md:mt-3 w-fit relative mx-auto">
-                  <div className="size-48">
+                <div className="flex justify-between items-center flex-col mt-4 md:mt-3 w-fit relative mx-auto">
+                  <div className="size-48 relative mb-2">
                     <Image
                       width="200"
                       height="200"
@@ -113,21 +122,21 @@ const UpdateProfile = () => {
                       src={avatarPreview}
                       alt="Profile Image"
                     />
+                    <label
+                      className="w-9 h-9 cursor-pointer absolute flex justify-center items-center bottom-0 right-0 rounded-full bg-white"
+                      htmlFor="upload"
+                    >
+                      <i className="text-zinc-800 ri-pencil-fill text-xl animate-spin"></i>
+                    </label>
+                    <input
+                      onChange={handleUpdUser}
+                      className="opacity-0 w-[0.1px] h-[0.1px]"
+                      type="file"
+                      name="avatar"
+                      accept="image/*"
+                      id="upload"
+                    />
                   </div>
-                  <label
-                    className="w-9 h-9 cursor-pointer absolute flex justify-center items-center bottom-0 right-0 rounded-full bg-white"
-                    htmlFor="upload"
-                  >
-                    <i className="text-zinc-800 ri-pencil-fill text-xl animate-spin"></i>
-                  </label>
-                  <input
-                    onChange={handleUpdUser}
-                    className="opacity-0 w-[0.1px] h-[0.1px]"
-                    type="file"
-                    name="avatar"
-                    accept="image/*"
-                    id="upload"
-                  />
                 </div>
                 <div className="mt-8 flex items-center justify-center">
                   <ButtonTextIcon
@@ -145,5 +154,4 @@ const UpdateProfile = () => {
     </>
   );
 };
-
 export default isAuth(UpdateProfile);

@@ -52,7 +52,7 @@ export const login = (userLog) => async (dispatch) => {
 
     dispatch({ type: LOGIN_SUCCESS, payload: user });
   } catch (error) {
-    dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
+    dispatch({ type: LOGIN_FAIL, payload: error?.response?.data?.message });
   }
 };
 
@@ -77,7 +77,7 @@ export const logout = () => async (dispatch) => {
     await request.delete("/logout");
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
-    dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });
+    dispatch({ type: LOGOUT_FAIL, payload: error?.response?.data?.message });
   }
 };
 
@@ -105,7 +105,7 @@ export const updateProfile = (updUser) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };
@@ -125,7 +125,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_PASSWORD_FAIL,
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };
@@ -141,7 +141,7 @@ export const forgetPassword = (email) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: FORGET_PASSWORD_FAIL,
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };
@@ -156,7 +156,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: RESET_PASSWORD_FAIL,
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };
@@ -169,7 +169,7 @@ export const getAllUsers = () => async (dispatch) => {
 
     dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
   } catch (error) {
-    dispatch({ type: ALL_USERS_FAIL, payload: error.response.data.message });
+    dispatch({ type: ALL_USERS_FAIL, payload: error?.response?.data?.message });
   }
 };
 
@@ -181,7 +181,10 @@ export const deleteUser = (id) => async (dispatch) => {
 
     dispatch({ type: DELETE_USER_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: DELETE_USER_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: DELETE_USER_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
 };
 
@@ -195,7 +198,10 @@ export const updateUser = (id, userData) => async (dispatch) => {
 
     dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
   } catch (error) {
-    dispatch({ type: UPDATE_USER_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: UPDATE_USER_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
 };
 
@@ -207,7 +213,10 @@ export const getUserDetails = (id) => async (dispatch) => {
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
   } catch (error) {
-    dispatch({ type: USER_DETAILS_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: USER_DETAILS_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
 };
 

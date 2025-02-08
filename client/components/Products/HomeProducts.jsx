@@ -15,7 +15,7 @@ const HomeProducts = async () => {
       {categories.map((category, index) => (
         <div key={index}>
           <h1 className="text-center text-3xl mb-14">{category.title}</h1>
-          <div className="flex flex-wrap gap-y-4 sm:gap-4">
+          <div className="flex justify-center flex-wrap gap-y-4 sm:gap-4">
             {products
               ?.filter((product) =>
                 category.subCategory.includes(product?.subCategory)

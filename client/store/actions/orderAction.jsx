@@ -32,7 +32,10 @@ export const createOrder = (order) => async (dispatch) => {
 
     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: CREATE_ORDER_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: CREATE_ORDER_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
 };
 
@@ -44,7 +47,7 @@ export const myOrders = () => async (dispatch) => {
 
     dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
-    dispatch({ type: MY_ORDERS_FAIL, payload: error.response.data.message });
+    dispatch({ type: MY_ORDERS_FAIL, payload: error?.response?.data?.message });
   }
 };
 
@@ -61,7 +64,7 @@ export const perProductOrders = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PER_PRODUCT_ORDERS_FAIL,
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };
@@ -75,7 +78,10 @@ export const getAllOrders = () => async (dispatch) => {
 
     dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
-    dispatch({ type: ALL_ORDERS_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: ALL_ORDERS_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
 };
 
@@ -87,7 +93,10 @@ export const deleteOrder = (id) => async (dispatch) => {
 
     dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
   } catch (error) {
-    dispatch({ type: DELETE_ORDER_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: DELETE_ORDER_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
 };
 
@@ -106,7 +115,7 @@ export const updateOrder =
     } catch (error) {
       dispatch({
         type: UPDATE_ORDER_FAIL,
-        payload: error.response.data.message,
+        payload: error?.response?.data?.message,
       });
     }
   };
@@ -121,7 +130,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ORDERS_DETAILS_FAIL,
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };

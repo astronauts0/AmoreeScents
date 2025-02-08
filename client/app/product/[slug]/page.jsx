@@ -90,7 +90,7 @@ export default async function Product({ params }) {
           }}
         />
       </head>
-      <section className="w-full pt-32 pb-20 space-y-20 overflow-hidden px-5 min-h-screen relative">
+      <div className="w-full pt-32 pb-20 space-y-20 overflow-hidden px-5 min-h-screen relative">
         <SalesBanner customize={{ top: "6.5rem" }} />
 
         <div className="flex flex-col md:flex-row overflow-hidden items-center justify-center gap-y-10 md:gap-x-10">
@@ -108,7 +108,9 @@ export default async function Product({ params }) {
               {response?.shortDescription}
             </h2>
             <div className="flex items-center gap-x-3">
-              <ProductRating ratings={response?.ratings} />
+              <div className="animate-pulse">
+                <ProductRating ratings={response?.ratings} />
+              </div>
               <span>
                 {" "}
                 <span className="obviously">
@@ -160,15 +162,21 @@ export default async function Product({ params }) {
               </li>
               <li className="space-x-3 pl-1">
                 {response?.stock > 0 ? (
-                  <>
-                    <div className="size-3 inline-block rounded-full animate-pulse bg-green-400" />
+                  <div className="flex items-center gap-x-5">
+                    <span class="relative flex size-3 ml-1">
+                      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex size-3 rounded-full bg-green-500"></span>
+                    </span>
                     <span>In stock, ready to ship</span>
-                  </>
+                  </div>
                 ) : (
-                  <>
-                    <div className="size-3 inline-block rounded-full animate-pulse bg-red-400" />
+                  <div className="flex items-center gap-x-5">
+                    <span class="relative flex size-3 ml-1">
+                      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                      <span class="relative inline-flex size-3 rounded-full bg-red-500"></span>
+                    </span>
                     <span>Out of stock</span>
-                  </>
+                  </div>
                 )}
               </li>
             </ul>
@@ -190,7 +198,7 @@ export default async function Product({ params }) {
           productId={response?._id}
           ratings={response?.ratings}
         />
-      </section>
+      </div>
     </section>
   );
 }

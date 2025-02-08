@@ -42,12 +42,14 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
   try {
     const email = user.email;
     const name = user.name;
+    const phoneNo = user.phone;
     const orderId = order._id;
     const totalAmount = totalPrice;
 
     await sendOrderConfirmationEmail({
       email,
       name,
+      phoneNo,
       orderId,
       orderItems,
       totalAmount,
