@@ -221,9 +221,12 @@ input[type="number"] {
   cursor: url("/images/cursor.png"), auto !important;
 }
 
-html,
+::-webkit-scrollbar{
+  display: none;
+}
+
+
 section,
-main,
 table,
 .scroll_thin,
 .MuiDataGrid-scrollbar {

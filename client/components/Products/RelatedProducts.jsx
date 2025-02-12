@@ -6,7 +6,7 @@ const RelatedProducts = async ({ subCategory = "perfume", slug }) => {
   return (
     <div>
       <h1 className="text-3xl mb-10 text-center">Related Products</h1>
-      <div className="flex flex-wrap gap-y-4 sm:gap-4">
+      <div className="flex flex-wrap justify-center gap-y-4 sm:gap-4">
         {products
           .filter((item) => item?.slug.trim() !== slug?.split("%20").join(" ").trim())
           .map((product) => (

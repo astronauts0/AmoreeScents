@@ -1,9 +1,9 @@
 import React from "react";
 import dynamic from "next/dynamic";
 
-import HomeProducts from "@/components/Products/HomeProducts";
+import HomeProducts from "@/components/Home/HomeProducts";
 import Cta from "@/pages/Home/Cta";
-import FeaturedProducts from "@/pages/Home/FeaturedProducts";
+import ZoomText from "@/components/Home/ZoomText";
 
 const Hero = dynamic(() => import("@/pages/Home/Hero"), {
   ssr: false,
@@ -18,7 +18,7 @@ const page = () => {
   return (
     <section className="overflow-hidden">
       <Hero />
-      <FeaturedProducts />
+      <ZoomText/>
       <HomeProducts />
       <ProductModel />
       <Cta />

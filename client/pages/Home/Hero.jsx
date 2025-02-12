@@ -6,7 +6,6 @@ import HeroVideo from "@/components/hero/HeroVideo";
 import HeroOverlay from "@/components/hero/HeroOverlay";
 import SplitType from "split-type";
 import { isMobile } from "@/config/Variables";
-import Image from "next/image";
 
 const Hero = () => {
   const headerRef = useRef(null);
@@ -66,62 +65,8 @@ const Hero = () => {
         .to(".hero_main_title", { opacity: 0, duration: 0.5 }, "b");
     }, headerRef);
 
-    const proCtx = gsap.context(() => {
-      let scrollingElement = document.querySelector(".products_wrapper");
-      let pinWrapWidth = scrollingElement?.offsetWidth;
-
-      // Main timeline for horizontal scroll
-      const t1 = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".featured_products",
-          start: "top top",
-          end: `${pinWrapWidth} bottom`,
-          scrub: 2,
-          pin: true,
-          // markers: true,
-          onEnter: () => document.body.setAttribute("theme", "cyan"),
-          onEnterBack: () => document.body.setAttribute("theme", "cyan"),
-        },
-      });
-
-      // Horizontal scroll animation
-      t1.to(scrollingElement, {
-        x: isMobile ? -pinWrapWidth - 250 : -pinWrapWidth,
-        ease: "none",
-      });
-
-      // Animate each product card individually
-      const proCard = gsap.utils.toArray(".featured_products .product__card");
-
-      proCard.forEach((card) => {
-        gsap.fromTo(
-          card,
-          {
-            filter: "grayscale(100%) blur(2px)",
-            // rotate: 180,
-            scaleY: 0.7,
-          },
-          {
-            filter: "grayscale(0%) blur(0px)",
-            // rotate: 0,
-            scaleY: 1,
-            ease: "power4",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 65%",
-              end: "top 45%",
-              containerAnimation: t1,
-              scrub: true,
-              // markers: true,
-            },
-          }
-        );
-      });
-    });
-
     return () => {
       heroCtx.revert();
-      proCtx.revert();
     };
   }, []);
 

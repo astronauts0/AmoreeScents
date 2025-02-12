@@ -1,6 +1,7 @@
 import React from "react";
 import ProductCard from "@/components/Products/ProductCard";
 import fetchProducts from "@/modules/backend/fetchProducts";
+import HomeProductsTheme from "./HomeProductsTheme";
 
 const HomeProducts = async () => {
   let products = await fetchProducts();
@@ -12,6 +13,7 @@ const HomeProducts = async () => {
 
   return (
     <section className="relative my-14 px-6 sm:px-8 space-y-12 home_products overflow-hidden">
+      <HomeProductsTheme />
       {categories.map((category, index) => (
         <div key={index}>
           <h1 className="text-center text-3xl mb-14">{category.title}</h1>

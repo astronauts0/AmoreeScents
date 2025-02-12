@@ -64,7 +64,7 @@ const TotalReviews = () => {
           </h2>
           {/* Ratings & Statistics Section */}
           <div className="flex items-center justify-center flex-col md:flex-row md:justify-between mb-8 pt-4 pb-8 satoshi_medium border-b border_color gap-y-6 md:gap-y-0">
-            <div className="flex items-center gap-y-6 md:gap-y-0 justify-center flex-wrap">
+            <div className="flex flex-col sm:flex-row items-center gap-y-6 md:gap-y-0 justify-center flex-wrap">
               <div className="md:pr-10 text-center">
                 <div className="text-2xl font-bold">{averageRating}</div>
                 <div className="flex justify-center my-2 animate-pulse">
@@ -72,7 +72,6 @@ const TotalReviews = () => {
                 </div>
                 <div className="font-bold">{allReviews.length} reviews</div>
               </div>
-
               <div className="md:border-l border_color md:pl-10">
                 {ratingStats.map((stat) => (
                   <div key={stat.stars} className="flex items-center mb-2">
