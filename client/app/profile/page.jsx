@@ -29,10 +29,10 @@ const Profile = () => {
                     <i className="text-zinc-800 ri-pencil-fill text-xl animate-spin"></i>
                   </span>
                 </Link>
-                <div className="w-32 h-32 rounded-full ">
+                <div className="size-32 relative overflow-hidden">
                   <Image
                     fill
-                    className="rounded-full border border_color"
+                    className="rounded-full object-cover border border_color"
                     src={
                       user?.avatar?.url ||
                       "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568766/user_c9frnv.png"

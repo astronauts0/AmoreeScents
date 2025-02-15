@@ -13,8 +13,8 @@ const UserReviewsFeedback = ({ rating, user }) => {
 
   return (
     <div>
-      <div className="bg-gray-100 px-4 py-3 rounded-lg mt-3 shadow-md">
-        <h1 className="font-bold mb-2 satoshi_medium text-lg text-gray-800">
+      <div className="bg-gray-100 p-2 sm:px-4 sm:py-3 rounded-lg mt-3 shadow-md">
+        <h1 className="font-bold mb-2 satoshi_medium sm:text-lg text-gray-800">
           Amorée Scents 💖
         </h1>
         <div className="text-sm neue_machina_regular text-gray-700">

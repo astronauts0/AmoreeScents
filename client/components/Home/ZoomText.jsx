@@ -15,7 +15,7 @@ const ZoomText = () => {
           scrollTrigger: {
             trigger: zoomTextRef.current,
             start: "top top",
-            end: "bottom -200%",
+            end: "bottom -100%",
             scrub: true,
             // markers: true,
             pin: true,
@@ -27,7 +27,7 @@ const ZoomText = () => {
           ".enter_extra_text",
           {
             delay: -2,
-            duration: 10,
+            duration: 4.5,
             ease: "power4.inOut",
             scale: 0,
           },
@@ -35,13 +35,13 @@ const ZoomText = () => {
         )
         .to(
           ".enter_amoree",
-          { scale: 50, duration: 20, ease: "power4.inOut" },
+          { scale: 50, duration: 4.5, ease: "power4.inOut" },
           "ent"
         )
         .to(
           ".enter_amoree .enter_t",
           {
-            delay: 4,
+            delay: .2,
             color: "#aedee0",
             duration: 2,
             ease: "power4.inOut",

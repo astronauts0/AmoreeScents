@@ -7,7 +7,6 @@ import { clearErrors, myOrders } from "@/store/actions/orderAction";
 import { toast } from "react-toastify";
 import MetaData from "@/utils/Meta/MetaData";
 import Loader from "@/utils/Loader/Loader";
-import isAuth from "@/Auth/isAuth";
 import Link from "next/link";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 
@@ -98,13 +97,13 @@ const MyOrders = () => {
 
   return (
     <>
-      <MetaData title={`${user.name} - Orders`} />
+      <MetaData title={`${user?.name} - Orders`} />
       {loading ? (
         <Loader />
       ) : (
         <section className="w-[90%] mx-auto min-h-screen scroll_thin flex flex-col py-20 md:items-center md:justify-center">
           <h1 className="text-3xl mt-10 mb-4 capitalize text-center scroll_thin">
-            {user.name}'s Orders
+            {user?.name}'s Orders
           </h1>
           <div className="w-full">
             {orders && orders[0]?.orderItems ? (
@@ -134,4 +133,4 @@ const MyOrders = () => {
   );
 };
 
-export default isAuth(MyOrders);
+export default MyOrders;

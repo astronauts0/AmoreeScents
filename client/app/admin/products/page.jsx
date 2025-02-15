@@ -20,6 +20,7 @@ const ProductsList = () => {
   const dispatch = useDispatch();
 
   const { error, products } = useSelector((state) => state.products);
+  console.log("🚀 ~ ProductsList ~ products:", products);
   const {
     loading,
     error: deleteError,

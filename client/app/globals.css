@@ -179,7 +179,7 @@ body[theme="cyan"] .header__icons .ButtonTextIcon {
   color: var(--white) !important;
 }
 
-.header__icons .ButtonTextIcon .border_color{
+.header__icons .ButtonTextIcon .border_color {
   border-color: var(--white) !important;
 }
 
@@ -221,10 +221,9 @@ input[type="number"] {
   cursor: url("/images/cursor.png"), auto !important;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   display: none;
 }
-
 
 section,
 table,
@@ -287,24 +286,24 @@ body {
 /* @ Reviews */
 
 .see_reviews {
-    align-items: center;
-    border-radius: 0 0 8px 8px;
-    cursor: pointer;
-    display: flex;
-    font-size: 16px;
-    height: 33.64px;
-    justify-content: center;
-    min-width: 103.1px;
-    padding: 0 15px;
-    position: fixed;
-    right: 0;
-    top: 50%;
-    transform: rotate(90deg) translate(50%);
-    transform-origin: 100% 0;
-    width: auto;
-    z-index: 110;
-    background:black;
-    color: white;
+  align-items: center;
+  border-radius: 0 0 8px 8px;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  height: 33.64px;
+  justify-content: center;
+  min-width: 103.1px;
+  padding: 0 15px;
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: rotate(90deg) translate(50%);
+  transform-origin: 100% 0;
+  width: auto;
+  z-index: 45;
+  background: black;
+  color: white;
 }
 
 /* @ Nav */
@@ -683,11 +682,7 @@ form {
 
 /* @ media  queries */
 
-@media screen and (max-width: 740px) {
-  .masonry_grid {
-    column-width: 100%;
-  }
-
+@media screen and (max-width: 768px) {
   .secondary-cursor,
   .ball {
     display: none;
@@ -713,6 +708,13 @@ form {
     100% {
       left: 110%;
     }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .masonry_grid {
+    column-width: auto !important;
+    column-count: 2;
   }
 }
 
@@ -878,10 +880,6 @@ form {
 
 .masonry_grid {
   column-width: 250px;
-}
-
-.masonry_item {
-  width: 100%;
 }
 
 /* product description */

@@ -211,7 +211,6 @@ exports.getAllProductsReviews = catchAsyncError(async (req, res, next) => {
   return res.status(200).json({ success: true, allReviews });
 });
 
-
 //# Create The Product by ~~Admin
 exports.createProduct = catchAsyncError(async (req, res, next) => {
   let images = [];
@@ -258,71 +257,51 @@ exports.getAdminProducts = catchAsyncError(async (req, res, next) => {
 //# Update The Product by ~~Admin
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
   const { id: productId } = req.params;
-  const {
-    name,
-    slug,
-    price,
-    originalPrice,
-    stock,
-    categories,
-    productTags,
-    subCategory,
-    notes,
-    description,
-    shortDescription,
-    images = [],
-  } = req.body;
+  const { images } = req.body;
 
   let product = await productsModel.findById(productId);
-  if (!product)
+  if (!product) {
     return res
       .status(404)
       .json({ success: false, message: "Product not found" });
+  }
 
-  const updatedImages = await Promise.all(
-    images.map(async (img) => {
-      if (!img.url) {
-        if (product?.images && product?.images.length > 0) {
-          for (const image of product?.images) {
-            if (image?.public_id) {
-              await cloudinary.uploader.destroy(image?.public_id, {
-                folder: "Amoree/products/all",
-              });
+  let updatedImages = product.images; // Default to existing images if no new images are provided
+
+  if (images && images.length > 0) {
+    updatedImages = await Promise.all(
+      images.map(async (img) => {
+        if (!img.url) {
+          // Delete only if there are images to replace
+          if (product?.images?.length > 0) {
+            for (const image of product.images) {
+              if (image?.public_id) {
+                await cloudinary.uploader.destroy(image.public_id);
+              }
             }
           }
-        }
 
-        try {
-          const { public_id, secure_url } = await cloudinary.uploader.upload(
-            img,
-            { folder: "Amoree/products/all" }
-          );
-          return { public_id, url: secure_url };
-        } catch (error) {
-          console.log("Image upload failed:", error);
-          return null;
+          try {
+            const { public_id, secure_url } = await cloudinary.uploader.upload(
+              img,
+              {
+                folder: "Amoree/products/all",
+              }
+            );
+            return { public_id, url: secure_url };
+          } catch (error) {
+            console.log("Image upload failed:", error);
+            return null;
+          }
         }
-      }
-      return img;
-    })
-  );
+        return img;
+      })
+    ).then((res) => res.filter(Boolean)); // Remove null values
+  }
 
   product = await productsModel.findByIdAndUpdate(
     productId,
-    {
-      name,
-      slug,
-      price,
-      originalPrice,
-      stock,
-      categories,
-      subCategory,
-      productTags,
-      description,
-      notes,
-      shortDescription,
-      images: updatedImages,
-    },
+    { ...req.body, images: updatedImages },
     { new: true, runValidators: true }
   );
 

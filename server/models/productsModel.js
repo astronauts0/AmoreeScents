@@ -28,6 +28,12 @@ const productSchema = new Schema(
       required: [true, "Please Enter Product Stock"],
       maxLength: [10, "Stock cannot exceed 10 characters"],
     },
+    featured: {
+    type: String,
+    required: [true, "Please select if the product is featured"],
+    enum: ['true', 'false'], // sirf 'true' ya 'false' ki ijazat dene ke liye
+    default: 'false',
+  },
     categories: [
       {
         type: String,

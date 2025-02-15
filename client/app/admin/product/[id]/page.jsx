@@ -34,6 +34,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
     originalPrice: product?.originalPrice,
     stock: product?.stock,
     categories: product?.categories,
+    featured: product?.featured,
     productTags: product?.productTags,
     subCategory: product?.subCategory,
     description: product?.description,
@@ -95,6 +96,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
         originalPrice: product?.originalPrice,
         stock: product?.stock,
         categories: product?.categories,
+        featured: product?.featured,
         productTags: product?.productTags,
         subCategory: product?.subCategory,
         description: product?.description,
@@ -208,6 +210,17 @@ const UpdateProduct = ({ params: { id: productId } }) => {
             value={productData.subCategory}
             onChange={handleProductChange}
           />
+           <select
+            name="featured"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
+            required
+            value={productData.featured}
+            onChange={handleProductChange}
+          >
+            <option selected disabled>Select Featured</option>
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
           <input
             type="text"
             name="notes"

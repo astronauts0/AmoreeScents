@@ -33,6 +33,7 @@ const CreateNewProduct = () => {
     price: 0,
     originalPrice: 0,
     stock: 0,
+    featured: false,
     categories: [],
     productTags: "",
     subCategory: "",
@@ -172,6 +173,18 @@ const CreateNewProduct = () => {
             value={productData.subCategory}
             onChange={handleProductChange}
           />
+          <select
+            name="featured"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
+            required
+            value={productData.featured}
+            onChange={handleProductChange}
+          >
+            <option selected disabled>Select Featured</option>
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+
           <input
             type="text"
             name="notes"

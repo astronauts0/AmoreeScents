@@ -34,12 +34,12 @@ const UpdateProfile = () => {
     if (e.target.name === "avatar") {
       const file = e.target.files[0];
       if (!file) return;
-      
+
       new Compressor(file, {
         quality: 0.5,
         mimeType: "image/webp",
         maxWidth: 800,
-  maxHeight: 800,
+        maxHeight: 800,
         success(result) {
           const reader = new FileReader();
           reader.readAsDataURL(result);
@@ -114,29 +114,28 @@ const UpdateProfile = () => {
                   />
                 </div>
                 <div className="flex justify-between items-center flex-col mt-4 md:mt-3 w-fit relative mx-auto">
-                  <div className="size-48 relative mb-2">
+                  <div className="size-48 relative mb-2 overflow-hidden rounded-full">
                     <Image
-                      width="200"
-                      height="200"
-                      className="border border_color rounded-full object-cover w-full h-full"
+                      fill
+                      className="border border_color object-cover w-full h-full"
                       src={avatarPreview}
                       alt="Profile Image"
                     />
-                    <label
-                      className="w-9 h-9 cursor-pointer absolute flex justify-center items-center bottom-0 right-0 rounded-full bg-white"
-                      htmlFor="upload"
-                    >
-                      <i className="text-zinc-800 ri-pencil-fill text-xl animate-spin"></i>
-                    </label>
-                    <input
-                      onChange={handleUpdUser}
-                      className="opacity-0 w-[0.1px] h-[0.1px]"
-                      type="file"
-                      name="avatar"
-                      accept="image/*"
-                      id="upload"
-                    />
                   </div>
+                  <label
+                    className="w-9 h-9 cursor-pointer absolute flex justify-center items-center bottom-4 right-4 rounded-full bg-white"
+                    htmlFor="upload"
+                  >
+                    <i className="text-zinc-800 ri-pencil-fill text-xl animate-spin"></i>
+                  </label>
+                  <input
+                    onChange={handleUpdUser}
+                    className="opacity-0 w-[0.1px] h-[0.1px]"
+                    type="file"
+                    name="avatar"
+                    accept="image/*"
+                    id="upload"
+                  />
                 </div>
                 <div className="mt-8 flex items-center justify-center">
                   <ButtonTextIcon

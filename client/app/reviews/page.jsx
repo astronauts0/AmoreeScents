@@ -53,7 +53,7 @@ const TotalReviews = () => {
   }, [dispatch]);
 
   return (
-    <section className="w-full md:px-8 pt-28 pb-10">
+    <section className="w-full px-3 md:px-8 pt-28 pb-10">
       <MetaData title={"All Reviews"} />
       {loading ? (
         <Loader />
