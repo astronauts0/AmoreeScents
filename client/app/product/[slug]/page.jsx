@@ -90,7 +90,7 @@ export default async function Product({ params }) {
           }}
         />
       </head>
-      <div className="w-full pt-32 pb-20 space-y-20 px-5 min-h-screen relative">
+      <div className="w-full pt-32 pb-20 space-y-20 px-3 sm:px-5 min-h-screen relative">
         <SalesBanner customize={{ top: "6.5rem" }} />
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-y-10 md:gap-x-10">

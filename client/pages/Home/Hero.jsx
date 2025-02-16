@@ -46,7 +46,7 @@ const Hero = () => {
           ".hero_row_lft",
           {
             translateX: isMobile ? "40%" : "20%",
-            duration: 3,
+            duration: 2,
             ease: "power4",
             stagger: 0.08,
           },
@@ -56,7 +56,7 @@ const Hero = () => {
           ".hero_row_rgt",
           {
             translateX: isMobile ? "-100%" : "-40%",
-            duration: 3,
+            duration: 2,
             ease: "power4",
             stagger: 0.08,
           },

@@ -326,17 +326,11 @@ const Header = () => {
             </div>
             <div
               onClick={handleSidebarToggle}
-              className="backdrop-blur-3xl w-24 border border_color h-10 uppercase rounded-full flex items-center justify-center gap-2 nav_btn hover:animate-none"
+              className="backdrop-blur-3xl uppercase rounded-full"
             >
-              <span className="text-sm font-semibold neue_machina_regular">
-                Menu
-              </span>
-              <button className="bg-red-500 size-2 transition-all duration-500 rounded-full flex items-center justify-center px-1 animate-bounce hover:animate-none">
-                <i
-                  className="ri-menu-4-line font-normal transition-all duration-500"
-                  style={{ fontSize: 0 }}
-                ></i>
-              </button>
+              <HeaderButton
+                Icon={<i className="ri-menu-4-line text-3xl"></i>}
+              />
             </div>
           </div>
         </div>
@@ -379,19 +373,8 @@ const Header = () => {
                   }
                 />
               </div>
-              <div
-                onClick={handleSidebarToggle}
-                className="w-24 border border_color h-10 uppercase rounded-full flex items-center justify-center gap-2 nav_btn hover:animate-none"
-              >
-                <span className="text-sm font-semibold neue_machina_regular">
-                  Menu
-                </span>
-                <button className="bg-red-500 size-2 transition-all duration-500 rounded-full flex items-center justify-center px-1 animate-bounce hover:animate-none">
-                  <i
-                    className="ri-menu-4-line font-normal transition-all duration-500"
-                    style={{ fontSize: 0 }}
-                  ></i>
-                </button>
+              <div onClick={handleSidebarToggle}>
+                <i className="ri-menu-4-line text-2xl"></i>
               </div>
             </div>
           </div>
@@ -497,7 +480,7 @@ const Header = () => {
             <div className="header__icons opacity-0 scale-0 md:hidden flex justify-center flex-wrap gap-x-2.5 items-center">
               {isAuthenticated ? (
                 <>
-                   <Logout
+                  <Logout
                     timelineRef={timelineRef}
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
