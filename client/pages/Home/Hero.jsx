@@ -1,5 +1,5 @@
 "use client";
-import React, {  useRef } from "react";
+import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import HeroVideo from "@/components/hero/HeroVideo";
@@ -24,8 +24,8 @@ const Hero = () => {
           scrollTrigger: {
             trigger: headerRef.current,
             start: "top top",
-            end: "250%",
-            scrub: 3,
+            end: "200%",
+            scrub: 2,
             pin: true,
             onEnter: () => {
               document.body.setAttribute("theme", "black");
@@ -39,16 +39,16 @@ const Hero = () => {
         .to(".hero_rows", { scale: 1, translateY: "-33%" }, "a")
         .from(
           dedicateText.chars,
-          { opacity: 0, stagger: 0.02, delay: 0.04 },
+          { opacity: 0, stagger: 0.017, delay: 0.03 },
           "a"
         )
         .to(
           ".hero_row_lft",
           {
             translateX: isMobile ? "40%" : "20%",
-            duration: 2,
+            duration: 1,
             ease: "power4",
-            stagger: 0.08,
+            stagger: 0.03,
           },
           "b"
         )
@@ -56,13 +56,13 @@ const Hero = () => {
           ".hero_row_rgt",
           {
             translateX: isMobile ? "-100%" : "-40%",
-            duration: 2,
+            duration: 1,
             ease: "power4",
-            stagger: 0.08,
+            stagger: 0.03,
           },
           "b"
         )
-        .to(".hero_main_title", { opacity: 0, duration: 0.5 }, "b");
+        .to(".hero_main_title", { opacity: 0 }, "b");
     }, headerRef);
 
     return () => {

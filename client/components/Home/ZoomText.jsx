@@ -27,7 +27,7 @@ const ZoomText = () => {
           ".enter_extra_text",
           {
             delay: -2,
-            duration: 4.5,
+            duration: 3,
             ease: "power4.inOut",
             scale: 0,
           },
@@ -35,7 +35,7 @@ const ZoomText = () => {
         )
         .to(
           ".enter_amoree",
-          { scale: 50, duration: 4.5, ease: "power4.inOut" },
+          { scale: 50, duration: 3, ease: "power4.inOut" },
           "ent"
         )
         .to(
@@ -43,7 +43,7 @@ const ZoomText = () => {
           {
             delay: .2,
             color: "#aedee0",
-            duration: 2,
+            duration: 1,
             ease: "power4.inOut",
           },
           "ent"

@@ -374,7 +374,7 @@ const Header = () => {
                 />
               </div>
               <div onClick={handleSidebarToggle}>
-                <i className="ri-menu-4-line text-2xl"></i>
+                <i className="ri-menu-4-line text-3xl"></i>
               </div>
             </div>
           </div>

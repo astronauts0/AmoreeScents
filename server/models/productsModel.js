@@ -29,11 +29,11 @@ const productSchema = new Schema(
       maxLength: [10, "Stock cannot exceed 10 characters"],
     },
     featured: {
-    type: String,
-    required: [true, "Please select if the product is featured"],
-    enum: ['true', 'false'], // sirf 'true' ya 'false' ki ijazat dene ke liye
-    default: 'false',
-  },
+      type: String,
+      required: [true, "Please select if the product is featured"],
+      enum: ["true", "false"],
+      default: "false",
+    },
     categories: [
       {
         type: String,
@@ -44,10 +44,12 @@ const productSchema = new Schema(
       type: String,
       required: [true, "Please Enter Product Sub Category"],
     },
-    notes: [{
-      type: String,
-      required: [true, "Please Enter Product Notes"],
-    }],
+    notes: [
+      {
+        type: String,
+        required: [true, "Please Enter Product Notes"],
+      },
+    ],
     description: {
       type: String,
       required: [true, "Please Enter product Description"],

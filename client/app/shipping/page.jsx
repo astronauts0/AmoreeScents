@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Country, State } from "country-state-city";
 import { saveShippingInfo } from "@/store/actions/cartAction";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -14,14 +13,15 @@ const Shipping = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { shippingInfo } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
 
   const [shippingData, setShippingData] = useState({
     address: shippingInfo?.address || "",
-    city: shippingInfo?.city || "",
+    phoneNo: shippingInfo?.phoneNo || user?.phone,
+    country: shippingInfo?.country || "Pakistan",
     state: shippingInfo?.state || "",
-    country: shippingInfo?.country || "",
+    city: shippingInfo?.city || "",
     pinCode: shippingInfo?.pinCode || "",
-    phoneNo: shippingInfo?.phoneNo || "",
   });
 
   const handleShipping = (e) =>
@@ -62,7 +62,7 @@ const Shipping = () => {
               className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
               type="number"
               name="phoneNo"
-              placeholder="Phone No. *"
+              placeholder="Phone No.* e.g: 0300 000 0000"
             />
             <input
               required
@@ -71,56 +71,35 @@ const Shipping = () => {
               className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
               type="text"
               name="address"
-              placeholder="Full Address *"
+              placeholder="Full Address* e.g: 000 A Block, Nishtar Colony, Lahore"
             />
             <input
-              required
               onChange={handleShipping}
               value={shippingData.pinCode}
               className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
               type="text"
               name="pinCode"
-              placeholder="postal Code *"
+              placeholder="Postal Code(opt) e.g: 100000"
             />
-            <select
+            <input
               required
               onChange={handleShipping}
               value={shippingData.country}
-              name="country"
-              id="country"
               className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
-            >
-              <option selected disabled>
-                Country *
-              </option>
-              {Country &&
-                Country.getAllCountries().map((val) => (
-                  <option key={val.isoCode} value={val.isoCode}>
-                    {val.name}
-                  </option>
-                ))}
-            </select>
+              type="text"
+              name="country"
+              placeholder="Country* e.g: pakistan"
+            />
+            <input
+              required
+              onChange={handleShipping}
+              value={shippingData.state}
+              className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
+              type="text"
+              name="state"
+              placeholder="State* e.g: punjab"
+            />
 
-            {shippingData.country && (
-              <select
-                required
-                onChange={handleShipping}
-                value={shippingData.state}
-                name="state"
-                id="state"
-                className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
-              >
-                <option selected disabled>
-                  State *
-                </option>
-                {State &&
-                  State.getStatesOfCountry(shippingData.country).map((val) => (
-                    <option key={val.isoCode} value={val.isoCode}>
-                      {val.name}
-                    </option>
-                  ))}
-              </select>
-            )}
             <input
               required
               onChange={handleShipping}
@@ -128,10 +107,10 @@ const Shipping = () => {
               className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
               type="text"
               name="city"
-              placeholder="city *"
+              placeholder="City* e.g: lahore"
             />
           </div>
-          {/* <input className="block w-full px-3 py-2 mt-6 bg-red-500 text-white rounded-full" type="submit" value="Continue" disabled={shippingData.state ? false : true} /> */}
+          {/* <input className="block w-full px-3 py-2 mt-6 bg-red-500 text-white rounded-full" type="submit" value="Continue" disabled={shippingData.state ? false : true} />*/}
           <div className="mt-10">
             <ButtonTextIcon
               disabled={shippingData ? false : true}

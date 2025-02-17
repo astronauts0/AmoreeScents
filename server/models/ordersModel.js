@@ -8,7 +8,7 @@ const orderSchema = mongoose.Schema({
         state: { type: String, required: true },
         country: { type: String, required: true },
         phoneNo: { type: Number, required: true },
-        pinCode: { type: String, required: true },
+        pinCode: { type: String },
     },
 
     orderItems: [

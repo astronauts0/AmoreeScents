@@ -23,7 +23,6 @@
     "buffer": "^6.0.3",
     "chart.js": "^4.4.7",
     "compressorjs": "^1.2.1",
-    "country-state-city": "^3.2.1",
     "gsap": "^3.12.5",
     "lenis": "^1.1.13",
     "matter-attractors": "^0.1.6",

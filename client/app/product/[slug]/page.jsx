@@ -12,19 +12,24 @@ import Link from "next/link";
 import fetchProductDetails from "@/modules/backend/fetchProductDetails";
 import RelatedProducts from "@/components/Products/RelatedProducts";
 import SalesBanner from "@/components/global/sales/SalesBanner";
+import { notFound } from "next/navigation";
 
 export const revalidate = 150;
 
 export async function generateMetadata({ params }) {
   const slug = params?.slug;
   const response = await fetchProductDetails(slug);
+  if (!response || !response.name) {
+    notFound();
+  }
+
   const title =
-    response?.name ?? "Amoree Scents - Premium Fragrances at Affordable Prices";
+    response?.name || "Amoree Scents - Premium Fragrances at Affordable Prices";
   const description =
     `Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses. ${response?.shortDescription}` ??
     "Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.";
   const image =
-    response?.images[0]?.url ??
+    (response?.images?.length > 0 && response?.images[0]?.url) ||
     "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif";
 
   const keywords =
@@ -51,8 +56,12 @@ export default async function Product({ params }) {
   const slug = params?.slug;
   const response = await fetchProductDetails(slug);
 
+  if (!response || !response.name) {
+    notFound();
+  }
+
   const noTester = ["simple", "bottle"].every((word) =>
-    response?.name.split(" ").includes(word)
+    response?.name?.split(" ").includes(word)
   );
 
   return (
