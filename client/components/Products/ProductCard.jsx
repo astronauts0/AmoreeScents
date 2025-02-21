@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="product__card w-auto  font-semibold neue_machina_light shadow_black_1 rounded-lg sm:rounded-none">
-      <div className="relative sm:w-72 h-full shadow-md border bg-white border-black rounded-lg sm:rounded-none">
+      <div className="relative sm:w-72 h-full sm:shadow-md sm:border bg-[#f8f8f8] border-black rounded-lg sm:rounded-none">
         <div className="relative h-[45vh] w-full hidden md:block">
           <Image
             src={product?.images[0]?.url}
@@ -50,7 +50,9 @@ const ProductCard = ({ product }) => {
               style={{ fontWeight: "800" }}
               className="capitalize w-full text-lg sm:text-xl dancing_script tracking-widest purchased__title"
             >
-              {product?.name}
+              {product?.name.length >= 100
+                ? product?.name?.slice(0, 50) + "..."
+                : product?.name}
             </h1>
             <p className="leading-4 tracking-wider hidden sm:block">
               {product?.shortDescription.length >= 100
@@ -74,7 +76,7 @@ const ProductCard = ({ product }) => {
               </span>
             </div>
             <div className="flex items-center sm:justify-center gap-x-3 obviously">
-              <span>
+              <span className="text-lg sm:text-base">
                 <FormatPrice price={variant?.price} />
               </span>
               <del className="hidden sm:inline">

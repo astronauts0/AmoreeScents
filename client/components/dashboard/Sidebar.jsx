@@ -12,17 +12,9 @@ const Sidebar = () => {
   let { user } = useSelector((state) => state.user);
 
   return (
-    <aside className="bg-gray-700 text-white h-screen p-4 space-y-6 w-64 sticky top-0 left-0">
-      <div className="flex justify-between items-center py-2">
-        <div>
-          <Link href="/admin/dashboard">ADMINS</Link>
-        </div>
-        <MenuOutlinedIcon
-          className={`text-3xl cursor-pointer hover:rounded-full`}
-        />
-      </div>
+    <aside className="bg-gray-700 text-white h-screen px-4 pt-20 space-y-6 w-64 sticky top-0 left-0">
 
-      <div>
+      <Link href="/admin/dashboard">
         <div className="flex justify-center items-center">
           <Image
             width="100"
@@ -36,7 +28,7 @@ const Sidebar = () => {
           <p className="text-2xl font-bold">{user?.name}</p>
           <p className="satoshi_medium">VP Fancy Admin</p>
         </div>
-      </div>
+      </Link>
 
       {/* Links */}
       <div className="satoshi_medium">

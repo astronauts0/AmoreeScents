@@ -336,7 +336,7 @@ const Header = () => {
         </div>
         <div className="w-[90%] md:hidden fixed rounded-full top-2 left-1/2 -translate-x-1/2 z-40">
           <div className={`flex items-center justify-between`}>
-            <Link href="/" className="backdrop-blur-3xl rounded-full shadow-sm">
+            <Link href="/" className="backdrop-blur-3xl rounded-full shadow-sm py-3 px-1">
               <Image
                 priority
                 src={theme == "black" ? monoWhite : monoBlack}

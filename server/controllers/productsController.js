@@ -250,21 +250,12 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
       .json({ success: false, message: "Product not found" });
   }
 
-  let updatedImages = product.images; // Default to existing images if no new images are provided
+  let updatedImages = [];
 
   if (images && images.length > 0) {
     updatedImages = await Promise.all(
       images.map(async (img) => {
         if (!img.url) {
-          // Delete only if there are images to replace
-          if (product?.images?.length > 0) {
-            for (const image of product.images) {
-              if (image?.public_id) {
-                await cloudinary.uploader.destroy(image.public_id);
-              }
-            }
-          }
-
           try {
             const { public_id, secure_url } = await cloudinary.uploader.upload(
               img,
@@ -281,8 +272,19 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
         return img;
       })
     ).then((res) => res.filter(Boolean)); // Remove null values
+
+    const updatedPublicIds = updatedImages
+      .filter((img) => img.public_id)
+      .map((img) => img.public_id);
+
+    for (const oldImg of product.images) {
+      if (oldImg.public_id && !updatedPublicIds.includes(oldImg.public_id)) {
+        await cloudinary.uploader.destroy(oldImg.public_id);
+      }
+    }
   }
 
+  // Update product with new images array
   product = await productsModel.findByIdAndUpdate(
     productId,
     { ...req.body, images: updatedImages },
@@ -291,6 +293,8 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
 
   return res.status(200).json({ success: true, product });
 });
+
+
 
 //# Delete The Product by ~~Admin
 exports.deleteProduct = catchAsyncError(async (req, res, next) => {
