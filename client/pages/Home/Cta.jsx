@@ -31,14 +31,14 @@ const Cta = () => {
 
       gsap.to(thanksText.chars, {
         color: "black",
-        stagger: 0.5,
-        duration: 1,
+        stagger: 0.3,
+        duration: .7,
         ease: "power4.inOut",
         scrollTrigger: {
           trigger: thanksRef.current,
           start: "top 50%",
           end: "bottom 70%",
-          scrub: 1,
+          scrub: true,
           // markers: true,
         },
       });
@@ -50,14 +50,14 @@ const Cta = () => {
             start: "top 30%",
             end: "bottom bottom",
             // markers: true,
-            scrub: 2,
+            scrub: true,
           },
         })
         .from(
           ".ctaLine",
           {
             yPercent: -100,
-            duration: 0.7,
+            duration: 0.5,
             ease: "elastic.out",
           },
           "cta"
@@ -66,7 +66,7 @@ const Cta = () => {
           ".ctaText",
           {
             yPercent: -300,
-            duration: 0.7,
+            duration: 0.5,
             ease: "elastic.out",
           },
           "cta"

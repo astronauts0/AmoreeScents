@@ -2,7 +2,6 @@
 import React, { useRef } from "react";
 import Dedicate from "@/pages/Home/Dedicate";
 import Purchased from "@/pages/Home/Purchased";
-import Marquee from "@/pages/Home/Marquee";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -12,7 +11,6 @@ import ModelSound from "@/components/global/audio/ModelSound";
 import { isMobile } from "@/config/Variables";
 
 const ProductModel = () => {
-  const marqueeRef = useRef(null);
   const dedicateRef = useRef(null);
   const purchasedRef = useRef(null);
   const modelRef = useRef(null);
@@ -35,34 +33,13 @@ const ProductModel = () => {
       opacity: 1,
       ease: "power4.inOut",
       scrollTrigger: {
-        trigger: marqueeRef.current,
+        trigger: dedicateRef.current,
         start: "top top",
         scrub: 2,
-        pin: true,
+        // pin: true,
         // markers: true,
       },
     });
-
-    const marqueeCtx = gsap.context(() => {
-      const elements = marqueeRef.current.querySelectorAll("[data-scroll]");
-      elements.forEach((el) => {
-        const speed = el.getAttribute("data-scroll-speed") || 1;
-        const direction =
-          el.getAttribute("data-scroll-direction") || "vertical";
-
-        gsap.to(el, {
-          x: direction === "horizontal" ? `${speed * 100}px` : 0,
-          y: direction === "vertical" ? `${speed * 100}px` : 0,
-          scrollTrigger: {
-            trigger: el,
-            start: "top 80%",
-            end: "bottom top",
-            scrub: 2,
-            // markers: true,
-          },
-        });
-      });
-    }, marqueeRef);
 
     const dedicateCtx = gsap.context(() => {
       const dedicateText = new SplitType(".dedicate__text h1", {
@@ -206,7 +183,6 @@ const ProductModel = () => {
     }, purchasedRef);
 
     return () => {
-      marqueeCtx.revert();
       dedicateCtx.revert();
       purchasedCtx.revert();
     };
@@ -231,7 +207,6 @@ const ProductModel = () => {
           height={modelSize}
         />
       </div>
-      <Marquee marqueeRef={marqueeRef} />
       <Dedicate dedicateRef={dedicateRef} />
       <Purchased purchasedRef={purchasedRef} />
     </div>

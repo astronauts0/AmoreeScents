@@ -12,7 +12,7 @@ const Sidebar = () => {
   let { user } = useSelector((state) => state.user);
 
   return (
-    <aside className="bg-gray-700 text-white min-h-screen h-auto p-4 space-y-6 w-64">
+    <aside className="bg-gray-700 text-white h-screen p-4 space-y-6 w-64 sticky top-0 left-0">
       <div className="flex justify-between items-center py-2">
         <div>
           <Link href="/admin/dashboard">ADMINS</Link>

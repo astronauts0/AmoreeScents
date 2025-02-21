@@ -20,63 +20,94 @@ const sendOrderConfirmationEmail = async ({
         pass: process.env.SMTP_PASSWORD,
       },
     });
+
     const orderItemsHtml = orderItems
       .map(
         (item) => `
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;">
-                    <a href="${process.env.FRONTEND_URL}/product/${item.slug}" style="color: #4CAF50; text-decoration: none;">${item.name}</a>
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ddd;">
+                    <a
+                      href="${process.env.FRONTEND_URL}/product/${item.slug}"
+                      style="color: #00796b; text-decoration: underline;"
+                    >
+                      ${item.name}
+                    </a>
+                    <div style="padding-top: 2.5px;">
+                        <strong>Size:</strong> 
+                        <span style="background-color: #00796b; color: #e0f7fa; padding: 2px 5px; border-radius: 3px;">
+                            ${item.size}
+                        </span>
+                    </div>
+                    ${
+                      (item?.materialType || "").includes("Premium")
+                        ? `<span style="background-color: #ffff00; color: #000; font-size: 9px; text-decoration: underline;">
+                              <strong>In Premium Bottle</strong>
+                          </span>`
+                        : ""
+                    }
                 </td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${item.qty}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${item.qty} X Rs ${item.price}</td>
-            </tr>
-        `
+        <td style="padding: 10px; border: 1px solid #ddd;">${item.qty}</td>
+        <td style="padding: 10px; border: 1px solid #ddd;">${item.qty} X Rs ${
+          item.price
+        }</td>
+      </tr>
+    `
       )
       .join("");
 
-    // Mail for the admin
     const mailOptionsForAdmin = {
       from: `${name} <${email}>`,
       to: process.env.SMTP_EMAIL,
       subject: `New Order Received - Order #${orderId} || Amorée Scents`,
       html: `
-                <div style="padding: 20px; background-color: #f4f4f4; color: #333;">
-                    <h1 style="color: #4CAF50;">New Order Received</h1>
-                    <p>A new order has been placed:</p>
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <tr style="background-color: #f9f9f9;">
-                            <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Order ID:</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">${orderId}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer Name:</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">${name}</td>
-                        </tr>
-                        <tr style="background-color: #f9f9f9;">
-                            <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer phoneNo:</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">${phoneNo}</td>
-                        </tr>
-                        <tr style="background-color: #f9f9f9;">
-                            <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer Email:</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">${email}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Order Items:</td>
-                        </tr>
-                        ${orderItemsHtml}
-                        <tr style="background-color: #f9f9f9;">
-                            <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Shipping Fee</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">Rs ${shippingPrice}</td>
-                        </tr>
-                        <tr style="background-color: #f9f9f9;">
-                            <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Total Amount:</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">Rs ${totalAmount}</td>
-                        </tr>
-                    </table>
-                    <p>Please review the order and ensure timely processing.</p>
-                    <p>Best Regards, <strong><i>Amorée Scents</i></strong></p>
-                </div>
-            `,
+    <div style="padding: 20px; background-color: #f4f4f4; color: #333;">
+      <h1 style="color: #00796b;">New Order Received</h1>
+      <p>A new order has been placed:</p>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <tr style="background-color: #f9f9f9;">
+          <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Order ID:</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${orderId}</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer Name:</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${name}</td>
+        </tr>
+        <tr style="background-color: #f9f9f9;">
+          <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer Phone:</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${phoneNo}</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Customer Email:</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${email}</td>
+        </tr>
+      </table>
+      
+      <h2 style="color: #00796b;">Order Items</h2>
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #f9f9f9;">
+            <th style="padding: 10px; border: 1px solid #ddd;">Product</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Quantity</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${orderItemsHtml}
+          <tr style="background-color: #f9f9f9;">
+            <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Shipping Fee</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">Rs ${shippingPrice}</td>
+          </tr>
+          <tr style="background-color: #f9f9f9;">
+            <td colspan="2" style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Total Amount</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">Rs ${totalAmount}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p>Please review the order and ensure timely processing.</p>
+      <p>Best Regards, <strong><i>Amorée Scents</i></strong></p>
+    </div>
+  `,
     };
 
     // Mail for the user
@@ -86,7 +117,7 @@ const sendOrderConfirmationEmail = async ({
       subject: `Order Confirmation - Order #${orderId} || Amorée Scents`,
       html: `
                 <div style="text-align: center; padding: 20px;">
-                    <h1 style="color: #4CAF50;">Thank You for Your Order, ${name}!</h1>
+                    <h1 style="color: #00796b;">Thank You for Your Order, ${name}!</h1>
                     <h2>Your order has been placed successfully & is now being processed. The Order will be delivered within 2-5 working days. We appreciate your patience!</h2>
                     <p>Here are the details:</p>
                     <table style="width: 100%; border-collapse: collapse;">

@@ -29,6 +29,10 @@ const HeroVideo = () => {
           Scents
         </h2>
       </div>
+      <div className="absolute sm:bottom-10 bottom-7 satoshi_medium left-10 hero_main_title">
+        We create timeless fragrances. <br /> Perfumes. Scents. Memories. <br />{" "}
+        For real people, real <br /> moments.
+      </div>
     </div>
   );
 };

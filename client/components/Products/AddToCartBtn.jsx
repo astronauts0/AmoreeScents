@@ -11,7 +11,16 @@ const ConfettiRain = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
 });
 
 const AddToCartBtn = memo(
-  ({ isHideOnMob = false, slug, stock, id, count, customize, icon }) => {
+  ({
+    isHideOnMob = false,
+    slug,
+    stock,
+    id,
+    count,
+    customize,
+    icon,
+    variantId,
+  }) => {
     const [showConfetti, setShowConfetti] = useState(false);
     const dispatch = useDispatch();
 
@@ -23,7 +32,7 @@ const AddToCartBtn = memo(
           "Out of Stock. We'll notify you when it's back in stock."
         );
 
-      dispatch(addItemsToCart(id, count));
+      dispatch(addItemsToCart(id, variantId, count));
       toast.success("Item Added To Cart");
 
       setShowConfetti(true);

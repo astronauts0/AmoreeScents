@@ -7,6 +7,7 @@ const updateStock = require("../utils/functions/updateStock");
 const sendOrderConfirmationEmail = require("../utils/mails/sendOrderConfirmationEmail");
 const sendShippingConfirmationEmail = require("../utils/mails/sendShippingConfirmationEmail");
 const sendDeliveryConfirmationEmail = require("../utils/mails/sendDeliveryConfirmationEmail");
+const { default: mongoose } = require("mongoose");
 
 // * Create New Order
 exports.newOrder = catchAsyncError(async (req, res, next) => {
@@ -14,13 +15,12 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
     req.body;
   const user = req.user;
 
-  // Check stock for each item before creating the order
   try {
     for (const item of orderItems && orderItems) {
-      await updateStock(item.product, item.qty);
+      await updateStock(item.product, item.variantId, item.qty);
     }
   } catch (error) {
-    return next(new ErrorHandler(error.message, 404)); // If stock is insufficient, return the error before creating the order
+    return next(new ErrorHandler(error.message, 404));
   }
 
   // Create the order only if stock is sufficient
@@ -107,12 +107,17 @@ exports.deleteUserOrder = catchAsyncError(async (req, res, next) => {
   res.status(200).json({ success: true, message: "Order has been deleted" });
 });
 
+
 exports.productOrders = catchAsyncError(async (req, res, next) => {
-  const totalProductOrders = await orderModel
-    .find()
-    .select("orderItems.product");
-  if (!totalProductOrders)
-    return next(new ErrorHandler("Orders Not Found", 404));
+  const productId = req.query.id;
+
+  const result = await orderModel.aggregate([
+    { $unwind: "$orderItems" }, 
+    { $match: { "orderItems.product": new mongoose.Types.ObjectId(String(productId)) } },
+    { $group: { _id: "$orderItems.product", totalProductOrders: { $sum: "$orderItems.qty" } } },
+  ]);
+  
+  const totalProductOrders = result.length ? result[0].totalProductOrders : 0;
   res.status(200).json({ success: true, totalProductOrders });
 });
 

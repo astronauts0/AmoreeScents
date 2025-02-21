@@ -36,7 +36,9 @@ ChartJS.register(
 
 const AdminDashboard = () => {
   const { products } = useSelector((state) => state.products);
+  console.log("🚀 ~ AdminDashboard ~ products:", products);
   const { orders } = useSelector((state) => state.allOrders);
+  console.log("🚀 ~ AdminDashboard ~ orders:", orders);
   const { users } = useSelector((state) => state.allUsers);
 
   const dispatch = useDispatch();
@@ -49,13 +51,30 @@ const AdminDashboard = () => {
     });
 
   let outOfStock = 0;
+  let totalVariants = 0;
 
-  products &&
-    products.forEach((item) => {
-      if (item.stock === 0) {
+  products.forEach((product) => {
+    totalVariants += product.variants.length;
+    product.variants.forEach((variant) => {
+      if (variant.stock === 0) {
         outOfStock += 1;
       }
     });
+  });
+
+  console.log(`Total out-of-stock variants: ${outOfStock}`);
+  console.log(`Total variants: ${totalVariants}`);
+
+  const doughnutState = {
+    labels: ["Out of Stock", "InStock"],
+    datasets: [
+      {
+        backgroundColor: ["#00A6B4", "#6800B4"],
+        hoverBackgroundColor: ["#4B5000", "#35014F"],
+        data: [outOfStock, totalVariants - outOfStock],
+      },
+    ],
+  };
 
   const lineState = {
     labels: ["Initial Amount", "Amount Earned"],
@@ -65,17 +84,6 @@ const AdminDashboard = () => {
         backgroundColor: ["tomato"],
         hoverBackgroundColor: ["rgb(197, 72, 49)"],
         data: [0, totalAmount],
-      },
-    ],
-  };
-
-  const doughnutState = {
-    labels: ["Out of Stock", "InStock"],
-    datasets: [
-      {
-        backgroundColor: ["#00A6B4", "#6800B4"],
-        hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [outOfStock, products.length - outOfStock],
       },
     ],
   };

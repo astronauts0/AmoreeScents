@@ -1,18 +1,13 @@
 import React from "react";
 import ProductRating from "@/components/Products/ProductRating";
-import FormatPrice from "@/utils/functions/FormatPrice";
-import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
-import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import ColorizeIcon from "@mui/icons-material/Colorize";
-import AddToCart from "@/components/Products/AddToCart";
 import Accordions from "@/components/Accordions";
 import CustomerReviews from "@/components/Products/CustomerReviews";
 import ProductSwiper from "@/components/Products/ProductSwiper";
-import Link from "next/link";
 import fetchProductDetails from "@/modules/backend/fetchProductDetails";
 import RelatedProducts from "@/components/Products/RelatedProducts";
 import SalesBanner from "@/components/global/sales/SalesBanner";
 import { notFound } from "next/navigation";
+import ProductVariantInfo from "@/components/Products/ProductVariantInfo";
 
 export const revalidate = 150;
 
@@ -56,13 +51,9 @@ export default async function Product({ params }) {
   const slug = params?.slug;
   const response = await fetchProductDetails(slug);
 
-  if (!response || !response.name) {
-    notFound();
-  }
+  const { variants } = response;
 
-  const noTester = ["simple", "bottle"].every((word) =>
-    response?.name?.split(" ").includes(word)
-  );
+  if (!response || !response.name) notFound();
 
   return (
     <section className="overflow-hidden">
@@ -102,7 +93,7 @@ export default async function Product({ params }) {
       <div className="w-full pt-32 pb-20 space-y-20 px-3 sm:px-5 min-h-screen relative">
         <SalesBanner customize={{ top: "6.5rem" }} />
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-y-10 md:gap-x-10">
+        <div className="flex flex-col md:flex-row justify-center gap-y-10 md:gap-x-10">
           <div className="w-full md:w-1/2">
             <ProductSwiper images={response?.images} />
           </div>
@@ -110,17 +101,17 @@ export default async function Product({ params }) {
             <h3 className="tracking-widest dancing_script text-lg">
               {response?.subCategory}
             </h3>
-            <h1 className="text-3xl title-font font-medium capitalize Havelock_Medium">
+            <h1 className="text-3xl text_stroke text_stroke_color font-medium capitalize Havelock_Medium">
               {response?.name}
             </h1>
-            <h2 className="text-xl text-gray-700 title-font font-medium capitalize satoshi_medium">
+            <h2 className="text-xl text-gray-700 font-medium capitalize neue_machina_regular">
               {response?.shortDescription}
             </h2>
             <div className="flex items-center gap-x-3">
               <div className="animate-pulse">
                 <ProductRating ratings={response?.ratings} />
               </div>
-              <span>
+              <span className="-translate-y-1 Havelock_Medium">
                 {" "}
                 <span className="obviously">
                   {response?.reviews?.length}
@@ -128,73 +119,7 @@ export default async function Product({ params }) {
                 Reviews
               </span>
             </div>
-            <div>
-              <div className="flex items-center flex-wrap gap-3 text-lg obviously">
-                <span>
-                  <FormatPrice price={response?.price} />
-                </span>
-                <del>
-                  <FormatPrice price={response?.originalPrice} />
-                </del>
-                <span className="color__red">
-                  {" "}
-                  Save{" "}
-                  <FormatPrice
-                    price={response?.originalPrice - response?.price}
-                  />
-                </span>
-              </div>
-              <small className="darker_grotesque font-medium">
-                <Link
-                  className="underline underline-offset-4"
-                  href="/policies/shipping-policy"
-                >
-                  Shipping
-                </Link>{" "}
-                calculated at checkout.
-              </small>
-            </div>
-            <ul className="space-y-2 border_color border-t pt-4 darker_grotesque font-bold text-lg">
-              <li className="space-x-3">
-                <CardGiftcardOutlinedIcon />{" "}
-                <span>FREE gift packing with every order</span>
-              </li>
-              {noTester ? (
-                ""
-              ) : (
-                <li className="space-x-3">
-                  <ColorizeIcon /> <span>1ml Tester free</span>
-                </li>
-              )}
-              <li className="space-x-3">
-                <LanguageOutlinedIcon /> <span>14 Days easy return</span>
-              </li>
-              <li className="space-x-3 pl-1">
-                {response?.stock > 0 ? (
-                  <div className="flex items-center gap-x-5">
-                    <span class="relative flex size-3 ml-1">
-                      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-                      <span class="relative inline-flex size-3 rounded-full bg-green-500"></span>
-                    </span>
-                    <span>In stock, ready to ship</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-x-5">
-                    <span class="relative flex size-3 ml-1">
-                      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                      <span class="relative inline-flex size-3 rounded-full bg-red-500"></span>
-                    </span>
-                    <span>Out of stock</span>
-                  </div>
-                )}
-              </li>
-            </ul>
-
-            <AddToCart
-              slug={response?.slug}
-              stock={response?.stock}
-              id={response?._id}
-            />
+            <ProductVariantInfo variants={variants} product={response} />
           </div>
         </div>
 

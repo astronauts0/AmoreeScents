@@ -5,7 +5,6 @@ import { useGSAP } from "@gsap/react";
 import HeroVideo from "@/components/hero/HeroVideo";
 import HeroOverlay from "@/components/hero/HeroOverlay";
 import SplitType from "split-type";
-import { isMobile } from "@/config/Variables";
 
 const Hero = () => {
   const headerRef = useRef(null);
@@ -24,8 +23,8 @@ const Hero = () => {
           scrollTrigger: {
             trigger: headerRef.current,
             start: "top top",
-            end: "200%",
-            scrub: 2,
+            end: "75%",
+            scrub: 1,
             pin: true,
             onEnter: () => {
               document.body.setAttribute("theme", "black");
@@ -39,30 +38,9 @@ const Hero = () => {
         .to(".hero_rows", { scale: 1, translateY: "-33%" }, "a")
         .from(
           dedicateText.chars,
-          { opacity: 0, stagger: 0.017, delay: 0.03 },
+          { opacity: 0, stagger: 0.01, delay: 0.008 },
           "a"
         )
-        .to(
-          ".hero_row_lft",
-          {
-            translateX: isMobile ? "40%" : "20%",
-            duration: 1,
-            ease: "power4",
-            stagger: 0.03,
-          },
-          "b"
-        )
-        .to(
-          ".hero_row_rgt",
-          {
-            translateX: isMobile ? "-100%" : "-40%",
-            duration: 1,
-            ease: "power4",
-            stagger: 0.03,
-          },
-          "b"
-        )
-        .to(".hero_main_title", { opacity: 0 }, "b");
     }, headerRef);
 
     return () => {
@@ -76,11 +54,6 @@ const Hero = () => {
       className="w-full h-screen relative overflow-hidden"
     >
       <HeroVideo />
-      <div className="absolute sm:bottom-10 bottom-7 satoshi_medium z-30 left-10 hero_main_title">
-        We create timeless fragrances. <br /> Perfumes. Scents. Memories. <br />{" "}
-        For real people, real <br /> moments.
-      </div>
-
       <HeroOverlay />
     </section>
   );

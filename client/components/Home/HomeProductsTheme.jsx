@@ -9,15 +9,14 @@ const HomeProductsTheme = () => {
         scrollTrigger: {
           trigger: ".home_products",
           start: "top bottom",
-          onEnter: () => document.body.setAttribute("theme", "cyan"),
-          onEnterBack: () => document.body.setAttribute("theme", "cyan"),
+          onEnter: () => document.body.setAttribute("theme", "white"),
+          onEnterBack: () => document.body.setAttribute("theme", "white"),
         },
       });
     });
 
-    return () => {
-      homeProductsCtx.revert();
-    };
+    return () =>  homeProductsCtx.revert();
+    
   }, []);
   return;
 };

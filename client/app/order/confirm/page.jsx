@@ -129,9 +129,24 @@ const ConfirmOrder = () => {
                         src={item.image}
                         alt={item.name}
                       />
-                      <p className="satoshi_medium capitalize text-center">
-                        {item.name}
-                      </p>
+                      <div>
+                        <p className="satoshi_medium capitalize text-center">
+                          {item.name}
+                        </p>
+                        <p className="satoshi_medium">
+                          <strong>Size:</strong>{" "}
+                          <span className="bg-[#00796b] text-white px-1 rounded">
+                            {item?.size}
+                          </span>
+                          {item?.materialType &&
+                            item?.materialType.includes("Premium") && (
+                              <sup className="dancing_script block pt-4 underline underline-offset-2">
+                                {" "}
+                                <mark>In Premium Bottle</mark>
+                              </sup>
+                            )}
+                        </p>
+                      </div>
                       <span className="obviously">
                         {item.qty} X <FormatPrice price={item.price} /> ={" "}
                         <FormatPrice price={item.price * item.qty} />
@@ -147,6 +162,10 @@ const ConfirmOrder = () => {
           <h1 className="text-3xl font-bold mb-4">Order Summary</h1>
 
           <div className="satoshi_medium">
+            <p>
+              Total Items:{" "}
+              {cartItems.reduce((acc, currVal) => acc + currVal.qty, 0)}
+            </p>
             <p>
               Subtotal: <FormatPrice price={subtotal} />{" "}
             </p>

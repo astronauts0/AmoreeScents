@@ -13,55 +13,52 @@ const productSchema = new Schema(
       required: [true, "Product slug is required"],
       unique: true,
     },
-    price: {
-      type: Number,
-      required: [true, "Please Enter product price"],
-      maxLength: [8, "Price cannot exceed 8 characters"],
-    },
-    originalPrice: {
-      type: Number,
-      required: [true, "Please Enter product original price"],
-      maxLength: [8, "Original Price cannot exceed 8 characters"],
-    },
-    stock: {
-      type: Number,
-      required: [true, "Please Enter Product Stock"],
-      maxLength: [10, "Stock cannot exceed 10 characters"],
-    },
     featured: {
       type: String,
       required: [true, "Please select if the product is featured"],
       enum: ["true", "false"],
       default: "false",
     },
-    categories: [
-      {
-        type: String,
-        required: [true, "Please Enter Product Category"],
-      },
-    ],
-    subCategory: {
-      type: String,
-      required: [true, "Please Enter Product Sub Category"],
-    },
-    notes: [
-      {
-        type: String,
-        required: [true, "Please Enter Product Notes"],
-      },
-    ],
     description: {
       type: String,
-      required: [true, "Please Enter product Description"],
+      required: [true, "Please enter product description"],
     },
     shortDescription: {
       type: String,
-      required: [true, "Please Enter product short description"],
+      required: [true, "Please enter product short description"],
     },
     productTags: {
       type: String,
-      required: [true, "Please Enter product tags or tag"],
+      required: [true, "Please enter product tags"],
     },
+    variants: [
+      {
+        materialType: {
+          type: String,
+        },
+        materialDescription: {
+          type: String,
+        },
+        size: {
+          type: String,
+          required: [true, "Size is required"],
+          default: "50ml",
+        },
+        price: {
+          type: Number,
+          required: [true, "Price is required for variant"],
+        },
+        originalPrice: {
+          type: Number,
+          required: [true, "Original price is required for variant"],
+        },
+        stock: {
+          type: Number,
+          required: [true, "Stock is required for variant"],
+          default: 10,
+        },
+      },
+    ],
     images: [
       {
         public_id: {
@@ -92,6 +89,22 @@ const productSchema = new Schema(
         comment: { type: String },
         images: [{ public_id: { type: String }, url: { type: String } }],
         createdAt: { type: Date, default: Date.now },
+      },
+    ],
+    categories: [
+      {
+        type: String,
+        required: [true, "Please enter product category"],
+      },
+    ],
+    subCategory: {
+      type: String,
+      required: [true, "Please enter product sub category"],
+    },
+    notes: [
+      {
+        type: String,
+        required: [true, "Please enter product notes"],
       },
     ],
     user: {

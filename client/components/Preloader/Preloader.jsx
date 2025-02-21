@@ -19,14 +19,14 @@ const Preloader = () => {
       revealerTl
         .to(amoreeRef.current, {
           opacity: 1,
-          duration: 0.025,
-          repeat: 50,
+          duration: 0.023,
+          repeat: 45,
           onRepeat: () => {
             amoreeRef.current.textContent = getRandomString(finalText.length);
           },
           onComplete: () => {
             gsap.to(amoreeRef.current, {
-              duration: 2,
+              duration: 1.75,
               text: finalText,
               onComplete: () =>
                 gsap.to(".start_div", { display: "none", opacity: 0 }),
@@ -36,14 +36,14 @@ const Preloader = () => {
         .to(".r_1", {
           delay: 2,
           clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-          duration: 1.5,
+          duration: 1.35,
           ease: "expo.inOut",
         })
         .to(
           ".r_2",
           {
             clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-            duration: 1.5,
+            duration: 1.35,
             ease: "expo.inOut",
           },
           "<"

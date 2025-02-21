@@ -8,6 +8,9 @@ import AddToCartBtn from "./AddToCartBtn";
 import ProductRating from "./ProductRating";
 
 const ProductCard = ({ product }) => {
+
+  const variant = product?.variants[0];
+
   return (
     <div className="product__card w-auto  font-semibold neue_machina_light shadow_black_1 rounded-lg sm:rounded-none">
       <div className="relative sm:w-72 h-full shadow-md border bg-white border-black rounded-lg sm:rounded-none">
@@ -32,8 +35,9 @@ const ProductCard = ({ product }) => {
             <AddToCartBtn
               customize="text-sm rounded-full py-2 pl-2 pr-1 bg-white"
               slug={product?.slug}
-              stock={product?.stock}
+              stock={variant?.stock}
               id={product?._id}
+              variantId={variant?._id}
               count={1}
               isHideOnMob={true}
               icon={<ShoppingCartOutlined />}
@@ -66,23 +70,24 @@ const ProductCard = ({ product }) => {
               <span className="hidden sm:inline">
                 {" "}
                 Save{" "}
-                <FormatPrice price={product?.originalPrice - product?.price} />
+                <FormatPrice price={variant?.originalPrice - variant?.price} />
               </span>
             </div>
             <div className="flex items-center sm:justify-center gap-x-3 obviously">
               <span>
-                <FormatPrice price={product?.price} />
+                <FormatPrice price={variant?.price} />
               </span>
               <del className="hidden sm:inline">
-                <FormatPrice price={product?.originalPrice} />
+                <FormatPrice price={variant?.originalPrice} />
               </del>
             </div>
             <div className="hidden sm:flex items-center justify-center gap-x-3 w-full">
               <AddToCartBtn
                 customize="text-sm rounded-2xl px-2 pb-0.5"
                 slug={product?.slug}
-                stock={product?.stock}
+                stock={variant?.stock}
                 id={product?._id}
+                variantId={variant?._id}
                 count={1}
                 icon={
                   <ShoppingCartOutlined

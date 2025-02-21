@@ -16,7 +16,7 @@ const fetchProductDetails = async (slug) => {
     }
 
     const response = await res.json();
-    return response?.productDetails[0] || {};
+    return response?.productDetails || {};
   } catch (error) {
     console.error("Error in fetchProductDetails:", error);
     throw error;

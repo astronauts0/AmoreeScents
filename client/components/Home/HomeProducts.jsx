@@ -9,7 +9,7 @@ const HomeProducts = async () => {
     { title: "Our Perfume Collections", subCategory: ["perfume"] },
     {
       title: "Our Attar Collections",
-      subCategory: ["attar", "attr", "ittr", "ittar"],
+      subCategory: ["attar", "attr"],
     },
     // { title: "Our Tester Collections", subCategory: "tester" },
   ];

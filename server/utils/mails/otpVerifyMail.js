@@ -28,7 +28,7 @@ const otpVerifyMail = async (email, otp) => {
                     </div>
                     <p style="font-size: 14px; color: #888888;">If you did not request this, please ignore this email.</p>
                     <footer style="margin-top: 20px; font-size: 12px; color: #aaaaaa;">
-                        <p>&copy; 2024 Amorée Scents All rights reserved.</p>
+                        <p>&copy; ${new Date().getFullYear()} Amorée Scents All rights reserved.</p>
                     </footer>
                 </div>
             </div>

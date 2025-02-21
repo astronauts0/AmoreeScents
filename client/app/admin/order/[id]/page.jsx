@@ -127,9 +127,24 @@ const ProcessOrder = ({ params: { id } }) => {
                             src={item.image}
                             alt={item.name}
                           />
-                          <p className="satoshi_medium capitalize text-center">
-                            {item.name}
-                          </p>
+                          <div>
+                            <p className="satoshi_medium capitalize text-center">
+                              {item.name}
+                            </p>
+                            <p className="satoshi_medium">
+                              <strong>Size:</strong>{" "}
+                              <span className="bg-[#00796b] text-white px-1 rounded">
+                                {item?.size}
+                              </span>
+                              {item?.materialType &&
+                                item?.materialType.includes("Premium") && (
+                                  <sup className="dancing_script block pt-4 underline underline-offset-2">
+                                    {" "}
+                                    <mark>In Premium Bottle</mark>
+                                  </sup>
+                                )}
+                            </p>
+                          </div>
                           <span className="obviously">
                             {item.qty} X <FormatPrice price={item.price} /> ={" "}
                             <FormatPrice price={item.price * item.qty} />
@@ -191,6 +206,13 @@ const ProcessOrder = ({ params: { id } }) => {
               <div className="my-6 border-t border_color" />
 
               <div className="space-y-3 satoshi_medium">
+                <p>
+                  Total Items:{" "}
+                  <span className="obviously">
+                    {orderItems &&
+                      orderItems.reduce((acc, currVal) => acc + currVal.qty, 0)}
+                  </span>
+                </p>
                 <p>
                   Subtotal:{" "}
                   <span className="obviously">

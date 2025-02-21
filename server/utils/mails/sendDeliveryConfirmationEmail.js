@@ -25,10 +25,32 @@ const sendDeliveryConfirmationEmail = async ({
         (item) => `
             <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;">
-                    <a href="${process.env.FRONTEND_URL}/product/${item.slug}" style="color: #4CAF50; text-decoration: none;">${item.name}</a>
+                    <a
+                      href="${process.env.FRONTEND_URL}/product/${item.slug}"
+                      style="color: #00796b; text-decoration: underline;"
+                    >
+                      ${item.name}
+                    </a>
+                    <div style="padding-top: 2.5px;">
+                        <strong>Size:</strong> 
+                        <span style="background-color: #00796b; color: #e0f7fa; padding: 2px 5px; border-radius: 3px;">
+                            ${item.size}
+                        </span>
+                    </div>
+                    ${
+                      (item?.materialType || "").includes("Premium")
+                        ? `<span style="background-color: #ffff00; color: #000; font-size: 9px; text-decoration: underline;">
+                              <strong>In Premium Bottle</strong>
+                          </span>`
+                        : ""
+                    }
                 </td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${item.qty}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${item.qty} X Rs ${item.price}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${
+                  item.qty
+                }</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${
+                  item.qty
+                } X Rs ${item.price}</td>
             </tr>
         `
       )
@@ -40,7 +62,7 @@ const sendDeliveryConfirmationEmail = async ({
       subject: `Order Delivered - ${orderId} || Amorée Scents`,
       html: `
                 <div style="text-align: center;  padding: 20px;">
-                    <h1 style="color: #4CAF50;">Thank you for choosing us, ${name}!</h1>
+                    <h1 style="color: #00796b;">Thank you for choosing us, ${name}!</h1>
                     <h2>We hope you enjoy your purchase. </h2>
 
                     <p>Here are the details:</p>

@@ -30,18 +30,54 @@ const CreateNewProduct = () => {
   const [productData, setProductData] = useState({
     name: "",
     slug: "",
-    price: 0,
-    originalPrice: 0,
-    stock: 0,
-    featured: false,
     categories: [],
     productTags: "",
-    subCategory: "",
+    subCategory: "perfume",
+    featured: false,
     notes: "",
     description: "",
     shortDescription: "",
   });
 
+  const [variants, setVariants] = useState([
+    {
+      materialType: "",
+      materialDescription: "",
+      size: "50ml",
+      price: 0,
+      originalPrice: 0,
+      stock: 10,
+    },
+  ]);
+
+  const handleVariantChange = (index, e) => {
+    const newVariants = [...variants];
+    newVariants[index][e.target.name] = e.target.value;
+    setVariants(newVariants);
+  };
+
+  //% Add a new variant.
+  const addVariant = () => {
+    setVariants([
+      ...variants,
+      {
+        materialType: "",
+        materialDescription: "",
+        size: "50ml",
+        price: 0,
+        originalPrice: 0,
+        stock: 10,
+      },
+    ]);
+  };
+
+  //! Remove a variant.
+  const removeVariant = (index) => {
+    const newVariants = variants.filter((_, i) => i !== index);
+    setVariants(newVariants);
+  };
+
+  // ! handleRemoveImage
   const handleRemoveImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
     setImagesPreview((prevPreviews) =>
@@ -57,14 +93,12 @@ const CreateNewProduct = () => {
       const files = Array.from(e.target.files);
       files.forEach((file) => {
         const reader = new FileReader();
-
         reader.onload = () => {
           if (reader.readyState === 2) {
             setImagesPreview((old) => [...old, reader.result]);
             setImages((old) => [...old, reader.result]);
           }
         };
-
         reader.readAsDataURL(file);
       });
     } else if (e.target.name === "categories") {
@@ -77,7 +111,8 @@ const CreateNewProduct = () => {
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(createProduct({ ...productData, images }));
+    const dataToSubmit = { ...productData, images, variants };
+    dispatch(createProduct(dataToSubmit));
   };
 
   useEffect(() => {
@@ -91,24 +126,22 @@ const CreateNewProduct = () => {
       router.push("/admin/products");
       dispatch({ type: NEW_PRODUCT_RESET });
     }
-  }, [dispatch, toast, error, success]);
+  }, [dispatch, error, success, router]);
 
   return (
     <section className="min-h-screen w-full flex justify-center">
       <MetaData title="Create Product" />
       <Sidebar />
-      <div
-        className={`bg-gray-200 shadow_black_1 w-full max-w-xl h-fit rounded-lg p-6 flex justify-center items-center flex-col mx-auto my-28 `}
-      >
+      <div className="bg-gray-200 shadow_black_1 w-full max-w-xl h-fit rounded-lg p-6 flex justify-center items-center flex-col mx-auto my-28">
         <h1 className="text-3xl font-bold leading-none text-center mb-5 mt-2.5">
           Create Product
         </h1>
-        <form className="space-y-4" onSubmit={createProductSubmitHandler}>
+        <form className="space-y-2.5" onSubmit={createProductSubmitHandler}>
           <input
             name="name"
             type="text"
             placeholder="Product Name"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
             required
             value={productData.name}
             onChange={handleProductChange}
@@ -117,40 +150,16 @@ const CreateNewProduct = () => {
             name="slug"
             type="text"
             placeholder="Product Slug"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
             required
             value={productData.slug}
-            onChange={handleProductChange}
-          />
-          <input
-            name="originalPrice"
-            type="number"
-            placeholder="Original Price"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
-            required
-            onChange={handleProductChange}
-          />
-          <input
-            name="price"
-            type="number"
-            placeholder="Price"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
-            required
-            onChange={handleProductChange}
-          />
-          <input
-            type="number"
-            name="stock"
-            placeholder="Stock"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
-            required
             onChange={handleProductChange}
           />
           <input
             type="text"
             name="productTags"
             placeholder="Product Tags or Tag"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
             required
             value={productData.productTags}
             onChange={handleProductChange}
@@ -159,20 +168,25 @@ const CreateNewProduct = () => {
             type="text"
             name="categories"
             placeholder="Categories or Category"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
             required
             value={productData.categories}
             onChange={handleProductChange}
           />
-          <input
-            type="text"
+          <select
             name="subCategory"
-            placeholder="Sub Category"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
             required
             value={productData.subCategory}
             onChange={handleProductChange}
-          />
+          >
+            <option selected="true" disabled="true">
+              Select Sub Category
+            </option>
+            <option value="perfume">perfume</option>
+            <option value="attar">attar</option>
+            <option value="tester">tester</option>
+          </select>
           <select
             name="featured"
             className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
@@ -180,16 +194,17 @@ const CreateNewProduct = () => {
             value={productData.featured}
             onChange={handleProductChange}
           >
-            <option selected disabled>Select Featured</option>
+            <option selected disabled>
+              Select Featured
+            </option>
             <option value="false">No</option>
             <option value="true">Yes</option>
           </select>
-
           <input
             type="text"
             name="notes"
             placeholder="Notes"
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
             required
             value={productData.notes}
             onChange={handleProductChange}
@@ -210,9 +225,8 @@ const CreateNewProduct = () => {
             accept="image/*"
             onChange={handleProductChange}
             multiple
-            className="text-center outline-none bg-transparent border border_color  block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
           />
-
           <div className="flex w-full overflow-hidden items-center gap-3">
             {imagesPreview?.map((image, index) => (
               <div key={index} className="relative">
@@ -238,6 +252,117 @@ const CreateNewProduct = () => {
             productData={productData}
             setProductData={setProductData}
           />
+
+          {/* Variants Section */}
+          <div className="mt-8 w-full">
+            <h2 className="text-xl font-bold mb-4">Variants</h2>
+            {variants.map((variant, index) => (
+              <div
+                key={index}
+                className="border p-4 mb-4 rounded-md flex flex-col gap-2"
+              >
+                <div>
+                  <label>Material Type:</label>
+                  <select
+                    name="materialType"
+                    value={variant.materialType}
+                    onChange={(e) => handleVariantChange(index, e)}
+                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                  >
+                    <option value="">Select Material Type (optional)</option>
+                    <option value="Simple Bottle Attar">
+                      Simple Bottle Attar
+                    </option>
+                    <option value="Premium Bottle Attar">
+                      Premium Bottle Attar
+                    </option>
+                    <option value="Simple Bottle Perfume">
+                      Simple Bottle Perfume
+                    </option>
+                    <option value="Premium Bottle Perfume">
+                      Premium Bottle Perfume
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <label>Material Description:</label>
+                  <input
+                    type="text"
+                    name="materialDescription"
+                    placeholder="Material Description (optional)"
+                    value={variant.materialDescription}
+                    onChange={(e) => handleVariantChange(index, e)}
+                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label>Size:</label>
+                  <input
+                    type="text"
+                    name="size"
+                    placeholder="Size (e.g. 50ml, 100ml)"
+                    value={variant.size}
+                    onChange={(e) => handleVariantChange(index, e)}
+                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Original Price:</label>
+                  <input
+                    type="number"
+                    name="originalPrice"
+                    placeholder="Variant Original Price"
+                    value={variant.originalPrice}
+                    onChange={(e) => handleVariantChange(index, e)}
+                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Price:</label>
+                  <input
+                    type="number"
+                    name="price"
+                    placeholder="Variant Price"
+                    value={variant.price}
+                    onChange={(e) => handleVariantChange(index, e)}
+                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>Stock:</label>
+                  <input
+                    type="number"
+                    name="stock"
+                    placeholder="Variant Stock"
+                    value={variant.stock}
+                    onChange={(e) => handleVariantChange(index, e)}
+                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                    required
+                  />
+                </div>
+                {variants.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeVariant(index)}
+                    className="bg-red-500 text-white px-3 py-1 rounded-md"
+                  >
+                    Remove Variant
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addVariant}
+              className="bg-blue-500 text-white px-3 py-1 rounded-md"
+            >
+              Add Variant
+            </button>
+          </div>
 
           <div className="w-full flex justify-center items-center mt-10">
             {loading ? (

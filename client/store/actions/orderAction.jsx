@@ -51,11 +51,11 @@ export const myOrders = () => async (dispatch) => {
   }
 };
 
-export const perProductOrders = () => async (dispatch) => {
+export const perProductOrders = (productId) => async (dispatch) => {
   try {
     dispatch({ type: PER_PRODUCT_ORDERS_REQUEST });
 
-    const { data } = await request("/per_product_orders");
+    const { data } = await request(`/per_product_orders/?id=${productId}`);
 
     dispatch({
       type: PER_PRODUCT_ORDERS_SUCCESS,

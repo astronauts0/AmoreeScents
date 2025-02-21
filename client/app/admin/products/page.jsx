@@ -88,13 +88,23 @@ const ProductsList = () => {
 
   products &&
     products.forEach((item) => {
+      const combinedStock = item.variants.reduce(
+        (acc, variant) => acc + variant.stock,
+        0
+      );
+      const combinedPrice = item.variants
+        .map((variant) => variant.price)
+        .join(", ");
+
       rows.push({
         id: item._id,
-        stock: item.stock,
-        price: item.price,
         name: item.name,
+        stock: combinedStock,
+        price: combinedPrice,
       });
     });
+
+  console.log("🚀 ~ rows:", rows);
 
   useEffect(() => {
     if (error) {

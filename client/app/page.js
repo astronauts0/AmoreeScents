@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 
 import HomeProducts from "@/components/Home/HomeProducts";
 import Cta from "@/pages/Home/Cta";
-import ZoomText from "@/components/Home/ZoomText";
 
 const Hero = dynamic(() => import("@/pages/Home/Hero"), {
   ssr: false,
@@ -18,7 +17,6 @@ const page = () => {
   return (
     <section className="overflow-hidden">
       <Hero />
-      <ZoomText/>
       <HomeProducts />
       <ProductModel />
       <Cta />

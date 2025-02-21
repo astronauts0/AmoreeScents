@@ -142,39 +142,12 @@ body[theme="white"] .animated__button::before {
   background: var(--black);
 }
 
-/** cyan */
-body[theme="cyan"] {
-  background-color: var(--cyan);
-  color: var(--dark_cyan) !important;
-  transition: var(--transition_theme);
-}
-
-body[theme="cyan"] .text_stroke_color {
-  -webkit-text-stroke-color: var(--dark_cyan);
-  transition: var(--transition_theme);
-}
-
-body[theme="cyan"] .border_color {
-  border-color: var(--dark_cyan) !important;
-  transition: var(--transition_theme);
-}
-
-body[theme="cyan"] .ButtonTextIcon:hover,
-body[theme="cyan"] .animated__button:hover {
-  color: var(--white);
-}
-
-body[theme="cyan"] .ButtonTextIcon::before,
-body[theme="cyan"] .animated__button::before {
-  background: var(--dark_cyan);
-}
 
 .anime_icons .svg_mode {
   fill: var(--white) !important;
 }
 
-body[theme="white"] .header__icons .ButtonTextIcon,
-body[theme="cyan"] .header__icons .ButtonTextIcon {
+body[theme="white"] .header__icons .ButtonTextIcon{
   border: 1px solid var(--white) !important;
   color: var(--white) !important;
 }

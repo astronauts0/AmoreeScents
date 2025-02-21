@@ -35,18 +35,11 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
 //* Get Products Details by slug
 exports.getProductsDetails = catchAsyncError(async (req, res, next) => {
   const productDetails = await productsModel
-    .find({ slug: req.params.slug })
-    .populate({
-      path: "reviews.user",
-      select: "orders",
-    });
+    .findOne({ slug: req.params.slug })
+    .populate({ path: "reviews.user", select: "orders" });
   if (!productDetails)
     return next(new ErrorHandler("Product Details Not Found", 404));
-
-  return res.status(200).json({
-    success: true,
-    productDetails,
-  });
+  return res.status(200).json({ success: true, productDetails });
 });
 
 //* Get Products Details by Id
@@ -54,11 +47,7 @@ exports.getProductsDetailsByID = catchAsyncError(async (req, res, next) => {
   const productDetails = await productsModel.findById(req.params.id);
   if (!productDetails)
     return next(new ErrorHandler("Product Details Not Found", 404));
-
-  return res.status(200).json({
-    success: true,
-    productDetails,
-  });
+  return res.status(200).json({ success: true, productDetails });
 });
 
 //* create New Review or update the review
@@ -245,13 +234,8 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 //# Get All Products by ~~Admin
 exports.getAdminProducts = catchAsyncError(async (req, res, next) => {
   const products = await productsModel.find();
-
   if (!products) return next(new ErrorHandler("Products Not Found", 404));
-
-  return res.status(200).json({
-    success: true,
-    products,
-  });
+  return res.status(200).json({ success: true, products });
 });
 
 //# Update The Product by ~~Admin

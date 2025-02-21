@@ -26,12 +26,7 @@ const ClientLogic = () => {
     }
   }, [pathname]);
 
-  return showInitialRender ? (
-    <>
-      <Preloader />
-      <AvailOffer />
-    </>
-  ) : null;
+  return showInitialRender ?  <AvailOffer /> : null;
 };
 
 export default ClientLogic;

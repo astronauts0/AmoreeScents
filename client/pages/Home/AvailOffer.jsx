@@ -47,8 +47,10 @@ const AvailOffer = () => {
       .to(
         availOfferRef?.current,
         {
-          duration: 2,
+          filter: "blur(5px)",
+          duration: 0.5,
           top: "-100%",
+          opacity: 0,
           onComplete: () => {
             gsap.set(availOfferRef?.current, { display: "none" });
           },
@@ -65,7 +67,7 @@ const AvailOffer = () => {
           {
             opacity: 0,
             y: -200,
-            duration: 1.3,
+            duration: 1,
             stagger: 0.13,
             ease: "bounce",
           },
@@ -76,7 +78,7 @@ const AvailOffer = () => {
           {
             opacity: 1,
             scale: 1,
-            duration: 0.7,
+            duration: 0.5,
             ease: "expo.in",
           },
           "txt1"
@@ -84,7 +86,7 @@ const AvailOffer = () => {
         .from(new SplitType(".hero_main_title", { type: "words" })?.chars, {
           opacity: 0,
           x: -10,
-          stagger: 0.03,
+          stagger: 0.02,
           duration: 0.1,
           ease: "power2",
         });
@@ -107,8 +109,8 @@ const AvailOffer = () => {
       </div>
       <h1 className="text-center text-[22vw] leading-[22vw] sm:text-[12vw] sm:leading-[12vw]">
         <span>Click</span> <span className="Havelock_Medium">to</span> <br />{" "}
-        <span className="neue_machina_light">Avail</span>{" "}
-        <span className="dancing_script">Offer!</span>
+        <span className="dancing_script">20%</span>{" "}
+        <span className="neue_machina_light">Off!</span>
       </h1>
       <div
         ref={enterRef}

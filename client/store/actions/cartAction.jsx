@@ -1,42 +1,58 @@
 import request from "../Api/Api";
-import { ADD_TO_CART, REMOVE_ALL_ITEMS_TO_CART, REMOVE_TO_CART, SAVE_SHIPPING_INFO } from "../constants/cartConstants"
+import {
+  ADD_TO_CART,
+  REMOVE_ALL_ITEMS_TO_CART,
+  REMOVE_TO_CART,
+  SAVE_SHIPPING_INFO,
+} from "../constants/cartConstants";
 
+export const addItemsToCart =
+  (id, variantId, qty) => async (dispatch, getState) => {
+    const {
+      data: { productDetails: product },
+    } = await request(`/product_by_id/${id}`);
 
-export const addItemsToCart = (id, qty) => async (dispatch, getState) => {
-
-    const { data: { productDetails: product } } = await request(`/product_by_id/${id}`);
+    const variant = product.variants.find(
+      (variant) => variant._id === variantId
+    );
+    
+    console.log("🚀 ~ variant:", variant);
 
     dispatch({
-        type: ADD_TO_CART, payload: {
-            product: product._id,
-            name: product.name,
-            slug: product.slug,
-            price: product.price,
-            image: product.images[0].url,
-            stock: product.stock,
-            qty
-        }
+      type: ADD_TO_CART,
+      payload: {
+        product: product._id,
+        variantId: variant?._id,
+        name: product.name,
+        price: variant.price,
+        stock: variant.stock,
+        size: variant.size,
+        materialType: variant.materialType,
+        qty,
+        slug: product.slug,
+        image: product.images[0].url,
+      },
     });
 
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
-
-}
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(getState().cart.cartItems)
+    );
+  };
 
 export const removeItemToCart = (id) => async (dispatch, getState) => {
+  dispatch({ type: REMOVE_TO_CART, payload: id });
 
-    dispatch({ type: REMOVE_TO_CART, payload: id });
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
 
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
-
-}
 export const removeAllItemsToCart = () => async (dispatch, getState) => {
+  dispatch({ type: REMOVE_ALL_ITEMS_TO_CART });
 
-    dispatch({ type: REMOVE_ALL_ITEMS_TO_CART });
-
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
-}
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
 
 export const saveShippingInfo = (data) => async (dispatch) => {
-    dispatch({ type: SAVE_SHIPPING_INFO, payload: data });
-    localStorage.setItem('shippingInfo', JSON.stringify(data));
-}
+  dispatch({ type: SAVE_SHIPPING_INFO, payload: data });
+  localStorage.setItem("shippingInfo", JSON.stringify(data));
+};

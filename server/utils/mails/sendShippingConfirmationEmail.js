@@ -25,10 +25,32 @@ const sendShippingConfirmationEmail = async ({
         (item) => `
             <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;">
-                    <a href="${process.env.FRONTEND_URL}/product/${item.slug}" style="color: #4CAF50; text-decoration: none;">${item.name}</a>
+                    <a
+                      href="${process.env.FRONTEND_URL}/product/${item.slug}"
+                      style="color: #00796b; text-decoration: underline;"
+                    >
+                      ${item.name}
+                    </a>
+                    <div style="padding-top: 2.5px;">
+                        <strong>Size:</strong> 
+                        <span style="background-color: #00796b; color: #e0f7fa; padding: 2px 5px; border-radius: 3px;">
+                            ${item.size}
+                        </span>
+                    </div>
+                    ${
+                      (item?.materialType || "").includes("Premium")
+                        ? `<span style="background-color: #ffff00; color: #000; font-size: 9px; text-decoration: underline;">
+                              <strong>In Premium Bottle</strong>
+                          </span>`
+                        : ""
+                    }
                 </td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${item.qty}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${item.qty} X Rs ${item.price}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${
+                  item.qty
+                }</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${
+                  item.qty
+                } X Rs ${item.price}</td>
             </tr>
         `
       )
@@ -40,7 +62,7 @@ const sendShippingConfirmationEmail = async ({
       subject: `Your Order has been Shipped - ${orderId} || Amorée Scents`,
       html: `
                 <div style="text-align: center;  padding: 20px;">
-                    <h1 style="color: #4CAF50;">Your order has been shipped, ${name}!</h1>
+                    <h1 style="color: #00796b;">Your order has been shipped, ${name}!</h1>
                     <h2>Your order is on its way! [Please have your payment ready] Our delivery personnel will arrive at your doorstep soon.</h2>
 
                     <p>Here are the details:</p>
