@@ -1,10 +1,11 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import { GoogleTagManager } from "@next/third-parties/google";
-
 import Footer from "../components/global/Footer/Footer";
 import LoadUserProvider from "../store/LoadUserProvider";
 import { StoreProvider } from "../store/StoreProvider";
+
+import { GoogleTagManager } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
 
@@ -95,6 +96,7 @@ export default function RootLayout({ children }) {
             <LoadUserProvider>
               <Header />
               <main>{children}</main>
+              <Analytics />
               <Footer />
             </LoadUserProvider>
           </StoreProvider>
