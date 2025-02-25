@@ -195,50 +195,46 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
   if (!newUserData.name || !newUserData.email)
     return next(new ErrorHandler("Please fill all fields", 400));
 
-  if (
-    req.body.avatar &&
-    req.body.avatar !== "" &&
-    req.body.avatar !== "undefined"
-  ) {
-    const user = await usersModel.findById(req.user.id);
-    const imageId = user?.avatar?.public_id;
+  const user = await usersModel.findById(req.user.id);
+  if (!user) return next(new ErrorHandler("User not found", 404));
 
-    if (imageId) {
-      try {
-        await cloudinary.uploader.destroy(imageId);
-      } catch (error) {
-        console.warn("Error deleting previous avatar:", error.message);
+  if (req.body?.avatar) {
+    if (user?.avatar?.url === req.body?.avatar) {
+      newUserData.avatar = user?.avatar;
+    } else {
+      if (user?.avatar?.public_id) {
+        await cloudinary.uploader.destroy(user?.avatar?.public_id);
       }
+      const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
+        folder: "Amoree/Avatars",
+      });
+      newUserData.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
     }
-
-    const myCloud = await cloudinary.uploader.upload(req.body?.avatar, {
-      folder: "Amoree/Avatars",
-    });
-
-    newUserData.avatar = {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
-    };
   }
 
+  const updatedUser = await usersModel.findByIdAndUpdate(
+    req.user.id,
+    newUserData,
+    {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }
+  );
 
-  const user = await usersModel.findByIdAndUpdate(req.user.id, newUserData, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  });
-
-  if (!user)
+  if (!updatedUser)
     return next(
       new ErrorHandler(
-        `User not found with this ${req.user.id} or not updated`,
+        `User not found with id ${req.user.id} or not updated`,
         404
       )
     );
 
-  res.status(200).json({ success: true, user });
+  res.status(200).json({ success: true, user: updatedUser });
 });
-
 //# get all users for ~~Admin
 exports.getAllUsers = catchAsyncError(async (req, res, next) => {
   const users = await usersModel.find();

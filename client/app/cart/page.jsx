@@ -23,7 +23,7 @@ export default function Cart() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  console.log("🚀 ~ file: page.jsx:23 ~ Cart ~ cartItems:", cartItems);
+  // console.log("🚀 ~ file: page.jsx:23 ~ Cart ~ cartItems:", cartItems);
 
   const checkoutHandler = () => router.push("/login?redirect=shipping");
 
@@ -66,7 +66,7 @@ export default function Cart() {
       {showConfetti && <ConfettiRain recycle={false} numberOfPieces={2000} />}
       <div className="mt-[20vh] md:mt-[25vh] w-[90%] mx-auto">
         {isAuthenticated && (
-          <div className="flex items-center justify-center md:justify-start relative gap-x-6 mb-14 md:mb-10">
+          <div className="flex items-center justify-center md:justify-start relative flex-wrap gap-x-6 mb-14 md:mb-10">
             <div className="size-20 relative rounded-full overflow-hidden border border_color">
               <Image
                 fill

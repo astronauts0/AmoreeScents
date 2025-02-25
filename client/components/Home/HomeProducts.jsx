@@ -18,7 +18,10 @@ const HomeProducts = async () => {
     <section className="relative my-14 px-2 sm:px-8 space-y-12 home_products overflow-hidden">
       <HomeProductsTheme />
       {categories.map((category, index) => (
-        <div key={index}>
+        <div
+          key={index}
+          className={category.subCategory.includes("attar") && 'pb-4' }
+        >
           <h1 className="text-center text-3xl mb-14">{category.title}</h1>
           <div className="grid grid-cols-2 sm:flex justify-center sm:flex-wrap gap-x-2.5 gap-y-6 sm:gap-4">
             {products

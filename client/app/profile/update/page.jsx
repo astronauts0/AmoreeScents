@@ -25,7 +25,7 @@ const UpdateProfile = () => {
 
   const initialPreview =
     "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568766/user_c9frnv.png";
-  const [avatar, setAvatar] = useState();
+  const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState(initialPreview);
 
   const [updUser, setUpdUser] = useState({ name: "", email: "" });
@@ -67,6 +67,7 @@ const UpdateProfile = () => {
     if (user) {
       setUpdUser({ name: user.name || "", email: user.email || "" });
       setAvatarPreview(user.avatar?.url || initialPreview);
+      setAvatar(user.avatar?.url || initialPreview);
     }
 
     if (error) {

@@ -3,11 +3,28 @@ import React from "react";
 const UserReviewsFeedback = ({ rating, user }) => {
   const getMessage = () => {
     if (rating <= 2) {
-      return `😞 We’re truly sorry for your experience, ${user}. Your feedback matters, & we’re working hard to make things better. Let us make it right!`;
+      return (
+        <>
+          😞 We’re truly sorry for your experience, <strong className="capitalize">{user}</strong>.
+          Your feedback matters, & we’re working hard to make things better. Let
+          us make it right!
+        </>
+      );
     } else if (rating === 3) {
-      return `🤝 Thanks for your honest feedback, ${user}! We appreciate you & are committed to improving. Next time, we’ll strive to exceed your expectations!`;
+      return (
+        <>
+          🤝 Thanks for your honest feedback, <strong className="capitalize">{user}</strong>! We
+          appreciate you & are committed to improving. Next time, we’ll strive
+          to exceed your expectations!
+        </>
+      );
     } else {
-      return `🌟 ${user}, your support means the world to us! 😊 Your kind words fuel our passion, & we can’t wait to serve you again!`;
+      return (
+        <>
+          🌟 <strong className="capitalize">{user}</strong>, your support means the world to us! 😊
+          Your kind words fuel our passion, & we can’t wait to serve you again!
+        </>
+      );
     }
   };
 

@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TextPlugin from "gsap/TextPlugin";
 import MotionPathPlugin from "gsap/MotionPathPlugin";
 import ScrollToPlugin from "gsap/ScrollToPlugin";
-import { Flip, ToastContainer } from "react-toastify";
 
 import "./lenis.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -44,19 +43,6 @@ const Lenis = ({ children }) => {
       }}
     >
       {children}
-      <ToastContainer
-        position="top-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Flip}
-      />
     </ReactLenis>
   );
 };

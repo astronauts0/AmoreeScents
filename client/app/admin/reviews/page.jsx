@@ -95,11 +95,9 @@ const ProductReviews = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          deleteLoading && (
             <button onClick={() => deleteReviewHandler(params.row.id)}>
               <i className="ri-delete-bin-7-line text-red-600 cursor-pointer text-xl"></i>
             </button>
-          )
         );
       },
     },

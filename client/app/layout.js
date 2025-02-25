@@ -39,6 +39,14 @@ export const metadata = {
     type: "website",
     locale: "en_US",
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_CONSOLE_ID,
+    // yandex: 'yandex',
+    // yahoo: 'yahoo',
+    // other: {
+    //   me: ['my-email', 'my-link'],
+    // },
+  },
   canonical: process.env.NEXT_PUBLIC_FRONTEND_URL,
   robots: "index, follow",
 };

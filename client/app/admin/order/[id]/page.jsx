@@ -73,7 +73,7 @@ const ProcessOrder = ({ params: { id } }) => {
     }
     if (isUpdated) {
       toast.success(message);
-      // router.push("/admin/orders");
+      router.push("/admin/orders");
       dispatch({ type: UPDATE_ORDER_RESET });
     }
 
@@ -236,50 +236,52 @@ const ProcessOrder = ({ params: { id } }) => {
               <div className="my-6 border-t border_color" />
 
               {/* Combined Form */}
-              <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
-                <h1>Update Order:</h1>
-                <select
-                  className="text-center outline-none bg-transparent border px-3 py-2 w-full"
-                  onChange={handleInputChange}
-                  value={formData.payment}
-                  name="payment"
-                >
-                  <option disabled value="">
-                    Select Payment Status
-                  </option>
-                  <option value="false">Not Paid</option>
-                  <option value="true">Paid</option>
-                </select>
+                {formData.payment &&
+                  <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
+                    <h1>Update Order:</h1>
+                    <select
+                      className="text-center outline-none bg-transparent border px-3 py-2 w-full"
+                      onChange={handleInputChange}
+                      value={formData.payment}
+                      name="payment"
+                    >
+                      <option disabled value="">
+                        Select Payment Status
+                      </option>
+                      <option value="false">Not Paid</option>
+                      <option value="true">Paid</option>
+                    </select>
 
-                {/* Order Status */}
-                {orderStatus !== "Delivered" && (
-                  <select
-                    className="text-center outline-none bg-transparent border px-3 py-2 w-full"
-                    onChange={handleInputChange}
-                    value={formData.status}
-                    name="status"
-                  >
-                    <option disabled value="">
-                      Select Status
-                    </option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                  </select>
-                )}
-                {updateLoading ? (
-                  <Loader />
-                ) : (
-                  <ButtonTextIcon
-                    btnType="submit"
-                    customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
-                    Icon={<i className="ri-refresh-line text-lg"></i>}
-                    disabled={
-                      loading || (!formData.status && formData.payment === "")
-                    }
-                    Text="Update Order"
-                  />
-                )}
-              </form>
+                    {/* Order Status */}
+                    {orderStatus !== "Delivered" && (
+                      <select
+                        className="text-center outline-none bg-transparent border px-3 py-2 w-full"
+                        onChange={handleInputChange}
+                        value={formData.status}
+                        name="status"
+                      >
+                        <option disabled value="">
+                          Select Status
+                        </option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                      </select>
+                    )}
+                    {updateLoading ? (
+                      <Loader />
+                    ) : (
+                      <ButtonTextIcon
+                        btnType="submit"
+                        customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
+                        Icon={<i className="ri-refresh-line text-lg"></i>}
+                        disabled={
+                          loading || (!formData.status && formData.payment === "")
+                        }
+                        Text="Update Order"
+                      />
+                    )}
+                  </form>
+                }
             </div>
           </section>
         </section>
