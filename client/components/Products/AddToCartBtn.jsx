@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, memo, useRef } from "react";
+import React, { useState, memo } from "react";
 import { useDispatch } from "react-redux";
 import { addItemsToCart } from "@/store/actions/cartAction";
 import { toast } from "react-toastify";
 import ButtonTextIcon from "../global/Buttons/ButtonTextIcon";
 import dynamic from "next/dynamic";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { track } from "@vercel/analytics/*";
 const ConfettiRain = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
   ssr: false,
 });
@@ -26,7 +27,10 @@ const AddToCartBtn = memo(
 
     const addToCart = () => {
       sendGTMEvent({ event: "addToCart", value: { slug, count } });
-
+      track("addToCart", {
+        productLink: `${slug}?variant=${variantId}`,
+        productQty: count,
+      });
       if (stock < 1)
         return toast.error(
           "Out of Stock. We'll notify you when it's back in stock."
