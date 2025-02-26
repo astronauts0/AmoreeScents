@@ -1,5 +1,5 @@
 "use client";
-import AvailOffer from "@/layout/Home/AvailOffer";
+import AvailOffer from "@/pages/Home/AvailOffer";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 

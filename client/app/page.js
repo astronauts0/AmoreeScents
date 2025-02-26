@@ -2,12 +2,12 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 import HomeProducts from "@/layout/Home/HomeProducts";
-import Cta from "@/layout/Home/Cta";
+import Cta from "@/pages/Home/Cta";
 
 const Hero = dynamic(() => import("@/layout/Home/Hero"), {
   ssr: false,
 });
-const ProductModel = dynamic(() => import("@/layout/Home/ProductModel"), {
+const ProductModel = dynamic(() => import("@/pages/Home/ProductModel"), {
   ssr: false,
 });
 

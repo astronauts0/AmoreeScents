@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from "react";
-import Dedicate from "@/layout/Home/Dedicate";
-import Purchased from "@/layout/Home/Purchased";
+import Dedicate from "@/pages/Home/Dedicate";
+import Purchased from "@/pages/Home/Purchased";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
