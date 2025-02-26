@@ -5,13 +5,14 @@ export const metadata = {
   description:
     "Learn about our Return & Exchange Policy. Amoree Scents offers a hassle-free return and exchange process within 14 days of delivery for unused products.",
   keywords: [
-    "Amorée Scents",
+    "Amoree Scents",
     "Return Policy",
     "Exchange Policy",
     "Fragrance Returns",
     "Return and Exchange",
   ],
   author: "Amorée Scents Team",
+  robots: "index, follow",
 };
 
 const ReturnPolicy = () => {

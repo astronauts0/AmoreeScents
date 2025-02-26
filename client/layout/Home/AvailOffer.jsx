@@ -1,16 +1,20 @@
 "use client";
 import SalesBanner from "@/components/global/sales/SalesBanner";
+import { SplitText } from "@/utils/functions/SplitText";
 import gsap from "gsap";
 import { useLenis } from "lenis/dist/lenis-react";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef } from "react";
-import SplitType from "split-type";
 
 const AvailOffer = () => {
   const lenis = useLenis();
   const enterRef = useRef(null);
   const availOfferRef = useRef(null);
   const pathname = usePathname();
+
+  const heroMainTitle = SplitText(".hero_main_title", {
+    type: "words",
+  });
 
   const handleMouseMove = (e) => {
     if (enterRef.current) {
@@ -83,7 +87,7 @@ const AvailOffer = () => {
           },
           "txt1"
         )
-        .from(new SplitType(".hero_main_title", { type: "words" })?.chars, {
+        .from(heroMainTitle?.chars, {
           opacity: 0,
           x: -10,
           stagger: 0.02,

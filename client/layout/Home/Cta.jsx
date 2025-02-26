@@ -6,13 +6,13 @@ import { ArrowRightAlt } from "@mui/icons-material";
 import { useLenis } from "lenis/dist/lenis-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import SplitType from "split-type";
 
 import WheelSvg from "@/components/svgs/WheelSvg";
 import FlowerSvg from "@/components/svgs/FlowerSvg";
 import PriceSvg from "@/components/svgs/PriceSvg";
 import StarStrokeSvg from "@/components/svgs/StarStrokeSvg";
 import SmileEmoji from "../../components/svgs/SmileEmoji";
+import { SplitText } from "@/utils/functions/SplitText";
 
 const Cta = () => {
   const lenis = useLenis();
@@ -25,9 +25,7 @@ const Cta = () => {
 
   useGSAP(() => {
     const ctx = gsap.context(() => {
-      const thanksText = new SplitType(thanksTextRef.current, {
-        type: "words",
-      });
+      const thanksText = SplitText(thanksTextRef.current, { type: "words" });
 
       gsap.to(thanksText.chars, {
         color: "black",

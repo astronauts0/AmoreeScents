@@ -1,6 +1,5 @@
 "use client";
-import Preloader from "@/components/Preloader/Preloader";
-import AvailOffer from "@/pages/Home/AvailOffer";
+import AvailOffer from "@/layout/Home/AvailOffer";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -26,7 +25,7 @@ const ClientLogic = () => {
     }
   }, [pathname]);
 
-  return showInitialRender ?  <AvailOffer /> : null;
+  return showInitialRender ? <AvailOffer /> : null;
 };
 
 export default ClientLogic;

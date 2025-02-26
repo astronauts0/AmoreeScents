@@ -4,16 +4,14 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import HeroVideo from "@/components/hero/HeroVideo";
 import HeroOverlay from "@/components/hero/HeroOverlay";
-import SplitType from "split-type";
+import { SplitText } from "@/utils/functions/SplitText";
 
 const Hero = () => {
   const headerRef = useRef(null);
 
   useGSAP(() => {
     const heroCtx = gsap.context(() => {
-      const dedicateText = new SplitType(".hero_overlay_title", {
-        type: "words",
-      });
+      const dedicateText = SplitText(".hero_overlay_title", { type: "words" });
 
       gsap.set(".hero_rows", { scale: 20 });
 

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import ButtonTextIcon from "../global/Buttons/ButtonTextIcon";
 import dynamic from "next/dynamic";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { track } from "@vercel/analytics/*";
+import { track } from "@vercel/analytics";
 const ConfettiRain = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
   ssr: false,
 });

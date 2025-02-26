@@ -1,14 +1,14 @@
 "use client";
 import React, { useRef } from "react";
-import Dedicate from "@/pages/Home/Dedicate";
-import Purchased from "@/pages/Home/Purchased";
+import Dedicate from "@/layout/Home/Dedicate";
+import Purchased from "@/layout/Home/Purchased";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import SplitType from "split-type";
 import Image from "next/image";
 import ModelSound from "@/components/global/audio/ModelSound";
 import { isMobile } from "@/config/Variables";
+import { SplitText } from "@/utils/functions/SplitText";
 
 const ProductModel = () => {
   const dedicateRef = useRef(null);
@@ -42,7 +42,7 @@ const ProductModel = () => {
     });
 
     const dedicateCtx = gsap.context(() => {
-      const dedicateText = new SplitType(".dedicate__text h1", {
+      const dedicateText = SplitText(".dedicate__text h1", {
         type: "words,chars",
       });
       gsap.from(dedicateText.chars, {

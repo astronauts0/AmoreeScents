@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCard from "@/components/Products/ProductCard";
 import fetchProducts from "@/modules/backend/fetchProducts";
-import HomeProductsTheme from "./HomeProductsTheme";
+import HomeProductsTheme from "@/animations/HomeProductsTheme";
 
 const HomeProducts = async () => {
   let products = await fetchProducts();
