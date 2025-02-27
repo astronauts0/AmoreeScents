@@ -11,7 +11,7 @@ export const metadata = {
     "Fragrance Returns",
     "Return and Exchange",
   ],
-  author: "Amorée Scents Team",
+  author: "Amoree Scents Team",
   robots: "index, follow",
 };
 

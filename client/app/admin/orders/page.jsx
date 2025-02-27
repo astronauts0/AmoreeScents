@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import { DELETE_ORDER_RESET } from "@/store/constants/orderConstants";
 import { clearErrors, deleteOrder, getAllOrders } from "@/store/actions/orderAction";
@@ -129,6 +129,7 @@ const OrderList = () => {
                             pageSize={0}
                             className="satoshi_medium h-screen"
                             data-lenis-prevent
+                            checkboxSelection slots={{ toolbar: GridToolbar }}
                         />
                     </div>
                 </section>}

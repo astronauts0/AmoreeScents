@@ -71,7 +71,7 @@ export default async function Product({ params }) {
               description: response?.shortDescription,
               brand: {
                 "@type": "Brand",
-                name: "Amorée Scents",
+                name: "Amoree Scents",
               },
               offers: {
                 "@type": "Offer",

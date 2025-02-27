@@ -33,7 +33,7 @@ export const metadata = {
   openGraph: {
     title: "Amoree Scents - Premium Fragrances at Affordable Prices",
     description:
-      "Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at unbeatable prices. Experience luxury scents that captivate your senses.",
+      "Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at affordable prices. Experience luxury scents that captivate your senses.",
     url: process.env.NEXT_PUBLIC_FRONTEND_URL,
     image:
       "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif",
@@ -76,7 +76,7 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Amorée Scents",
+              name: "Amoree Scents",
               url: process.env.NEXT_PUBLIC_FRONTEND_URL,
               logo: "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568469/socials_preview_x94t9l.gif",
               sameAs: [

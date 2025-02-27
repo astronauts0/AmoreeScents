@@ -7,7 +7,7 @@ import {
   getAllReviews,
 } from "@/store/actions/newReviewAction";
 import { DELETE_REVIEW_RESET } from "@/store/constants/productConstants";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Loader from "@/utils/Loader/Loader";
 import { toast } from "react-toastify";
 import Sidebar from "@/components/dashboard/Sidebar";
@@ -148,6 +148,7 @@ const ProductReviews = () => {
                 pageSize={7}
                 className="satoshi_medium h-screen"
                 data-lenis-prevent
+                checkboxSelection slots={{ toolbar: GridToolbar }}
               />
             ) : (
               <h1>No Reviews Found</h1>

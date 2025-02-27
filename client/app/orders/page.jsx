@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { clearErrors, myOrders } from "@/store/actions/orderAction";
 import { toast } from "react-toastify";
 import MetaData from "@/utils/Meta/MetaData";
@@ -113,6 +113,7 @@ const MyOrders = () => {
                 pageSize={7}
                 className="satoshi_medium h-screen scroll_thin"
                 data-lenis-prevent
+                checkboxSelection slots={{ toolbar: GridToolbar }}
               />
             ) : (
               <div className="mt-8 flex items-center justify-center satoshi_medium flex-col gap-4">

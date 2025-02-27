@@ -1,7 +1,7 @@
 "use client";
 import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import {
   clearErrors,
   deleteProduct,
@@ -143,6 +143,7 @@ const ProductsList = () => {
               pageSize={7}
               className="satoshi_medium h-screen"
               data-lenis-prevent
+              checkboxSelection slots={{ toolbar: GridToolbar }}
             />
           </div>
         </section>

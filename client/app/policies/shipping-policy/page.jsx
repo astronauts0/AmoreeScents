@@ -10,9 +10,9 @@ export const metadata = {
     "Shipping Policy",
     "Delivery",
     "Pakistan Scents Brand",
-    "Amorée Delivery Details",
+    "Amoree Delivery Details",
   ],
-  author: "Amorée Scents Team",
+  author: "Amoree Scents Team",
   robots: "index, follow",
 };
 

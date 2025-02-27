@@ -7,7 +7,7 @@ import {
   getAllUsers,
 } from "@/store/actions/userAction";
 import { DELETE_USER_RESET } from "@/store/constants/userConstants";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import MetaData from "@/utils/Meta/MetaData";
 import Loader from "@/utils/Loader/Loader";
 import Link from "next/link";
@@ -158,6 +158,7 @@ const UsersList = () => {
               pageSize={7}
               className="satoshi_medium h-screen"
               data-lenis-prevent
+              checkboxSelection slots={{ toolbar: GridToolbar }}
             />
           </div>
         </section>
