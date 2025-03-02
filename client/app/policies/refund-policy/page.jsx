@@ -5,6 +5,7 @@ export const metadata = {
   description:
     "Learn about Amoree Scents' refund and exchange policy. Easy returns within 14 days for unused products.",
   keywords: [
+    "amoreescents",
     "Amoree Scents",
     "Refund Policy",
     "Exchange Policy",

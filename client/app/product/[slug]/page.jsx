@@ -29,8 +29,8 @@ export async function generateMetadata({ params }) {
 
   const keywords =
     response?.productTags +
-      ", amoree scents, amour scents, amoree scent, amoree, amour, amoure, amoreescents, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume, attars, office, premium attars, unisex, unisex perfumes, everyday perfume" ??
-    "Amoree Scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars, unisex, unisex perfumes, everyday perfume";
+      ", amoree scents, amoreescents amour scents, amoree scent, amoree, amour, amoure, amore, amore scents, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, imported perfumes, budget-friendly perfumes, signature perfume, attars, office, premium attars, unisex, unisex perfumes, everyday perfume" ??
+    "amoree scents, amoreescents scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars, unisex, unisex perfumes, everyday perfume";
 
   return {
     title,

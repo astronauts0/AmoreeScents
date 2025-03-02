@@ -6,8 +6,8 @@ export const metadata = {
   description:
     "Read genuine customer reviews and ratings to understand why our customers trust and love our premium products. Discover real feedback that speaks for itself.",
   keywords:
-    "amoree, amoree scents, customer reviews, genuine feedback, product ratings, trusted reviews, premium products, customer testimonials",
-   openGraph: {
+    "amoree, amoreescents, amoreescents reviews, amoree reviews, amoree scents reviews, amoree scents, customer reviews, genuine feedback, product ratings, trusted reviews, premium products, customer testimonials",
+  openGraph: {
     title: "Customer Reviews - Trusted Feedback & Ratings || Amoree Scents",
     description:
       "Read genuine customer reviews and ratings to understand why our customers trust and love our premium products. Discover real feedback that speaks for itself.",

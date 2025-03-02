@@ -29,7 +29,7 @@ export const metadata = {
   description:
     "Discover Amoree Scents, Pakistan's leading brand offering high-quality fragrances at affordable prices. Experience luxury scents that captivate your senses.",
   keywords:
-    "amoree scents, amoree, amour, amour scents, amoree scent, amoure, amore, amore scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars,",
+    "amoree scents, amoreescents, amoreescent, amorescents, amoree, amour, amour scents, amoree scent, amoure, amore, amore scents, scents, scent, fragrance, fragrances, perfumes, perfume, premium fragrances, affordable perfumes, affordable luxury perfumes, high-quality perfumes, high-quality fragrances, high-quality scents, top Pakistan perfumes, imported perfumes, best luxury scents in Pakistan, budget-friendly perfumes, signature scents, attars, office, premium attars,",
   openGraph: {
     title: "Amoree Scents - Premium Fragrances at Affordable Prices",
     description:
@@ -65,11 +65,7 @@ export default function RootLayout({ children }) {
           href="https://cdn.jsdelivr.net/npm/remixicon@4.4.0/fonts/remixicon.css"
           rel="stylesheet"
         />
-        <link
-          rel="shortcut icon"
-          href="/images/svgs/mono_black.svg"
-          type="image/svg"
-        />
+        <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -6,6 +6,7 @@ export const metadata = {
   description:
     "Learn more about our shipping policy, delivery charges, and timings.",
   keywords: [
+    "amoreescents",
     "Amoree Scents",
     "Shipping Policy",
     "Delivery",
