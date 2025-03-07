@@ -85,7 +85,6 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     isReviewed.rating = Number(rating);
     isReviewed.reviewTitle = reviewTitle;
     isReviewed.comment = comment;
-    isReviewed.userImg = req.user.avatar?.url;
     isReviewed.images = imagesLinks;
   } else {
     const imagesLinks = [];
@@ -102,7 +101,6 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
 
     const review = {
       user: req.user._id,
-      userImg: req.user?.avatar?.url,
       name: req.user?.name,
       rating: Number(rating),
       reviewTitle,

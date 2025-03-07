@@ -12,8 +12,6 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import Image from "next/image";
-import Compressor from "compressorjs";
 
 const LoginSignup = () => {
   const dispatch = useDispatch();
@@ -31,6 +29,8 @@ const LoginSignup = () => {
     setUserLog({ email: "", password: "" });
   };
 
+  const [showedToast, setShowedToast] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => setShowPassword((prev) => !prev);
 
@@ -41,55 +41,21 @@ const LoginSignup = () => {
     password: "",
   });
 
-  const initialPreview =
-    "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568766/user_c9frnv.png";
-
-  const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState(initialPreview);
-
-  const handleSignup = (e) => {
-    if (e.target.name === "avatar") {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      new Compressor(file, {
-        quality: 0.5,
-        mimeType: "image/webp",
-        maxWidth: 800,
-  maxHeight: 800,
-        success(result) {
-          const reader = new FileReader();
-          reader.readAsDataURL(result);
-          reader.onloadend = () => {
-            setAvatarPreview(reader.result);
-            setAvatar(reader.result);
-          };
-        },
-        error(err) {
-          console.error("Image compression error:", err);
-          toast.error("Upload Failed. Try Again!");
-        },
-      });
-    } else {
-      setUserSign({ ...userSign, [e.target.name]: e.target.value });
-    }
-  };
+  const handleSignup = (e) =>
+    setUserSign({ ...userSign, [e.target.name]: e.target.value });
 
   const signupSubmit = (e) => {
     e.preventDefault();
     if (!userSign.phone >= 9) {
-      toast.error("Phone number should be atleast 9 or more characters");
+      toast.error("Phone number should be at least 9 or more characters");
       return;
     }
-    if (!avatar) {
-      toast.error("Please Upload Profile Image!");
-      return;
-    }
-    dispatch(register({ ...userSign, avatar }));
+    dispatch(register({ ...userSign }));
   };
 
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "profile";
+  const shipping = searchParams.get("redirect");
+  const redirect = shipping || "profile";
 
   useEffect(() => {
     if (error) {
@@ -99,7 +65,13 @@ const LoginSignup = () => {
     if (isAuthenticated) {
       router.push(`/${redirect}`);
     }
-  }, [dispatch, error, isAuthenticated, router, redirect]);
+    if (!isAuthenticated && shipping == "shipping" && !showedToast) {
+      toast.error(
+        "Please login or register first. This Info will be used in order confirmation process."
+      );
+      setShowedToast(true);
+    }
+  }, [dispatch, error, isAuthenticated, router, redirect, showedToast]);
 
   return (
     <section className="grid place-items-center w-full h-full bg-center">
@@ -150,12 +122,16 @@ const LoginSignup = () => {
                       {showPassword ? (
                         <div className="flex flex-col items-center justify-center">
                           <VisibilityOffOutlinedIcon fontSize="medium" />
-                          <p className="text-[10px] leading-none">Click to Hide</p>
+                          <p className="text-[10px] leading-none">
+                            Click to Hide
+                          </p>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center">
                           <RemoveRedEyeOutlinedIcon fontSize="medium" />
-                          <p className="text-[10px] leading-none">Click to Show</p>
+                          <p className="text-[10px] leading-none">
+                            Click to Show
+                          </p>
                         </div>
                       )}
                     </span>
@@ -230,46 +206,19 @@ const LoginSignup = () => {
                       {showPassword ? (
                         <div className="flex flex-col items-center justify-center">
                           <VisibilityOffOutlinedIcon fontSize="medium" />
-                          <p className="text-[10px] leading-none">Click to Hide</p>
+                          <p className="text-[10px] leading-none">
+                            Click to Hide
+                          </p>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center">
                           <RemoveRedEyeOutlinedIcon fontSize="medium" />
-                          <p className="text-[10px] leading-none">Click to Show</p>
+                          <p className="text-[10px] leading-none">
+                            Click to Show
+                          </p>
                         </div>
                       )}
                     </span>
-                  </div>
-                  <div className="relative mt-3 md:mt-0">
-                    <div className="size-48 relative mb-2">
-                      <Image
-                        width="220"
-                        height="220"
-                        className="border border_color rounded-full object-cover w-full h-full"
-                        src={avatarPreview}
-                        alt="Profile Image"
-                      />
-                      <label
-                        className="w-9 h-9 cursor-pointer absolute flex justify-center items-center bottom-4 right-4 rounded-full bg-white"
-                        htmlFor="upload"
-                      >
-                        <i className="text-zinc-800 ri-pencil-fill text-xl animate-spin"></i>
-                      </label>
-                      <input
-                        hidden
-                        onChange={handleSignup}
-                        className="opacity-0 w-[0.1px] h-[0.1px]"
-                        type="file"
-                        name="avatar"
-                        accept="image/*"
-                        id="upload"
-                      />
-                    </div>
-                    {avatarPreview === initialPreview && (
-                      <small className="text_error text-xs text-center mt-3 w-full block">
-                        Must upload your profile*
-                      </small>
-                    )}
                   </div>
                 </div>
                 <div className="mt-10">

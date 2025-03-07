@@ -14,7 +14,6 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import Sidebar from "@/components/dashboard/Sidebar";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
-import Image from "next/image";
 import isAuth from "@/Auth/isAuth";
 
 const UsersList = () => {
@@ -54,25 +53,6 @@ const UsersList = () => {
     { field: "id", headerName: "User ID", minWidth: 240, flex: 0.8 },
 
     {
-      field: "image",
-      headerName: "Profile",
-      minWidth: 100,
-      flex: 0.5,
-      renderCell: (params) => {
-        return (
-          <div className="size-14 relative overflow-hidden rounded-full">
-            <Image
-              fill
-              className="w-full h-full object-cover"
-              src={params.row.image}
-              alt="profile"
-            />
-          </div>
-        );
-      },
-    },
-
-    {
       field: "name",
       headerName: "Name",
       minWidth: 175,
@@ -80,8 +60,8 @@ const UsersList = () => {
     },
 
     {
-      field: "email",
-      headerName: "Email",
+      field: "phone",
+      headerName: "Phone No.",
       minWidth: 225,
       flex: 1,
     },
@@ -132,8 +112,7 @@ const UsersList = () => {
       rows.push({
         id: item._id,
         role: item.role,
-        email: item.email,
-        image: item.avatar?.url,
+        phone: item.phone,
         name: item.name,
       });
     });

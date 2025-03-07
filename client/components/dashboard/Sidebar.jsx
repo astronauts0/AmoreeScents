@@ -5,20 +5,20 @@ import { TreeItem } from "@mui/x-tree-view";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import { userProfile } from "@/config/Variables";
 
 const Sidebar = () => {
   let { user } = useSelector((state) => state.user);
 
   return (
     <aside className="bg-gray-700 text-white h-screen px-4 pt-20 space-y-6 w-64 sm:sticky top-0 left-0">
-
       <Link href="/admin/dashboard">
         <div className="flex justify-center items-center">
           <Image
             width="100"
             height="100"
             className="rounded-full"
-            src={user?.avatar?.url}
+            src={userProfile}
             alt="user-profile"
           />
         </div>

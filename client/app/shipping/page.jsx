@@ -79,7 +79,7 @@ const Shipping = () => {
               className="text-center outline-none bg-transparent border border_color rounded-full block size-60 px-3 py-2 mt-4"
               type="text"
               name="pinCode"
-              placeholder="Postal Code(opt) e.g: 100000"
+              placeholder="Postal Code (optional) e.g: 100000"
             />
             <input
               required

@@ -9,18 +9,10 @@ const welcomeMessageMail = require("../utils/mails/welcomeMessageMail");
 
 //* register user
 exports.registerUser = catchAsyncError(async (req, res, next) => {
-  const { name, email, phone, password, avatar } = req.body;
+  const { name, email, phone, password } = req.body;
 
-  if (!name || !email || !phone || !password) {
+  if (!req.body) {
     return next(new ErrorHandler("Please Enter all fields", 400));
-  }
-
-  let result = null;
-
-  if (avatar) {
-    result = await cloudinary.uploader.upload(avatar, {
-      folder: "Amoree/Avatars",
-    });
   }
 
   const userExist = await usersModel.findOne({ email });
@@ -28,13 +20,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Something went wrong Try Again", 400));
   }
 
-  const user = await usersModel.create({
-    name,
-    email,
-    phone,
-    password,
-    avatar: result && { public_id: result?.public_id, url: result?.secure_url },
-  });
+  const user = await usersModel.create(req.body);
 
   if (!user) return next(new ErrorHandler("User Not Create", 404));
 
@@ -187,37 +173,15 @@ exports.updatePassword = catchAsyncError(async (req, res, next) => {
 
 //* update user profile without password
 exports.updateProfile = catchAsyncError(async (req, res, next) => {
-  const newUserData = {
-    name: req.body.name,
-    email: req.body.email,
-  };
 
-  if (!newUserData.name || !newUserData.email)
-    return next(new ErrorHandler("Please fill all fields", 400));
+  if (!req.body) return next(new ErrorHandler("Please fill all fields", 400));
 
   const user = await usersModel.findById(req.user.id);
   if (!user) return next(new ErrorHandler("User not found", 404));
 
-  if (req.body?.avatar) {
-    if (user?.avatar?.url === req.body?.avatar) {
-      newUserData.avatar = user?.avatar;
-    } else {
-      if (user?.avatar?.public_id) {
-        await cloudinary.uploader.destroy(user?.avatar?.public_id);
-      }
-      const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
-        folder: "Amoree/Avatars",
-      });
-      newUserData.avatar = {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
-      };
-    }
-  }
-
   const updatedUser = await usersModel.findByIdAndUpdate(
     req.user.id,
-    newUserData,
+    req.body,
     {
       new: true,
       runValidators: true,
@@ -288,9 +252,6 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
     return next(
       new ErrorHandler(`User does not exist with this ${req.params.id} Id`, 404)
     );
-
-  const imageId = user.avatar?.public_id;
-  await cloudinary.uploader.destroy(imageId);
 
   await user.deleteOne();
 

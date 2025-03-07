@@ -12,6 +12,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 import MetaData from "@/utils/Meta/MetaData";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { userProfile } from "@/config/Variables";
 const ConfettiRain = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
   ssr: false,
 });
@@ -70,7 +71,7 @@ export default function Cart() {
             <div className="size-20 relative rounded-full overflow-hidden border border_color">
               <Image
                 fill
-                src={user?.avatar?.url}
+                src={userProfile}
                 alt={user.name}
                 className="h-full w-full object-cover"
               />

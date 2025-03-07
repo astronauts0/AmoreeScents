@@ -1,12 +1,13 @@
 "use client";
+import React from "react";
 import isAuth from "@/Auth/isAuth";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 import HeaderButton from "@/components/global/Buttons/HeaderButton";
 import Rain from "@/components/global/Rain/Rain";
+import { userProfile } from "@/config/Variables";
 import MetaData from "@/utils/Meta/MetaData";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
@@ -33,10 +34,7 @@ const Profile = () => {
                   <Image
                     fill
                     className="rounded-full object-cover border border_color"
-                    src={
-                      user?.avatar?.url ||
-                      "https://res.cloudinary.com/ddrd0vxzq/image/upload/v1737568766/user_c9frnv.png"
-                    }
+                    src={userProfile}
                     alt="profileImage"
                   />
                 </div>

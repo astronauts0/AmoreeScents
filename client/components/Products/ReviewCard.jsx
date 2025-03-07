@@ -65,14 +65,6 @@ const ReviewCard = ({
       <div className="px-2 py-4 sm:px-4">
         {/* User Information */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-x-2.5">
-          <div className="size-10 sm:size-14 relative overflow-hidden rounded-full">
-            <Image
-              src={review?.userImg}
-              alt="Profile"
-              fill
-              className="w-full h-full object-cover"
-            />
-          </div>
           <div>
             <h3 className="font-semibold text-gray-800 capitalize text-sm sm:text-base">
               {review?.name}
