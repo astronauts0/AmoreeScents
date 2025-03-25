@@ -16,11 +16,11 @@ const LayoutClientComponents = () => {
       <Link href="/reviews" className="see_reviews">
         ★ Reviews
       </Link>
-      <ClientLogic />
+      {/* <ClientLogic />
       <Cursor />
       <CustomCtxMenu />
       <SoftMusic />
-      <ClickSound />
+      <ClickSound /> */}
       <ToastContainer
         position="top-left"
         autoClose={5000}

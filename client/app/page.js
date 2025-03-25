@@ -16,10 +16,10 @@ const page = () => {
   // document.body.style.background = "#000";
   return (
     <section>
-      <Hero />
+      {/* <Hero /> */}
       <HomeProducts />
-      <ProductModel />
-      <Cta />
+      {/* <ProductModel /> */}
+      {/* <Cta /> */}
     </section>
   );
 };

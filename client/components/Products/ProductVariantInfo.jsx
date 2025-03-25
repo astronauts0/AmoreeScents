@@ -16,17 +16,21 @@ const ProductVariantInfo = ({ variants, product }) => {
     colors.length ? colors[0] : undefined
   );
 
-  const [selectedVariant, setSelectedVariant] = useState(() => {
-    if (typeof window !== "undefined" && variants && variants.length > 0) {
+  const [selectedVariant, setSelectedVariant] = useState(null);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      Array.isArray(variants) &&
+      variants.length > 0
+    ) {
       const params = new URLSearchParams(window.location.search);
       const variantIdFromUrl = params.get("variant");
-      if (variantIdFromUrl) {
-        const foundVariant = variants.find((v) => v._id === variantIdFromUrl);
-        if (foundVariant) return foundVariant;
-      }
+
+      const foundVariant = variants.find((v) => v._id === variantIdFromUrl);
+      setSelectedVariant(foundVariant || variants[0]);
     }
-    return variants[0];
-  });
+  }, [variants]);
 
   useEffect(() => {
     if (selectedVariant) {
@@ -35,7 +39,6 @@ const ProductVariantInfo = ({ variants, product }) => {
       window.history.replaceState({}, "", url.toString());
     }
   }, [selectedVariant]);
-
   return (
     <div>
       <div className="flex items-center flex-wrap gap-3 text-lg obviously">
