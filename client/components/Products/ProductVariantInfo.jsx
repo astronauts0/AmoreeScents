@@ -19,17 +19,17 @@ const ProductVariantInfo = ({ variants, product }) => {
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      Array.isArray(variants) &&
-      variants.length > 0
-    ) {
-      const params = new URLSearchParams(window.location.search);
-      const variantIdFromUrl = params.get("variant");
+    // if (
+    //   typeof window !== "undefined" &&
+    //   Array.isArray(variants) &&
+    //   variants.length > 0
+    // ) {
+    //   const params = new URLSearchParams(window.location.search);
+    //   const variantIdFromUrl = params.get("variant");
 
-      const foundVariant = variants.find((v) => v._id === variantIdFromUrl);
-      setSelectedVariant(foundVariant || variants[0]);
-    }
+    //   const foundVariant = variants.find((v) => v._id === variantIdFromUrl);
+    // }
+    setSelectedVariant(variants[0]);
   }, [variants]);
 
   useEffect(() => {

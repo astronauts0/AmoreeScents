@@ -49,7 +49,7 @@ const CreateNewProduct = () => {
       shortInfo: "",
       price: 0,
       originalPrice: 0,
-      stock: 10,
+      stock: 0,
       attributes: [], // Variant specific attributes
     },
   ]);

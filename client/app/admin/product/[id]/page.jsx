@@ -58,7 +58,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
       shortInfo: "",
       price: 0,
       originalPrice: 0,
-      stock: 10,
+      stock: 0,
       attributes: [],
     },
   ]);
