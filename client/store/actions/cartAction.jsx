@@ -7,7 +7,7 @@ import {
 } from "../constants/cartConstants";
 
 export const addItemsToCart =
-  (id, variantId, qty) => async (dispatch, getState) => {
+  (id, variantId, color, qty) => async (dispatch, getState) => {
     const {
       data: { productDetails: product },
     } = await request(`/product_by_id/${id}`);
@@ -15,8 +15,6 @@ export const addItemsToCart =
     const variant = product.variants.find(
       (variant) => variant._id === variantId
     );
-    
-    console.log("🚀 ~ variant:", variant);
 
     dispatch({
       type: ADD_TO_CART,
@@ -26,11 +24,11 @@ export const addItemsToCart =
         name: product.name,
         price: variant.price,
         stock: variant.stock,
-        size: variant.size,
-        materialType: variant.materialType,
+        attributes: variant?.attributes,
         qty,
+        color,
         slug: product.slug,
-        image: product.images[0].url,
+        image: product?.images[0]?.url,
       },
     });
 

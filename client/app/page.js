@@ -15,7 +15,7 @@ const page = () => {
   // document.body.style.filter = "invert(1)";
   // document.body.style.background = "#000";
   return (
-    <section className="overflow-hidden">
+    <section>
       <Hero />
       <HomeProducts />
       <ProductModel />

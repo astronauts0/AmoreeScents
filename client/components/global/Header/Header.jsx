@@ -33,7 +33,7 @@ const Header = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSocialsOpen, setIsSocialsOpen] = useState(true);
-  const [isPlay, setIsPlay] = useState(true);
+  const [isPlay, setIsPlay] = useState(false);
 
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const { cartItems } = useSelector((state) => state.cart);
@@ -207,9 +207,11 @@ const Header = () => {
 
     if (!bgMusic.paused) {
       bgMusic.pause();
+      bgMusic.muted = true;
       setIsPlay(false);
     } else {
       bgMusic.play();
+      bgMusic.muted = false;
       setIsPlay(true);
     }
   };

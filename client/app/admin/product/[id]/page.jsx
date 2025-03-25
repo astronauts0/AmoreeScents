@@ -11,51 +11,130 @@ import MetaData from "@/utils/Meta/MetaData";
 import ButtonTextIcon from "@/components/global/Buttons/ButtonTextIcon";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Image from "next/image";
-import TextEditor from "@/components/Editor/TextEditor";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import isAuth from "@/Auth/isAuth";
+
+const TextEditor = dynamic(() => import("@/components/Editor/TextEditor"), {
+  ssr: false,
+});
 
 const UpdateProduct = ({ params: { id: productId } }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const { error, product } = useSelector((state) => state.productDetails);
-  console.log("🚀 ~ UpdateProduct ~ product:", product);
-
   const {
     loading,
     error: updateError,
     isUpdated,
   } = useSelector((state) => state.product);
 
+  // Images state
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+
+  // Product data as per new schema
   const [productData, setProductData] = useState({
     name: "",
     slug: "",
-    categories: [],
     productTags: "",
-    subCategory: "perfume",
-    featured: false,
-    notes: "",
     description: "",
     shortDescription: "",
+    categories: [],
+    subCategory: "",
+    featured: false,
   });
 
+  // Product attributes (new schema: stored as an object; form mein hum use array of key-value pairs se handle karenge)
+  const [productAttributes, setProductAttributes] = useState([
+    { key: "", value: "" },
+  ]);
+
+  // Variants state matching new schema
+  // Har variant mein: shortInfo, price, originalPrice, stock, and attributes (array of key-value pairs)
   const [variants, setVariants] = useState([
     {
-      materialType: "",
-      materialDescription: "",
-      size: "50ml",
+      shortInfo: "",
       price: 0,
       originalPrice: 0,
       stock: 10,
+      attributes: [],
     },
   ]);
 
-  const parseCommaSeparatedValues = (value) =>
-    value.split(/,\s*|\s+/).map((item) => item.trim());
+  const handleReset = () => {
+    setProductAttributes([{ key: "", value: "" }]);
+    setImages([]);
+    setImagesPreview([]);
+    setProductData({
+      name: "",
+      slug: "",
+      productTags: "",
+      description: "",
+      shortDescription: "",
+      categories: [],
+      subCategory: "",
+      featured: false,
+    });
+    setVariants([
+      {
+        shortInfo: "",
+        price: 0,
+        originalPrice: 0,
+        stock: 10,
+        attributes: [], // Variant specific attributes
+      },
+    ]);
+  };
 
+  // ----- Handlers for Product Attributes -----
+  const handleProductAttributeChange = (index, field, e) => {
+    let value = e.target.value;
+
+    if (value.length > 0)
+      value = value.charAt(0).toLowerCase() + value.slice(1);
+
+    const updatedAttributes = [...productAttributes];
+    updatedAttributes[index][field] = value;
+    setProductAttributes(updatedAttributes);
+  };
+
+  const addProductAttribute = () => {
+    setProductAttributes([...productAttributes, { key: "", value: "" }]);
+  };
+
+  const removeProductAttribute = (index) => {
+    const newAttrs = productAttributes.filter((_, i) => i !== index);
+    setProductAttributes(newAttrs);
+  };
+
+  // ----- Handlers for Variant Attributes -----
+  const handleVariantAttributeChange = (variantIndex, attrIndex, field, e) => {
+    let value = e.target.value;
+    if (value.length > 0)
+      value = value.charAt(0).toLowerCase() + value.slice(1);
+
+    const newVariants = [...variants];
+    newVariants[variantIndex].attributes[attrIndex][field] = value;
+    setVariants(newVariants);
+  };
+
+  const addVariantAttribute = (variantIndex) => {
+    const newVariants = [...variants];
+    newVariants[variantIndex].attributes.push({ key: "", value: "" });
+    setVariants(newVariants);
+  };
+
+  const removeVariantAttribute = (variantIndex, attrIndex) => {
+    const newVariants = [...variants];
+    newVariants[variantIndex].attributes = newVariants[
+      variantIndex
+    ].attributes.filter((_, i) => i !== attrIndex);
+    setVariants(newVariants);
+  };
+
+  // ----- Handlers for Variants -----
   const handleVariantChange = (index, e) => {
     const newVariants = [...variants];
     newVariants[index][e.target.name] = e.target.value;
@@ -65,35 +144,30 @@ const UpdateProduct = ({ params: { id: productId } }) => {
   const addVariant = () => {
     setVariants([
       ...variants,
-      {
-        materialType: "",
-        materialDescription: "",
-        size: "50ml",
-        price: 0,
-        originalPrice: 0,
-        stock: 10,
-      },
+      { shortInfo: "", price: 0, originalPrice: 0, stock: 10, attributes: [] },
     ]);
   };
 
-  //! Remove a variant
   const removeVariant = (index) => {
     const newVariants = variants.filter((_, i) => i !== index);
     setVariants(newVariants);
   };
 
-  //! Remove image handler
+  // ----- Image Handlers -----
   const handleRemoveImage = (index) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    setImagesPreview((prevPreviews) =>
-      prevPreviews.filter((_, i) => i !== index)
-    );
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImagesPreview((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // Parse comma-separated values for categories
+  const parseCommaSeparatedValues = (value) =>
+    value.split(/,\s*|\s+/).map((item) => item.trim());
+
+  // Handle product field changes and image uploads
   const handleProductChange = (e) => {
     if (e.target.name === "productImages") {
       const files = Array.from(e.target.files);
-      files?.forEach((file) => {
+      files.forEach((file) => {
         const reader = new FileReader();
         reader.onload = () => {
           if (reader.readyState === 2) {
@@ -106,60 +180,102 @@ const UpdateProduct = ({ params: { id: productId } }) => {
     } else if (e.target.name === "categories") {
       const parsedValues = parseCommaSeparatedValues(e.target.value);
       setProductData({ ...productData, categories: parsedValues });
-    } else if (e.target.name === "notes") {
-      const parsedValues = parseCommaSeparatedValues(e.target.value);
-      setProductData({ ...productData, notes: parsedValues });
+    } else if (e.target.name === "featured") {
+      setProductData({
+        ...productData,
+        featured: JSON.parse(e.target.value),
+      });
     } else {
       setProductData({ ...productData, [e.target.name]: e.target.value });
     }
   };
 
+  // Submit handler: transform attributes arrays to objects before dispatch
   const updateProductSubmitHandler = (e) => {
     e.preventDefault();
-    const dataToSubmit = { ...productData, images, variants };
+    // Transform productAttributes array to object
+    const attributesObj = {};
+    productAttributes.forEach((attr) => {
+      if (attr.key.trim()) {
+        attributesObj[attr.key] = attr.value;
+      }
+    });
+    // Transform each variant's attributes to object
+    const transformedVariants = variants.map((variant) => {
+      const variantAttrsObj = {};
+      variant.attributes.forEach((attr) => {
+        if (attr.key.trim()) {
+          variantAttrsObj[attr.key] = attr.value;
+        }
+      });
+      return {
+        shortInfo: variant.shortInfo,
+        price: variant.price,
+        originalPrice: variant.originalPrice,
+        stock: variant.stock,
+        attributes: variantAttrsObj,
+      };
+    });
+    const dataToSubmit = {
+      ...productData,
+      images,
+      attributes: attributesObj,
+      variants: transformedVariants,
+    };
     dispatch(updateProduct(productId, dataToSubmit));
   };
 
   useEffect(() => {
     if (!product || product._id !== productId) {
-      dispatch(getProductsDetails(productId));
+      dispatch(getProductsDetails(productId)); // ✅ Ensure fresh product data
     } else {
       setProductData({
-        name: product?.name,
-        slug: product?.slug,
-        price: product?.price,
-        originalPrice: product?.originalPrice,
-        stock: product?.stock,
-        categories: product?.categories,
-        featured: product?.featured,
-        productTags: product?.productTags,
-        subCategory: product?.subCategory,
-        description: product?.description,
-        notes: product?.notes,
-        shortDescription: product?.shortDescription,
+        name: product.name || "",
+        slug: product.slug || "",
+        productTags: product.productTags || "",
+        description: product.description || "",
+        shortDescription: product.shortDescription || "",
+        categories: product.categories || [],
+        subCategory: product.subCategory || "",
+        featured: product.featured || false,
       });
-      setVariants(product?.variants || []);
-      setImagesPreview(product?.images || []);
-      setImages(product?.images || []);
-    }
 
-    if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
-    }
+      setImagesPreview(product.images || []);
+      setImages(product.images || []);
 
-    if (updateError) {
-      toast.error(updateError);
-      dispatch(clearErrors());
-    }
+      setProductAttributes(
+        Object.entries(product.attributes || {}).map(([key, value]) => ({
+          key,
+          value,
+        }))
+      );
 
+      setVariants(
+        product.variants?.map((variant) => ({
+          shortInfo: variant.shortInfo || "",
+          price: variant.price || 0,
+          originalPrice: variant.originalPrice || 0,
+          stock: variant.stock || 10,
+          attributes: Object.entries(variant.attributes || {}).map(
+            ([key, value]) => ({
+              key,
+              value,
+            })
+          ),
+        })) || []
+      );
+    }
+  }, [dispatch, productId, product]);
+
+  // ✅ Jab update ho jaye, Redux store ko refresh karo
+  useEffect(() => {
     if (isUpdated) {
       toast.success("Product Updated Successfully");
-      dispatch(getProductsDetails(productId));
       router.push("/admin/products");
+      dispatch(getProductsDetails(productId)); // ✅ Updated product refetch
       dispatch({ type: UPDATE_PRODUCT_RESET });
     }
-  }, [dispatch, product, productId, error, isUpdated, updateError]);
+  }, [isUpdated, dispatch, productId]);
 
   if (loading) return <Loader />;
 
@@ -167,18 +283,17 @@ const UpdateProduct = ({ params: { id: productId } }) => {
     <section className="min-h-screen w-full flex justify-center">
       <MetaData title="Update Product" />
       <Sidebar />
-      <div
-        className={`bg-gray-200 shadow_black_1 w-full max-w-xl h-fit rounded-lg p-6 flex justify-center items-center flex-col mx-auto my-28 `}
-      >
-        <h1 className="text-3xl font-bold leading-none text-center mb-5 mt-2.5">
+      <div className="bg-gray-200 shadow_black_1 w-full max-w-2xl h-fit rounded-lg p-6 flex flex-col mx-auto my-28">
+        <h1 className="text-3xl font-bold text-center mb-5 mt-2.5">
           Update Product
         </h1>
-        <form className="space-y-2.5" onSubmit={updateProductSubmitHandler}>
+        <form className="space-y-3.5" onSubmit={updateProductSubmitHandler}>
+          {/* Product Basic Fields */}
           <input
             name="name"
             type="text"
             placeholder="Product Name"
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
             required
             value={productData.name}
             onChange={handleProductChange}
@@ -187,7 +302,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
             name="slug"
             type="text"
             placeholder="Product Slug"
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
             required
             value={productData.slug}
             onChange={handleProductChange}
@@ -195,8 +310,8 @@ const UpdateProduct = ({ params: { id: productId } }) => {
           <input
             type="text"
             name="productTags"
-            placeholder="Product Tags or Tag"
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
+            placeholder="Product Tags (comma separated)"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
             required
             value={productData.productTags}
             onChange={handleProductChange}
@@ -204,73 +319,56 @@ const UpdateProduct = ({ params: { id: productId } }) => {
           <input
             type="text"
             name="categories"
-            placeholder="Categories or Category"
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
+            placeholder="Categories (comma separated)"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
             required
             value={productData.categories}
             onChange={handleProductChange}
           />
-          <select
+          <input
+            type="text"
             name="subCategory"
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
-            required
+            placeholder="Sub Category"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
             value={productData.subCategory}
             onChange={handleProductChange}
-          >
-            <option selected="true" disabled="true">
-              Select Sub Category
-            </option>
-            <option value="perfume">perfume</option>
-            <option value="attar">attar</option>
-            <option value="tester">tester</option>
-          </select>
+          />
           <select
             name="featured"
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
             required
-            value={productData.featured}
             onChange={handleProductChange}
+            value={productData.featured.toString()}
           >
-            <option selected disabled>
+            <option value="" disabled>
               Select Featured
             </option>
             <option value="false">No</option>
             <option value="true">Yes</option>
           </select>
-          <input
-            type="text"
-            name="notes"
-            placeholder="Notes or Note"
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
-            required
-            value={productData.notes}
-            onChange={handleProductChange}
-          />
           <textarea
-            cols="3"
-            rows="3"
             name="shortDescription"
             placeholder="Short Description"
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4 resize-none"
-            value={productData.shortDescription}
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 resize-none"
             required
+            value={productData.shortDescription}
             onChange={handleProductChange}
           ></textarea>
 
+          {/* Image Upload */}
           <input
             type="file"
             name="productImages"
             accept="image/*"
             onChange={handleProductChange}
             multiple
-            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2 mt-4"
+            className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
           />
-
-          <div className="flex w-full overflow-hidden items-center gap-3">
-            {imagesPreview?.map((image, index) => (
+          <div className="flex flex-wrap gap-3">
+            {imagesPreview.map((image, index) => (
               <div key={index} className="relative">
                 <Image
-                  src={(image && image?.url) || (image ? image : "")}
+                  src={image}
                   alt="Product Preview"
                   width={50}
                   height={50}
@@ -287,101 +385,157 @@ const UpdateProduct = ({ params: { id: productId } }) => {
             ))}
           </div>
 
+          {/* Description via Text Editor */}
           <TextEditor
             productData={productData}
             setProductData={setProductData}
           />
 
+          {/* Product Attributes Section */}
+          <div className="border py-4 rounded-md">
+            <h2 className="text-xl font-bold mb-3">Product Attributes</h2>
+            {productAttributes.map((attr, index) => (
+              <div key={index} className="flex items-center gap-2 mb-2">
+                <input
+                  type="text"
+                  placeholder="Attribute Key"
+                  value={attr.key}
+                  onChange={(e) =>
+                    handleProductAttributeChange(index, "key", e)
+                  }
+                  className="outline-none border border_color px-2 py-1 first-letter:lowercase"
+                />
+                <input
+                  type="text"
+                  placeholder="Attribute Value"
+                  value={attr.value}
+                  onChange={(e) =>
+                    handleProductAttributeChange(index, "value", e)
+                  }
+                  className="outline-none border border_color px-2 py-1 first-letter:lowercase"
+                />
+                {productAttributes.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeProductAttribute(index)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addProductAttribute}
+              className="bg-blue-500 text-white px-3 py-1 rounded"
+            >
+              Add Attribute
+            </button>
+          </div>
+
           {/* Variants Section */}
-          <div className="mt-8 w-full">
+          <div className="mt-6">
             <h2 className="text-xl font-bold mb-4">Variants</h2>
             {variants.map((variant, index) => (
               <div
                 key={index}
-                className="border p-4 mb-4 rounded-md flex flex-col gap-2"
+                className="border p-4 mb-4 rounded-md flex flex-col gap-4"
               >
-                <div>
-                  <label>Material Type:</label>
-                  <select
-                    name="materialType"
-                    value={variant.materialType}
-                    onChange={(e) => handleVariantChange(index, e)}
-                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                <input
+                  type="text"
+                  name="shortInfo"
+                  placeholder="Variant Info"
+                  className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                  required
+                  value={variant.shortInfo}
+                  onChange={(e) => handleVariantChange(index, e)}
+                />
+                <input
+                  type="number"
+                  name="originalPrice"
+                  placeholder="Original Price"
+                  className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                  required
+                  value={variant.originalPrice}
+                  onChange={(e) => handleVariantChange(index, e)}
+                />
+                <input
+                  type="number"
+                  name="price"
+                  placeholder="Price"
+                  className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                  required
+                  value={variant.price}
+                  onChange={(e) => handleVariantChange(index, e)}
+                />
+                <input
+                  type="number"
+                  name="stock"
+                  placeholder="Stock"
+                  className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
+                  required
+                  value={variant.stock}
+                  onChange={(e) => handleVariantChange(index, e)}
+                />
+
+                {/* Variant Attributes Section */}
+                <div className="border p-3 rounded-md">
+                  <h3 className="font-semibold mb-2">Variant Attributes</h3>
+                  {variant.attributes &&
+                    variant.attributes.map((attr, attrIndex) => (
+                      <div
+                        key={attrIndex}
+                        className="flex items-center gap-2 mb-2"
+                      >
+                        <input
+                          type="text"
+                          placeholder="Key"
+                          value={attr.key}
+                          onChange={(e) =>
+                            handleVariantAttributeChange(
+                              index,
+                              attrIndex,
+                              "key",
+                              e
+                            )
+                          }
+                          className="outline-none border border_color px-2 py-1 first-letter:lowercase"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Value"
+                          value={attr.value}
+                          onChange={(e) =>
+                            handleVariantAttributeChange(
+                              index,
+                              attrIndex,
+                              "value",
+                              e
+                            )
+                          }
+                          className="outline-none border border_color px-2 py-1 first-letter:lowercase"
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeVariantAttribute(index, attrIndex)
+                          }
+                          className="bg-red-500 text-white px-2 py-1 rounded"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  <button
+                    type="button"
+                    onClick={() => addVariantAttribute(index)}
+                    className="bg-blue-500 text-white px-3 py-1 rounded"
                   >
-                    <option value="">Select Material Type (optional)</option>
-                    <option value="Simple Bottle Attar">
-                      Simple Bottle Attar
-                    </option>
-                    <option value="Premium Bottle Attar">
-                      Premium Bottle Attar
-                    </option>
-                    <option value="Simple Bottle Perfume">
-                      Simple Bottle Perfume
-                    </option>
-                    <option value="Premium Bottle Perfume">
-                      Premium Bottle Perfume
-                    </option>
-                  </select>
+                    Add Attribute
+                  </button>
                 </div>
-                <div>
-                  <label>Material Description:</label>
-                  <input
-                    type="text"
-                    name="materialDescription"
-                    placeholder="Material Description (optional)"
-                    value={variant.materialDescription}
-                    onChange={(e) => handleVariantChange(index, e)}
-                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
-                  />
-                </div>
-                <div>
-                  <label>Size:</label>
-                  <input
-                    type="text"
-                    name="size"
-                    placeholder="Size (e.g. 50ml, 100ml)"
-                    value={variant.size}
-                    onChange={(e) => handleVariantChange(index, e)}
-                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
-                    required
-                  />
-                </div>
-                <div>
-                  <label>Original Price:</label>
-                  <input
-                    type="number"
-                    name="originalPrice"
-                    placeholder="Variant Original Price"
-                    value={variant.originalPrice}
-                    onChange={(e) => handleVariantChange(index, e)}
-                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
-                    required
-                  />
-                </div>
-                <div>
-                  <label>Price:</label>
-                  <input
-                    type="number"
-                    name="price"
-                    placeholder="Variant Price"
-                    value={variant.price}
-                    onChange={(e) => handleVariantChange(index, e)}
-                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
-                    required
-                  />
-                </div>
-                <div>
-                  <label>Stock:</label>
-                  <input
-                    type="number"
-                    name="stock"
-                    placeholder="Variant Stock"
-                    value={variant.stock}
-                    onChange={(e) => handleVariantChange(index, e)}
-                    className="text-center outline-none bg-transparent border border_color block w-full px-3 py-2"
-                    required
-                  />
-                </div>
+
                 {variants.length > 1 && (
                   <button
                     type="button"
@@ -402,18 +556,25 @@ const UpdateProduct = ({ params: { id: productId } }) => {
             </button>
           </div>
 
-          <div className="w-full flex justify-center items-center mt-10">
+          <div className="w-full flex justify-center items-center mt-14 gap-x-4">
             {loading ? (
-              <Loader />
+              <Loader height="auto" />
             ) : (
               <ButtonTextIcon
                 btnType="submit"
                 customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
                 Icon={<i className="ri-refresh-line text-lg"></i>}
-                disabled={loading ? true : false}
+                disabled={loading}
                 Text="Update"
               />
             )}
+            <div onClick={handleReset}>
+              <ButtonTextIcon
+                customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
+                Icon={<i className="ri-refresh-line text-lg"></i>}
+                Text="Reset"
+              />
+            </div>
           </div>
         </form>
       </div>

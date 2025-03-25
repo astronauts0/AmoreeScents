@@ -11,6 +11,7 @@ const HomeProducts = async () => {
       title: "Our Attar Collections",
       subCategory: ["attar", "attr"],
     },
+    { title: "Our Purses Collections", subCategory: ["purse", "purses"] },
     // { title: "Our Tester Collections", subCategory: "tester" },
   ];
 
@@ -28,7 +29,7 @@ const HomeProducts = async () => {
               ?.filter(
                 (product) =>
                   category.subCategory.includes(product?.subCategory) &&
-                  JSON.parse(product?.featured) === true
+                  product?.featured === true
               )
               .map((product) => (
                 <ProductCard key={product._id} product={product} />

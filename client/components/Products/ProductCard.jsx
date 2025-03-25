@@ -10,6 +10,9 @@ import ProductRating from "./ProductRating";
 const ProductCard = ({ product }) => {
 
   const variant = product?.variants[0];
+  const colors = product?.attributes?.colors
+    ? [...new Set(product.attributes.colors.split(","))]
+    : [];
 
   return (
     <div className="product__card w-auto  font-semibold neue_machina_light shadow_black_1 rounded-lg sm:rounded-none">
@@ -91,6 +94,7 @@ const ProductCard = ({ product }) => {
                 id={product?._id}
                 variantId={variant?._id}
                 count={1}
+                color={colors[0]}
                 icon={
                   <ShoppingCartOutlined
                     sx={{ fontSize: "17px" }}

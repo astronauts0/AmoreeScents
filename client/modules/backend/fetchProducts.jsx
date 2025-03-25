@@ -2,11 +2,11 @@ const fetchProducts = async (url = "") => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/products?${url}`,
-      {
-        next: {
-          revalidate: 150,
-        },
-      }
+      // {
+      //   next: {
+      //     revalidate: 150,
+      //   },
+      // }
     );
 
     if (!res.ok) {

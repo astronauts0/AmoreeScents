@@ -24,7 +24,7 @@ export default function Cart() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  // console.log("🚀 ~ file: page.jsx:23 ~ Cart ~ cartItems:", cartItems);
+  console.log("🚀 ~ file: page.jsx:23 ~ Cart ~ cartItems:", cartItems);
 
   const checkoutHandler = () => router.push("/login?redirect=shipping");
 

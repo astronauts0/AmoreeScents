@@ -1,6 +1,7 @@
 "use client";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const HomeProductsTheme = () => {
   useGSAP(() => {
@@ -9,16 +10,26 @@ const HomeProductsTheme = () => {
         scrollTrigger: {
           trigger: ".home_products",
           start: "top bottom",
-          onEnter: () => document.body.setAttribute("theme", "white"),
-          onEnterBack: () => document.body.setAttribute("theme", "white"),
+          onEnter: () => {
+            document.body.classList.add("theme-transition"); // Temporary class add
+            document.body.setAttribute("theme", "white");
+          },
+          onEnterBack: () => {
+            document.body.classList.add("theme-transition"); // Temporary class add
+            document.body.setAttribute("theme", "white");
+          },
+          onLeave: () => document.body.classList.remove("theme-transition"), // Remove class after transition
+          onLeaveBack: () => document.body.classList.remove("theme-transition"), // Remove class after transition
         },
       });
     });
 
-    return () =>  homeProductsCtx.revert();
-    
+    ScrollTrigger.refresh();
+
+    return () => homeProductsCtx.revert();
   }, []);
-  return;
+
+  return null;
 };
 
 export default HomeProductsTheme;

@@ -9,7 +9,7 @@ import SalesBanner from "@/components/global/sales/SalesBanner";
 import { notFound } from "next/navigation";
 import ProductVariantInfo from "@/components/Products/ProductVariantInfo";
 
-export const revalidate = 150;
+// export const revalidate = 150;
 
 export async function generateMetadata({ params }) {
   const slug = params?.slug;
@@ -56,7 +56,7 @@ export default async function Product({ params }) {
   if (!response || !response.name) notFound();
 
   return (
-    <section className="overflow-hidden">
+    <>
       <head>
         <script
           type="application/ld+json"
@@ -90,40 +90,41 @@ export default async function Product({ params }) {
           }}
         />
       </head>
-      <div className="w-full pt-32 pb-20 space-y-20 px-3 sm:px-5 min-h-screen relative">
-        {/* <SalesBanner customize={{ top: "6.5rem" }} /> */}
+      <section>
+        <div className="w-full pt-32 pb-20 space-y-20 px-3 sm:px-5 min-h-screen relative">
+          {/* <SalesBanner customize={{ top: "6.5rem" }} /> */}
 
-        <div className="flex flex-col md:flex-row justify-center gap-y-10 md:gap-x-10">
-          <div className="w-full md:w-1/2">
-            <ProductSwiper images={response?.images} />
-          </div>
-          <div className="w-full md:w-1/2 space-y-4">
-            <h3 className="tracking-widest dancing_script text-lg">
-              {response?.subCategory}
-            </h3>
-            <h1 className="text-3xl text_stroke text_stroke_color font-medium capitalize Havelock_Medium">
-              {response?.name}
-            </h1>
-            <h2 className="text-xl text-gray-700 font-medium capitalize neue_machina_regular">
-              {response?.shortDescription}
-            </h2>
-            <div className="flex items-center gap-x-3">
-              <div className="animate-pulse">
-                <ProductRating ratings={response?.ratings} />
-              </div>
-              <span className="-translate-y-1 Havelock_Medium">
-                {" "}
-                <span className="obviously">
-                  {response?.reviews?.length}
-                </span>{" "}
-                Reviews
-              </span>
+          <div className="flex flex-col md:flex-row justify-center gap-y-10 md:gap-x-10 relative">
+            <div className="w-full md:w-1/2 sticky top-0 left-0">
+              <ProductSwiper images={response?.images} />
             </div>
-            <ProductVariantInfo variants={variants} product={response} />
+            <div className="w-full md:w-1/2 space-y-4">
+              <h3 className="tracking-widest dancing_script text-lg">
+                {response?.subCategory}
+              </h3>
+              <h1 className="text-3xl text_stroke text_stroke_color font-bold capitalize Havelock_Medium">
+                {response?.name}
+              </h1>
+              <h2 className="text-xl text-gray-700 font-medium capitalize neue_machina_regular">
+                {response?.shortDescription}
+              </h2>
+              <div className="flex items-center gap-x-3">
+                <div className="animate-pulse">
+                  <ProductRating ratings={response?.ratings} />
+                </div>
+                <span className="-translate-y-1 Havelock_Medium">
+                  {" "}
+                  <span className="obviously">
+                    {response?.reviews?.length}
+                  </span>{" "}
+                  Reviews
+                </span>
+              </div>
+              <ProductVariantInfo variants={variants} product={response} />
+            </div>
           </div>
-        </div>
 
-        <Accordions description={response?.description} />
+          {/* <Accordions description={response?.description} />
 
         <RelatedProducts subCategory={response?.subCategory} slug={slug} />
 
@@ -131,8 +132,9 @@ export default async function Product({ params }) {
           reviews={response?.reviews}
           productId={response?._id}
           ratings={response?.ratings}
-        />
-      </div>
-    </section>
+        /> */}
+        </div>
+      </section>
+    </>
   );
 }

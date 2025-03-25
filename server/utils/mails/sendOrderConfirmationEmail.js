@@ -24,33 +24,53 @@ const sendOrderConfirmationEmail = async ({
     const orderItemsHtml = orderItems
       .map(
         (item) => `
-      <tr>
-        <td style="padding: 10px; border: 1px solid #ddd;">
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">
                     <a
                       href="${process.env.FRONTEND_URL}/product/${item.slug}"
                       style="color: #00796b; text-decoration: underline;"
                     >
                       ${item.name}
                     </a>
-                    <div style="padding-top: 2.5px;">
-                        <strong>Size:</strong> 
-                        <span style="background-color: #00796b; color: #e0f7fa; padding: 2px 5px; border-radius: 3px;">
-                            ${item.size}
-                        </span>
-                    </div>
+
                     ${
-                      (item?.materialType || "").includes("Premium")
-                        ? `<span style="background-color: #ffff00; color: #000; font-size: 9px; text-decoration: underline;">
-                              <strong>In Premium Bottle</strong>
-                          </span>`
+                      item?.attributes &&
+                      Object.keys(item?.attributes).length > 0 &&
+                      ` <div style="padding-top: 2.5px;">
+                          ${Object.keys(item?.attributes)
+                            .map(
+                              (key) =>
+                                `<div>
+                                <strong>
+                                  ${key.charAt(0).toUpperCase() + key.slice(1)}:
+                                </strong>
+                                <span style="background-color: #00796b; color: #e0f7fa; padding: 2px 5px; border-radius: 3px;">
+                                  ${item?.attributes[key]}
+                                </span>
+                              </div>`
+                            )
+                            .join("")}
+                        </div>`
+                    }
+
+                    ${
+                      item?.color
+                        ? `
+                      <div style="display: flex; align-items: center; justify-content: center; gap: 5px; padding-top: 2.5px;">
+                        <strong>Color: </strong>
+                        <button style="width: 20px; height: 20px; background-color: ${item?.color}; border: 1px solid black; border-radius: 50%; display: inline-block;"></button>
+                      </div>
+                    `
                         : ""
                     }
                 </td>
-        <td style="padding: 10px; border: 1px solid #ddd;">${item.qty}</td>
-        <td style="padding: 10px; border: 1px solid #ddd;">${item.qty} X Rs ${
-          item.price
-        }</td>
-      </tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">${
+                  item.qty
+                }</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${
+                  item.qty
+                } X Rs ${item.price}</td>
+            </tr>
     `
       )
       .join("");

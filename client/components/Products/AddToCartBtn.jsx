@@ -21,22 +21,23 @@ const AddToCartBtn = memo(
     customize,
     icon,
     variantId,
+    color,
   }) => {
     const [showConfetti, setShowConfetti] = useState(false);
     const dispatch = useDispatch();
 
     const addToCart = () => {
-      sendGTMEvent({ event: "addToCart", value: { slug, count } });
-      track("addToCart", {
-        productLink: `${slug}?variant=${variantId}`,
-        productQty: count,
-      });
+      // sendGTMEvent({ event: "addToCart", value: { slug, count } });
+      // track("addToCart", {
+      //   productLink: `${slug}?variant=${variantId}`,
+      //   productQty: count,
+      // });
       if (stock < 1)
         return toast.error(
           "Out of Stock. We'll notify you when it's back in stock."
         );
 
-      dispatch(addItemsToCart(id, variantId, count));
+      dispatch(addItemsToCart(id, variantId,color, count));
       toast.success("Item Added To Cart");
 
       setShowConfetti(true);

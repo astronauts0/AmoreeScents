@@ -1,11 +1,10 @@
 "use client";
-import AvailOffer from "@/pages/Home/AvailOffer";
+import Preloader from "@/components/Preloader/Preloader";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ClientLogic = () => {
   const pathname = usePathname();
-  console.log("🚀 ~ ClientLogic ~ pathname:", pathname);
   const [showInitialRender, setShowInitialRender] = useState(false);
 
   const paths = [
@@ -28,7 +27,7 @@ const ClientLogic = () => {
       document.body.setAttribute("data-lenis-prevent", "");
   }, [pathname]);
 
-  return showInitialRender ? <AvailOffer /> : null;
+  return showInitialRender ? <Preloader /> : null;
 };
 
 export default ClientLogic;

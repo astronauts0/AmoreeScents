@@ -17,7 +17,7 @@ const PerProductTotalSales = ({ productId }) => {
     dispatch(perProductOrders(productId));
   }, [dispatch, error, productId]);
 
-  return <span className="bont-bold text-lg text-orange-300">{totalProductOrders}</span>;
+  return <span className="font-bold text-lg text-orange-300">{totalProductOrders}</span>;
 };
 
 export default PerProductTotalSales;

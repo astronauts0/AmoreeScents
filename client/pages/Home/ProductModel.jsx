@@ -9,6 +9,7 @@ import Image from "next/image";
 import ModelSound from "@/components/global/audio/ModelSound";
 import { isMobile } from "@/config/Variables";
 import { SplitText } from "@/utils/functions/SplitText";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const ProductModel = () => {
   const dedicateRef = useRef(null);
@@ -182,6 +183,8 @@ const ProductModel = () => {
         });
     }, purchasedRef);
 
+     ScrollTrigger.refresh();
+
     return () => {
       dedicateCtx.revert();
       purchasedCtx.revert();
@@ -189,7 +192,7 @@ const ProductModel = () => {
   }, []);
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative">
       <ModelSound
         beepRef={beepRef}
         billScannerRef={billScannerRef}
@@ -197,7 +200,7 @@ const ProductModel = () => {
       />
       <div
         ref={modelRef}
-        className="w-fit fixed perfume_model z-40 top-36 md:top-11 scale-0 opacity-0 left-1/2 transform -translate-x-1/2"
+        className="w-fit sticky perfume_model z-40 top-36 md:top-11 scale-0 opacity-0 left-1/2 transform -translate-x-1/2"
       >
         <Image
           priority

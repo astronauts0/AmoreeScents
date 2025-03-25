@@ -14,10 +14,8 @@ const productSchema = new Schema(
       unique: true,
     },
     featured: {
-      type: String,
-      required: [true, "Please select if the product is featured"],
-      enum: ["true", "false"],
-      default: "false",
+      type: Boolean,
+      default: false,
     },
     description: {
       type: String,
@@ -31,18 +29,18 @@ const productSchema = new Schema(
       type: String,
       required: [true, "Please enter product tags"],
     },
+    attributes: {
+      type: Map,
+      of: String,
+      default: {},
+    },
     variants: [
       {
-        materialType: {
-          type: String,
-        },
-        materialDescription: {
-          type: String,
-        },
-        size: {
-          type: String,
-          required: [true, "Size is required"],
-          default: "50ml",
+        shortInfo: { type: String, required: true }, 
+        attributes: {
+          type: Map,
+          of: String,
+          default: {},
         },
         price: {
           type: Number,
@@ -55,20 +53,13 @@ const productSchema = new Schema(
         stock: {
           type: Number,
           required: [true, "Stock is required for variant"],
-          default: 10,
         },
       },
     ],
     images: [
       {
-        public_id: {
-          type: String,
-          required: true,
-        },
-        url: {
-          type: String,
-          required: true,
-        },
+        public_id: { type: String, required: true },
+        url: { type: String, required: true },
       },
     ],
     ratings: {
@@ -98,14 +89,7 @@ const productSchema = new Schema(
     ],
     subCategory: {
       type: String,
-      required: [true, "Please enter product sub category"],
     },
-    notes: [
-      {
-        type: String,
-        required: [true, "Please enter product notes"],
-      },
-    ],
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",

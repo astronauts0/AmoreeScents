@@ -13,6 +13,7 @@ import PriceSvg from "@/components/svgs/PriceSvg";
 import StarStrokeSvg from "@/components/svgs/StarStrokeSvg";
 import SmileEmoji from "../../components/svgs/SmileEmoji";
 import { SplitText } from "@/utils/functions/SplitText";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const Cta = () => {
   const lenis = useLenis();
@@ -71,6 +72,8 @@ const Cta = () => {
         );
     }, ctaWrapperRef);
 
+     ScrollTrigger.refresh();
+
     return () => ctx.revert();
   }, []);
 
@@ -101,7 +104,7 @@ const Cta = () => {
           </h1>
 
           <div className="mt-8 flex justify-center items-center gap-5 flex-wrap text-lg">
-            <Link href="/" rel="noopener noreferrer">
+            <Link href="https://wa.me/923286598650" rel="noopener noreferrer">
               <ButtonTextIcon
                 Text="Contact"
                 Icon={<ArrowRightAlt />}

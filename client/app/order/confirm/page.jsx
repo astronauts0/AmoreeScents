@@ -23,6 +23,7 @@ const ConfirmOrder = () => {
   const router = useRouter();
 
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);
+  console.log("🚀 ~ ConfirmOrder ~ cartItems:", cartItems);
   const { loading, success, message, isVerified, error } = useSelector(
     (state) => state.otp
   );
@@ -133,19 +134,32 @@ const ConfirmOrder = () => {
                         <p className="satoshi_medium capitalize text-center">
                           {item.name}
                         </p>
-                        <p className="satoshi_medium">
-                          <strong>Size:</strong>{" "}
-                          <span className="bg-[#00796b] text-white px-1 rounded">
-                            {item?.size}
-                          </span>
-                          {item?.materialType &&
-                            item?.materialType.includes("Premium") && (
-                              <sup className="dancing_script block pt-4 underline underline-offset-2">
-                                {" "}
-                                <mark>In Premium Bottle</mark>
-                              </sup>
-                            )}
-                        </p>
+                        {/* Attributes Display Section */}
+                        {item?.attributes && Object.keys(item?.attributes).length > 0 && (
+                          <div className="satoshi_medium">
+                            {Object.keys(item?.attributes).map((key) => (
+                              <p key={key}>
+                                <strong>
+                                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+                                </strong>{" "}
+                                <span className="bg-[#00796b] text-white px-1 rounded">
+                                  {item?.attributes[key]}
+                                </span>
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                        {item?.color && (
+                          <div className="satoshi_medium flex justify-center items-center gap-x-2 pt-0.5">
+                            <strong>Color:</strong>
+                            <button
+                              style={{ backgroundColor: item?.color }}
+                              className={`border border-black rounded-full w-6 h-6 outline-none`}
+                            >
+                              <i class="ri-check-line font-bold flex justify-center items-center text-indigo-500"></i>
+                            </button>
+                          </div>
+                        )}
                       </div>
                       <span className="obviously">
                         {item.qty} X <FormatPrice price={item.price} /> ={" "}

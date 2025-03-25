@@ -131,19 +131,35 @@ const ProcessOrder = ({ params: { id } }) => {
                             <p className="satoshi_medium capitalize text-center">
                               {item.name}
                             </p>
-                            <p className="satoshi_medium">
-                              <strong>Size:</strong>{" "}
-                              <span className="bg-[#00796b] text-white px-1 rounded">
-                                {item?.size}
-                              </span>
-                              {item?.materialType &&
-                                item?.materialType.includes("Premium") && (
-                                  <sup className="dancing_script block pt-4 underline underline-offset-2">
-                                    {" "}
-                                    <mark>In Premium Bottle</mark>
-                                  </sup>
-                                )}
-                            </p>
+                            {/* Attributes Display Section */}
+                            {item?.attributes &&
+                              Object.keys(item?.attributes).length > 0 && (
+                                <div className="satoshi_medium">
+                                  {Object.keys(item?.attributes).map((key) => (
+                                    <p key={key}>
+                                      <strong>
+                                        {key.charAt(0).toUpperCase() +
+                                          key.slice(1)}
+                                        :
+                                      </strong>{" "}
+                                      <span className="bg-[#00796b] text-white px-1 rounded">
+                                        {item?.attributes[key]}
+                                      </span>
+                                    </p>
+                                  ))}
+                                </div>
+                              )}
+                            {item?.color && (
+                              <div className="satoshi_medium flex justify-center items-center gap-x-2 pt-0.5">
+                                <strong>Color:</strong>
+                                <button
+                                  style={{ backgroundColor: item?.color }}
+                                  className={`border border-black rounded-full w-6 h-6 outline-none`}
+                                >
+                                  <i class="ri-check-line font-bold flex justify-center items-center text-indigo-500"></i>
+                                </button>
+                              </div>
+                            )}
                           </div>
                           <span className="obviously">
                             {item.qty} X <FormatPrice price={item.price} /> ={" "}
@@ -236,9 +252,13 @@ const ProcessOrder = ({ params: { id } }) => {
               <div className="my-6 border-t border_color" />
 
               {/* Combined Form */}
-                {formData.payment &&
-                  <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
-                    <h1>Update Order:</h1>
+              {payment && orderStatus === "Delivered" ? (
+                ""
+              ) : (
+                <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
+                  <h1>Update Order:</h1>
+
+                  {!payment && (
                     <select
                       className="text-center outline-none bg-transparent border px-3 py-2 w-full"
                       onChange={handleInputChange}
@@ -251,37 +271,40 @@ const ProcessOrder = ({ params: { id } }) => {
                       <option value="false">Not Paid</option>
                       <option value="true">Paid</option>
                     </select>
+                  )}
 
-                    {/* Order Status */}
-                    {orderStatus !== "Delivered" && (
-                      <select
-                        className="text-center outline-none bg-transparent border px-3 py-2 w-full"
-                        onChange={handleInputChange}
-                        value={formData.status}
-                        name="status"
-                      >
-                        <option disabled value="">
-                          Select Status
-                        </option>
+                  {/* Order Status */}
+                  {orderStatus !== "Delivered" && (
+                    <select
+                      className="text-center outline-none bg-transparent border px-3 py-2 w-full"
+                      onChange={handleInputChange}
+                      value={formData.status}
+                      name="status"
+                    >
+                      <option disabled value="">
+                        Select Status
+                      </option>
+                      {orderStatus !== "Shipped" && (
                         <option value="Shipped">Shipped</option>
-                        <option value="Delivered">Delivered</option>
-                      </select>
-                    )}
-                    {updateLoading ? (
-                      <Loader />
-                    ) : (
-                      <ButtonTextIcon
-                        btnType="submit"
-                        customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
-                        Icon={<i className="ri-refresh-line text-lg"></i>}
-                        disabled={
-                          loading || (!formData.status && formData.payment === "")
-                        }
-                        Text="Update Order"
-                      />
-                    )}
-                  </form>
-                }
+                      )}
+                      <option value="Delivered">Delivered</option>
+                    </select>
+                  )}
+                  {updateLoading ? (
+                    <Loader />
+                  ) : (
+                    <ButtonTextIcon
+                      btnType="submit"
+                      customize="px-4 py-2 transition-all duration-1000 hover:rounded-full"
+                      Icon={<i className="ri-refresh-line text-lg"></i>}
+                      disabled={
+                        loading || (!formData.status && formData.payment === "")
+                      }
+                      Text="Update Order"
+                    />
+                  )}
+                </form>
+              )}
             </div>
           </section>
         </section>

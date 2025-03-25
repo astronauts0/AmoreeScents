@@ -18,6 +18,17 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
   let products = await apiFeatures.query;
   let filteredProductsCount = products.length;
 
+  if (!filteredProductsCount) {
+    return res.status(200).json({
+      success: true,
+      message: "No products found",
+      products: [],
+      filteredProductsCount: 0,
+      resultPerPage,
+      productsCount,
+    });
+  }
+
   apiFeatures.pagination(resultPerPage);
   products = await apiFeatures.query.clone();
 
@@ -291,8 +302,6 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
 
   return res.status(200).json({ success: true, product });
 });
-
-
 
 //# Delete The Product by ~~Admin
 exports.deleteProduct = catchAsyncError(async (req, res, next) => {

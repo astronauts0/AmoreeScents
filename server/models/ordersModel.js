@@ -13,19 +13,24 @@ const orderSchema = mongoose.Schema(
 
     orderItems: [
       {
-        name: { type: String, required: true },
-        slug: { type: String, required: true },
-        price: { type: Number, required: true },
-        qty: { type: Number, required: true },
-        image: { type: String, required: true },
-        materialType: { type: String },
-        size: { type: String, required: true },
-        variantId: { type: String, required: true },
         product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
           required: true,
         },
+        variantId: { type: String, required: true },
+        name: { type: String, required: true },
+        slug: { type: String, required: true },
+        price: { type: Number, required: true },
+        stock: { type: Number, required: true },
+        color: { type: String },
+        attributes: {
+          type: Map,
+          of: String,
+          default: {},
+        },
+        qty: { type: Number, required: true },
+        image: { type: String },
       },
     ],
 

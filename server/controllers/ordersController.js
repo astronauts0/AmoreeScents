@@ -107,7 +107,6 @@ exports.deleteUserOrder = catchAsyncError(async (req, res, next) => {
   res.status(200).json({ success: true, message: "Order has been deleted" });
 });
 
-
 exports.productOrders = catchAsyncError(async (req, res, next) => {
   const productId = req.query.id;
 

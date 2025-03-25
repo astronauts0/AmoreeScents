@@ -3,11 +3,19 @@ import React, { useEffect, useState } from "react";
 import FormatPrice from "@/utils/functions/FormatPrice";
 import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import ColorizeIcon from "@mui/icons-material/Colorize";
 import AddToCart from "@/components/Products/AddToCart";
 import Link from "next/link";
 
 const ProductVariantInfo = ({ variants, product }) => {
+  const colors = product?.attributes?.colors
+    ? [...new Set(product.attributes.colors.split(","))]
+    : [];
+
+  // Agar colors array empty hai, toh selectedColor undefined hoga.
+  const [selectedColor, setSelectedColor] = useState(
+    colors.length ? colors[0] : undefined
+  );
+
   const [selectedVariant, setSelectedVariant] = useState(() => {
     if (typeof window !== "undefined" && variants && variants.length > 0) {
       const params = new URLSearchParams(window.location.search);
@@ -53,78 +61,88 @@ const ProductVariantInfo = ({ variants, product }) => {
 
       {/* Variant selector using toggle buttons */}
       <div className="my-4 space-y-4">
-        <div className="flex items-center gap-4 flex-wrap">
-          <label className="font-bold text-lg block satoshi_medium">
-            Sizes:
-          </label>
-          <div className="flex flex-wrap gap-2 neue_machina_regular">
-            {variants.map((variant) => (
-              <button
-                key={variant._id}
-                onClick={() => setSelectedVariant(variant)}
-                className={`border outline-none py-1.5 px-4 rounded relative transition-all duration-200 
-                ${
-                  selectedVariant?._id === variant._id
-                    ? "border-[#00796b] bg-[#00796b] text-white"
-                    : ""
-                }`}
-              >
-                {variant.size}{" "}
-                {variant.materialType &&
-                  variant?.materialType.includes("Premium") && (
-                    <sup className="dancing_script block pt-2">
-                      In Premium Bottle
-                    </sup>
+        {Object.keys(selectedVariant?.attributes || {}).map((key) => (
+          <div key={key} className="flex items-center gap-4 flex-wrap">
+            <label className="font-bold text-lg block satoshi_medium">
+              {key.charAt(0).toUpperCase() + key.slice(1)}:
+            </label>
+            <div className="flex flex-wrap gap-2 neue_machina_regular">
+              {variants.map((variant) => (
+                <button
+                  key={variant._id}
+                  onClick={() => setSelectedVariant(variant)}
+                  className={`border outline-none py-1.5 px-4 rounded transition-all duration-200 
+                  ${
+                    selectedVariant?._id === variant._id
+                      ? "border-[#00796b] bg-[#00796b] text-white"
+                      : ""
+                  }`}
+                >
+                  {variant.attributes[key]}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="my-4 space-y-4">
+        {Object.keys(product?.attributes || {})
+          .filter((key) => key !== "colors")
+          .map((key) => (
+            <div key={key} className="flex items-center gap-4 flex-wrap">
+              <label className="font-bold text-lg block satoshi_medium">
+                {key.charAt(0).toUpperCase() + key.slice(1)}:
+              </label>
+              <div className="flex flex-wrap gap-2 neue_machina_regular">
+                <button
+                  className={`border outline-none py-1.5 px-4 rounded transition-all duration-200`}
+                >
+                  {product?.attributes?.[key]}
+                </button>
+              </div>
+            </div>
+          ))}
+      </div>
+
+      {colors && colors[0] && (
+        <div className="mb-4 space-y-4">
+          <div className="flex items-center gap-4 flex-wrap">
+            <label className="font-bold text-lg block satoshi_medium">
+              Colors:
+            </label>
+            <div className="flex flex-wrap gap-2 neue_machina_regular">
+              {colors.map((color, index) => (
+                <button
+                  onClick={() => setSelectedColor(color)}
+                  key={index}
+                  style={{ backgroundColor: color }}
+                  className={`border border-black rounded-full w-7 h-7 outline-none`}
+                >
+                  {selectedColor === color && (
+                    <i class="ri-check-line flex justify-center items-center text-xl text-indigo-500"></i>
                   )}
-              </button>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-        {selectedVariant && selectedVariant?.materialType && (
-          <div className="flex gap-x-3">
-            <span className="font-bold text-lg satoshi_medium">Bottle:</span>
-            <span className="neue_machina_regular translate-y-1">
-              {variants.map(
-                (variant) =>
-                  variant.materialType &&
-                  selectedVariant?._id === variant._id && (
-                    <span key={variant._id}>
-                      <span className="flex">
-                        {variant?.materialType
-                          ?.split(" ")
-                          .slice(0, 2)
-                          .join(" ")}
-                      </span>
-                      {variant?.materialDescription && (
-                        <span className="pt-2 block">
-                          <span className="satoshi_medium font-bold">
-                            Note:
-                          </span>{" "}
-                          {variant?.materialDescription}
-                        </span>
-                      )}
-                    </span>
-                  )
-              )}
-            </span>
-          </div>
-        )}
-      </div>
+      )}
 
       <ul className="space-y-2 border_color border-t py-4 neue_machina_light tracking-wide">
         <li className="space-x-3">
           <CardGiftcardOutlinedIcon />{" "}
           <span>FREE gift packing with every order</span>
         </li>
-        {selectedVariant &&
-        selectedVariant?.materialType === "Simple Bottle Attar" &&
-        selectedVariant?.size === "6ml" ? (
+        {/* {selectedVariant &&
+        selectedVariant?.attributes?.BottleType === "Simple" &&
+        selectedVariant?.attributes?.Size === "6ml" ? (
           ""
         ) : (
           <li className="space-x-3">
             <ColorizeIcon /> <span>1ml Tester free</span>
           </li>
-        )}
+        )} */}
         <li className="space-x-3">
           <LanguageOutlinedIcon /> <span>14 Days easy return</span>
         </li>
@@ -153,6 +171,7 @@ const ProductVariantInfo = ({ variants, product }) => {
         slug={product.slug}
         stock={selectedVariant?.stock}
         variantId={selectedVariant?._id}
+        color={selectedColor}
         id={product._id}
       />
     </div>

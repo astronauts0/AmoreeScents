@@ -20,7 +20,7 @@ const ProductsList = () => {
   const dispatch = useDispatch();
 
   const { error, products } = useSelector((state) => state.products);
-  console.log("🚀 ~ ProductsList ~ products:", products);
+  // console.log("🚀 ~ ProductsList ~ products:", products);
   const {
     loading,
     error: deleteError,
@@ -104,7 +104,7 @@ const ProductsList = () => {
       });
     });
 
-  console.log("🚀 ~ rows:", rows);
+  // console.log("🚀 ~ rows:", rows);
 
   useEffect(() => {
     if (error) {

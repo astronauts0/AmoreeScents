@@ -17,7 +17,7 @@ const ConfettiRain = dynamic(() => import("@/utils/confetti/ConfettiRain"), {
   ssr: false,
 });
 
-const AddToCart = ({ stock, id, slug, variantId }) => {
+const AddToCart = ({ stock, id, slug, variantId, color }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
@@ -38,7 +38,7 @@ const AddToCart = ({ stock, id, slug, variantId }) => {
   };
 
   const checkoutHandler = () => {
-    dispatch(addItemsToCart(id, variantId, count));
+    dispatch(addItemsToCart(id, variantId, color, count));
     router.push("/login?redirect=shipping");
     setShowConfetti(true);
     setTimeout(() => {
@@ -58,7 +58,7 @@ const AddToCart = ({ stock, id, slug, variantId }) => {
           <span className="">
             <PerProductTotalSales productId={id} />
           </span>
-          <span>bottles sold</span>
+          <span>items sold</span>
         </div>
         {stock > 0 && (
           <div className="flex items-center">
@@ -91,6 +91,7 @@ const AddToCart = ({ stock, id, slug, variantId }) => {
           slug={slug}
           stock={stock}
           id={id}
+          color={color}
           variantId={variantId}
           count={count}
           customize="w-full px-3 py-1.5"

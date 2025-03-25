@@ -91,7 +91,7 @@ export default function RootLayout({ children }) {
           <StoreProvider>
             <LoadUserProvider>
               <Header />
-              <main>{children}</main>
+              {children}
               <Analytics />
               <Footer />
             </LoadUserProvider>

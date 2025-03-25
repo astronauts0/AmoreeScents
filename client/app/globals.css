@@ -76,6 +76,17 @@
   --color_red: #ff3d47;
 }
 
+/*! will-change */
+body.theme-transition {
+  will-change: background-color, color;
+}
+
+.purchased__card, 
+.purchased__card__bill, 
+.perfume_model {
+  will-change: transform, opacity;
+}
+
 /*! themes */
 
 /** dark  */

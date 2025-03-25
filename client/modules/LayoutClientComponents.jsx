@@ -7,6 +7,7 @@ import SoftMusic from '@/components/global/audio/SoftMusic';
 import ClickSound from '@/components/global/audio/ClickSound';
 import Link from 'next/link';
 import { Flip, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LayoutClientComponents = () => {
 

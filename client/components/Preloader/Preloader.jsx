@@ -4,9 +4,12 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import getRandomString from "@/utils/functions/randomText";
+import SplitType from "split-type";
+import { usePathname } from "next/navigation";
 
 const Preloader = () => {
   const amoreeRef = useRef(null);
+  const pathname = usePathname();
 
   useGSAP(() => {
     const preloaderCtx = gsap.context(() => {
@@ -51,6 +54,38 @@ const Preloader = () => {
         .to(".revealers", {
           display: "none",
         });
+
+      if (pathname == "/") {
+        revealerTl
+          .from(
+            ".amoree__hero h1 span",
+            {
+              opacity: 0,
+              y: -200,
+              duration: 1,
+              stagger: 0.13,
+              ease: "bounce",
+            },
+            "txt1"
+          )
+          .to(
+            ".amoree__hero h2",
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.5,
+              ease: "expo.in",
+            },
+            "txt1"
+          )
+          .from(new SplitType(".hero_main_title", { type: "words" })?.chars, {
+            opacity: 0,
+            x: -10,
+            stagger: 0.02,
+            duration: 0.1,
+            ease: "power2",
+          });
+      }
     });
 
     return () => preloaderCtx.revert();
