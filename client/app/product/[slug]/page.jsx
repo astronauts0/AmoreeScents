@@ -92,7 +92,7 @@ export default async function Product({ params }) {
       </head>
       <section>
         <div className="w-full pt-32 pb-20 space-y-20 px-3 sm:px-5 min-h-screen relative">
-          {/* <SalesBanner customize={{ top: "6.5rem" }} /> */}
+          <SalesBanner customize={{ top: "6.5rem" }} />
 
           <div className="flex flex-col md:flex-row justify-center gap-y-10 md:gap-x-10 relative">
             <div className="w-full md:w-1/2 sticky top-0 left-0">
@@ -124,7 +124,7 @@ export default async function Product({ params }) {
             </div>
           </div>
 
-          {/* <Accordions description={response?.description} />
+          <Accordions description={response?.description} />
 
         <RelatedProducts subCategory={response?.subCategory} slug={slug} />
 
@@ -132,7 +132,7 @@ export default async function Product({ params }) {
           reviews={response?.reviews}
           productId={response?._id}
           ratings={response?.ratings}
-        /> */}
+        />
         </div>
       </section>
     </>

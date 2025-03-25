@@ -11,7 +11,7 @@ const HomeProducts = async () => {
       title: "Our Attar Collections",
       subCategory: ["attar", "attr"],
     },
-    { title: "Our Purses Collections", subCategory: ["purse", "purses"] },
+    // { title: "Our Purses Collections", subCategory: ["purse", "purses"] },
     // { title: "Our Tester Collections", subCategory: "tester" },
   ];
 
