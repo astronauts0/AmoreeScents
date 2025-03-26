@@ -133,20 +133,27 @@ const ProcessOrder = ({ params: { id } }) => {
                             </p>
                             {/* Attributes Display Section */}
                             {item?.attributes &&
-                              Object.keys(item?.attributes).length > 0 && (
+                              Object.keys(item?.attributes).filter(
+                                (key) => key !== "color" && key !== "colors"
+                              ).length > 0 && (
                                 <div className="satoshi_medium">
-                                  {Object.keys(item?.attributes).map((key) => (
-                                    <p key={key}>
-                                      <strong>
-                                        {key.charAt(0).toUpperCase() +
-                                          key.slice(1)}
-                                        :
-                                      </strong>{" "}
-                                      <span className="bg-[#00796b] text-white px-1 rounded">
-                                        {item?.attributes[key]}
-                                      </span>
-                                    </p>
-                                  ))}
+                                  {Object.keys(item?.attributes)
+                                    .filter(
+                                      (key) =>
+                                        key !== "color" && key !== "colors"
+                                    )
+                                    .map((key) => (
+                                      <p key={key}>
+                                        <strong>
+                                          {key.charAt(0).toUpperCase() +
+                                            key.slice(1)}
+                                          :
+                                        </strong>{" "}
+                                        <span className="bg-[#00796b] text-white px-1 rounded">
+                                          {item?.attributes[key]}
+                                        </span>
+                                      </p>
+                                    ))}
                                 </div>
                               )}
                             {item?.color && (
