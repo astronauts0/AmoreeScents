@@ -82,7 +82,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
         shortInfo: "",
         price: 0,
         originalPrice: 0,
-        stock: 10,
+        stock: 0,
         attributes: [], // Variant specific attributes
       },
     ]);
@@ -90,7 +90,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
 
   // ----- Handlers for Product Attributes -----
   const handleProductAttributeChange = (index, field, e) => {
-    let value = e.target.value;
+    let value = e.target.value.trim();
 
     if (value.length > 0)
       value = value.charAt(0).toLowerCase() + value.slice(1);
@@ -111,7 +111,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
 
   // ----- Handlers for Variant Attributes -----
   const handleVariantAttributeChange = (variantIndex, attrIndex, field, e) => {
-    let value = e.target.value;
+    let value = e.target.value.trim();
     if (value.length > 0)
       value = value.charAt(0).toLowerCase() + value.slice(1);
 
@@ -137,14 +137,14 @@ const UpdateProduct = ({ params: { id: productId } }) => {
   // ----- Handlers for Variants -----
   const handleVariantChange = (index, e) => {
     const newVariants = [...variants];
-    newVariants[index][e.target.name] = e.target.value;
+    newVariants[index][e.target.name] = e.target.value.trim();
     setVariants(newVariants);
   };
 
   const addVariant = () => {
     setVariants([
       ...variants,
-      { shortInfo: "", price: 0, originalPrice: 0, stock: 10, attributes: [] },
+      { shortInfo: "", price: 0, originalPrice: 0, stock: 0, attributes: [] },
     ]);
   };
 
@@ -178,15 +178,18 @@ const UpdateProduct = ({ params: { id: productId } }) => {
         reader.readAsDataURL(file);
       });
     } else if (e.target.name === "categories") {
-      const parsedValues = parseCommaSeparatedValues(e.target.value);
+      const parsedValues = parseCommaSeparatedValues(e.target.value.trim());
       setProductData({ ...productData, categories: parsedValues });
     } else if (e.target.name === "featured") {
       setProductData({
         ...productData,
-        featured: JSON.parse(e.target.value),
+        featured: JSON.parse(e.target.value.trim()),
       });
     } else {
-      setProductData({ ...productData, [e.target.name]: e.target.value });
+      setProductData({
+        ...productData,
+        [e.target.name.trim()]: e.target.value.trim(),
+      });
     }
   };
 
@@ -255,7 +258,7 @@ const UpdateProduct = ({ params: { id: productId } }) => {
           shortInfo: variant.shortInfo || "",
           price: variant.price || 0,
           originalPrice: variant.originalPrice || 0,
-          stock: variant.stock || 10,
+          stock: variant.stock || 0,
           attributes: Object.entries(variant.attributes || {}).map(
             ([key, value]) => ({
               key,

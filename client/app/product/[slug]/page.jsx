@@ -9,7 +9,7 @@ import SalesBanner from "@/components/global/sales/SalesBanner";
 import { notFound } from "next/navigation";
 import ProductVariantInfo from "@/components/Products/ProductVariantInfo";
 
-// export const revalidate = 150;
+export const revalidate = 150;
 
 export async function generateMetadata({ params }) {
   const slug = params?.slug;

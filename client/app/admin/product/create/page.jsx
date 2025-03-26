@@ -73,7 +73,7 @@ const CreateNewProduct = () => {
         shortInfo: "",
         price: 0,
         originalPrice: 0,
-        stock: 10,
+        stock: 0,
         attributes: [], // Variant specific attributes
       },
     ]);
@@ -81,7 +81,7 @@ const CreateNewProduct = () => {
 
   // ----- Product Attributes Handlers -----
   const handleProductAttributeChange = (index, field, e) => {
-    let value = e.target.value;
+    let value = e.target.value.trim();
 
     if (value.length > 0)
       value = value.charAt(0).toLowerCase() + value.slice(1);
@@ -100,14 +100,15 @@ const CreateNewProduct = () => {
   };
 
   // ----- Variant Attributes Handlers -----
- const handleVariantAttributeChange = (variantIndex, attrIndex, field, e) => {
-   let value = e.target.value;
-   if (value.length > 0) value = value.charAt(0).toLowerCase() + value.slice(1);
+  const handleVariantAttributeChange = (variantIndex, attrIndex, field, e) => {
+    let value = e.target.value.trim();
+    if (value.length > 0)
+      value = value.charAt(0).toLowerCase() + value.slice(1);
 
-   const newVariants = [...variants];
-   newVariants[variantIndex].attributes[attrIndex][field] = value;
-   setVariants(newVariants);
- };
+    const newVariants = [...variants];
+    newVariants[variantIndex].attributes[attrIndex][field] = value;
+    setVariants(newVariants);
+  };
 
   const addVariantAttribute = (variantIndex) => {
     const newVariants = [...variants];
@@ -126,14 +127,14 @@ const CreateNewProduct = () => {
   // ----- Variant Handlers -----
   const handleVariantChange = (index, e) => {
     const newVariants = [...variants];
-    newVariants[index][e.target.name] = e.target.value;
+    newVariants[index][e.target.name] = e.target.value.trim();
     setVariants(newVariants);
   };
 
   const addVariant = () => {
     setVariants([
       ...variants,
-      { shortInfo: "", price: 0, originalPrice: 0, stock: 10, attributes: [] },
+      { shortInfo: "", price: 0, originalPrice: 0, stock: 0, attributes: [] },
     ]);
   };
 
@@ -169,30 +170,33 @@ const CreateNewProduct = () => {
         reader.readAsDataURL(file);
       });
     } else if (e.target.name === "categories") {
-      const parsedValues = parseCommaSeparatedValues(e.target.value);
+      const parsedValues = parseCommaSeparatedValues(e.target.value.trim());
       setProductData({ ...productData, categories: parsedValues });
     } else if (e.target.name === "featured") {
       setProductData({
         ...productData,
-        featured: JSON.parse(e.target.value),
+        featured: JSON.parse(e.target.value.trim()),
       });
     } else {
-      setProductData({ ...productData, [e.target.name]: e.target.value });
+      setProductData({
+        ...productData,
+        [e.target.name.trim()]: e.target.value.trim(),
+      });
     }
   };
 
-const createProductSubmitHandler = (e) => {
-  e.preventDefault();
+  const createProductSubmitHandler = (e) => {
+    e.preventDefault();
 
-  // Convert productAttributes array to an object
-  const attributesObject = {};
-  productAttributes.forEach((attr) => {
-    if (attr.key.trim()) {
-      attributesObject[attr.key] = attr.value;
-    }
-  });
+    // Convert productAttributes array to an object
+    const attributesObject = {};
+    productAttributes.forEach((attr) => {
+      if (attr.key.trim()) {
+        attributesObject[attr.key] = attr.value;
+      }
+    });
 
-  const transformedVariants = variants.map((variant) => {
+    const transformedVariants = variants.map((variant) => {
       const variantAttrsObj = {};
       variant.attributes.forEach((attr) => {
         if (attr.key.trim()) {
@@ -208,16 +212,15 @@ const createProductSubmitHandler = (e) => {
       };
     });
 
-  const dataToSubmit = {
-    ...productData,
-    images,
-    variants: transformedVariants, // Corrected variant attributes
-    attributes: attributesObject, // Converted attributes
+    const dataToSubmit = {
+      ...productData,
+      images,
+      variants: transformedVariants, // Corrected variant attributes
+      attributes: attributesObject, // Converted attributes
+    };
+
+    dispatch(createProduct(dataToSubmit));
   };
-
-  dispatch(createProduct(dataToSubmit));
-};
-
 
   // Effect to handle errors and success
   useEffect(() => {

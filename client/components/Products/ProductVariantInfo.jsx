@@ -87,7 +87,7 @@ const ProductVariantInfo = ({ variants, product }) => {
 
       {variants.length > 0 && (
         <div className="my-4 space-y-4">
-          {["size", "bottleType"].map(
+          {["size", "bottleType", "BottleType"].map(
             (key) =>
               variants.some((variant) => variant.attributes[key]) &&
               renderAttributeButtons(key)
